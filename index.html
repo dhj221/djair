@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>众和航空 Peace Airlines | 从瑞州出发，飞向世界</title>
+<meta name="description" content="众和航空 Peace Airlines 官方网站。星空联盟成员，总部位于瑞州特别市瑞云区。自瑞州（JCU）出发，飞往伦敦、容新、平四、蓝涛等全球目的地。">
+<style>
+  :root{
+    --navy-900:#081729;
+    --navy-800:#0B2038;
+    --navy-700:#102A4C;
+    --navy-600:#16365F;
+    --navy-500:#1E4B85;
+    --gold:#C9A227;
+    --gold-light:#E3C567;
+    --ink:#12233B;
+    --muted:#5B6B80;
+    --line:#E3E8EF;
+    --bg:#F5F7FA;
+    --bg-soft:#FAFBFD;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    color:var(--ink);
+    background:#fff;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+  }
+  a{text-decoration:none;color:inherit;}
+  img{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+
+  .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+  /* ============ 图片占位块 ============ */
+  .ph{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#1B3A5C 0%,#0B2038 60%,#123055 100%);
+  }
+  .ph::before{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 78% 18%, rgba(255,255,255,.14), transparent 55%),
+      linear-gradient(to top, rgba(0,0,0,.28), transparent 62%);
+  }
+  .ph::after{
+    content:attr(data-name);
+    position:absolute;
+    left:12px;bottom:10px;
+    z-index:3;
+    font-size:11px;
+    letter-spacing:.4px;
+    color:rgba(255,255,255,.72);
+    background:rgba(0,0,0,.28);
+    padding:3px 8px;
+    border-radius:3px;
+    backdrop-filter:blur(2px);
+  }
+  .ph-light{
+    background:linear-gradient(135deg,#E8EEF6 0%,#D6E1EF 100%);
+  }
+  .ph-light::after{color:#6B7C93;background:rgba(255,255,255,.7);}
+  .ph-light::before{background:radial-gradient(circle at 78% 18%, rgba(255,255,255,.6), transparent 60%);}
+
+  /* ============ 顶部导航（白色） ============ */
+  .topnav{
+    background:#fff;
+    color:var(--navy-800);
+    position:sticky;top:0;z-index:200;
+    border-bottom:1px solid var(--line);
+    box-shadow:0 2px 12px rgba(10,30,60,.05);
+  }
+  .topnav-inner{
+    display:flex;align-items:center;
+    height:72px;gap:34px;
+  }
+  .brand{display:flex;align-items:center;gap:11px;flex-shrink:0;}
+  .brand img{height:38px;width:auto;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.2;}
+  .brand-text strong{font-size:15.5px;letter-spacing:2px;font-weight:700;color:var(--navy-800);}
+  .brand-text small{font-size:9px;letter-spacing:2.4px;color:var(--muted);}
+
+  .topmenu{
+    display:flex;align-items:center;gap:28px;
+    font-size:15px;font-weight:500;
+    margin-left:8px;
+  }
+  .topmenu a{
+    color:var(--navy-700);
+    position:relative;padding:6px 0;
+    transition:color .2s;
+  }
+  .topmenu a::after{
+    content:"";position:absolute;left:0;right:100%;bottom:0;
+    height:2px;background:var(--gold);transition:right .28s ease;
+  }
+  .topmenu a:hover{color:var(--navy-900);}
+  .topmenu a:hover::after{right:0;}
+
+  .topnav-right{
+    margin-left:auto;
+    display:flex;align-items:center;gap:18px;
+    font-size:13.5px;
+  }
+  .hello{
+    display:flex;align-items:center;gap:6px;
+    color:var(--muted);
+  }
+  .hello svg{width:16px;height:16px;stroke:var(--navy-700);}
+  .btn-outline{
+    border:1px solid var(--line);
+    color:var(--navy-800);
+    background:#fff;
+    border-radius:3px;
+    padding:7px 16px;
+    font-size:13px;
+    font-weight:500;
+    transition:.2s;
+  }
+  .btn-outline:hover{
+    background:var(--navy-800);
+    color:#fff;
+    border-color:var(--navy-800);
+  }
+  .btn-solid{
+    background:var(--gold);
+    color:var(--navy-900);
+    font-weight:600;
+    border-radius:3px;
+    padding:8px 18px;
+    font-size:13px;
+    border:0;
+    transition:.2s;
+  }
+  .btn-solid:hover{background:var(--gold-light);}
+
+  /* ============ Hero ============ */
+  .hero{
+    background:var(--bg-soft);
+    padding:26px 0 0;
+  }
+  .hero-card{
+    display:grid;
+    grid-template-columns:1fr 1.15fr;
+    background:#fff;
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 14px 40px rgba(10,30,60,.10);
+    min-height:300px;
+  }
+  .hero-text{
+    padding:46px 50px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .hero-text h1{
+    font-size:31px;font-weight:600;color:var(--navy-800);
+    line-height:1.35;letter-spacing:.5px;
+  }
+  .hero-text .sub{
+    margin-top:14px;font-size:14.5px;color:var(--muted);
+    line-height:1.85;
+  }
+  .hero-actions{
+    margin-top:26px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  }
+  .btn-gold{
+    background:var(--navy-800);
+    color:#fff;
+    border:0;border-radius:4px;
+    padding:13px 32px;
+    font-size:15px;font-weight:600;letter-spacing:1px;
+    transition:.22s;
+  }
+  .btn-gold:hover{background:var(--navy-600);box-shadow:0 10px 22px rgba(11,32,56,.25);}
+  .link-plain{
+    font-size:14px;font-weight:600;color:var(--navy-700);
+    border-bottom:1px solid var(--navy-700);
+    padding-bottom:2px;transition:.2s;
+  }
+  .link-plain:hover{color:var(--gold);border-color:var(--gold);}
+  .hero-note{
+    margin-top:18px;font-size:12.5px;color:#8794A8;
+  }
+  .hero-media{min-height:300px;}
+
+  /* ============ 搜索面板 ============ */
+  .searchbar{
+    background:#fff;
+    border-radius:6px;
+    box-shadow:0 12px 34px rgba(10,30,60,.10);
+    margin:22px 0 0;
+    position:relative;
+    z-index:5;
+  }
+  .search-tabs{
+    display:flex;gap:2px;
+    padding:0 24px;
+    border-bottom:1px solid var(--line);
+    background:#FCFDFE;
+    border-radius:6px 6px 0 0;
+    overflow-x:auto;
+  }
+  .search-tabs button,
+  .search-tabs a.tab-link{
+    background:none;border:0;
+    font-size:15px;color:var(--muted);font-weight:500;
+    padding:17px 20px;
+    border-bottom:3px solid transparent;
+    transition:.2s;white-space:nowrap;
+    display:inline-block;
+    text-decoration:none;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .search-tabs button:hover,
+  .search-tabs a.tab-link:hover{color:var(--navy-700);}
+  .search-tabs button.active{
+    color:var(--navy-800);font-weight:600;
+    border-bottom-color:var(--navy-800);
+  }
+
+  .search-fields{
+    display:flex;flex-wrap:wrap;align-items:stretch;
+  }
+  .sf{
+    flex:1 1 200px;
+    padding:16px 22px;
+    border-right:1px solid var(--line);
+    position:relative;
+    transition:background .2s;
+  }
+  .sf:hover{background:#F8FAFD;}
+  .sf label{
+    display:block;font-size:11px;letter-spacing:1.2px;
+    color:var(--muted);margin-bottom:5px;text-transform:uppercase;
+  }
+  .sf select,.sf input{
+    width:100%;border:0;outline:none;background:transparent;
+    font-size:16.5px;font-weight:600;color:var(--navy-800);
+    font-family:inherit;
+  }
+  .sf select{
+    cursor:pointer;appearance:none;-webkit-appearance:none;
+  }
+  .sf input{cursor:text;}
+  .sf input::placeholder{color:#9DAABD;font-weight:400;font-size:15px;}
+  .sf .hint{font-size:12px;color:var(--muted);font-weight:400;margin-top:2px;}
+  .sf-submit{
+    flex:0 0 auto;
+    display:flex;align-items:center;
+    padding:16px 22px;
+  }
+  .search-foot{
+    padding:11px 24px 15px;
+    font-size:12.5px;color:var(--muted);
+    border-top:1px solid var(--line);
+    background:#FCFDFE;
+    border-radius:0 0 6px 6px;
+    display:flex;gap:9px;align-items:center;flex-wrap:wrap;
+  }
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+
+  /* ============ 城市输入匹配下拉 ============ */
+  .sf.combo{z-index:1;}
+  .sf.combo.is-open{
+    z-index:70;
+    background:#F8FAFD;
+  }
+  .combo-list{
+    position:absolute;
+    top:100%;left:0;
+    min-width:100%;
+    width:max-content;
+    max-width:380px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-top:0;
+    border-radius:0 0 6px 6px;
+    box-shadow:0 20px 44px rgba(10,30,60,.20);
+    max-height:296px;
+    overflow-y:auto;
+    display:none;
+    z-index:80;
+  }
+  .sf.combo.is-open .combo-list{display:block;}
+
+  .combo-item{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 16px;
+    cursor:pointer;
+    border-bottom:1px solid #F1F4F9;
+    transition:background .15s;
+  }
+  .combo-item:last-child{border-bottom:0;}
+  .combo-item.active,
+  .combo-item:hover{background:#F2F7FD;}
+
+  .ci-code{
+    flex:0 0 auto;
+    min-width:52px;
+    text-align:center;
+    font-size:11px;font-weight:700;letter-spacing:.9px;
+    color:var(--navy-700);
+    background:#EEF3FA;
+    border-radius:3px;
+    padding:4px 8px;
+    transition:.15s;
+  }
+  .combo-item.active .ci-code{
+    background:var(--navy-800);color:#fff;
+  }
+  .ci-body{
+    display:flex;flex-direction:column;min-width:0;flex:1;
+  }
+  .ci-name{
+    font-size:14.5px;font-weight:600;color:var(--navy-800);
+    white-space:nowrap;
+  }
+  .ci-name em{
+    font-style:normal;font-weight:400;font-size:13px;
+    color:var(--muted);margin-left:6px;
+  }
+  .ci-note{
+    font-size:12px;color:var(--muted);margin-top:2px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .ci-note b{
+    color:var(--navy-700);font-weight:600;
+  }
+  .ci-code mark,.ci-name mark{
+    background:rgba(201,162,39,.32);
+    color:inherit;
+    padding:0 1px;
+    border-radius:2px;
+  }
+  .combo-empty{
+    padding:18px 16px;
+    font-size:13px;color:var(--muted);
+    text-align:center;
+  }
+
+  /* ============ 通用板块 ============ */
+  .section{padding:72px 0;}
+  .section.soft{background:var(--bg);}
+  .section-head{
+    display:flex;align-items:flex-end;justify-content:space-between;
+    gap:24px;margin-bottom:36px;flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:29px;font-weight:600;color:var(--navy-800);
+    letter-spacing:.6px;line-height:1.3;
+  }
+  .section-head h2 span{color:var(--gold);}
+  .section-head p{color:var(--muted);font-size:14.5px;margin-top:8px;max-width:620px;}
+  .link-more{
+    font-size:14px;font-weight:600;color:var(--navy-700);
+    border-bottom:1px solid var(--navy-700);
+    padding-bottom:2px;transition:.2s;white-space:nowrap;
+  }
+  .link-more:hover{color:var(--gold);border-color:var(--gold);}
+
+  /* ============ 优惠卡片 ============ */
+  .deal-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:22px;
+  }
+  .deal-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    transition:transform .28s ease, box-shadow .28s ease, border-color .28s;
+  }
+  .deal-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 20px 44px rgba(10,30,60,.14);
+    border-color:#CFDAE8;
+  }
+  .deal-media{height:158px;}
+  .deal-body{
+    padding:17px 20px 21px;
+    display:flex;flex-direction:column;flex:1;
+  }
+  .deal-body h3{
+    font-size:18px;font-weight:600;color:var(--navy-800);letter-spacing:.4px;
+  }
+  .deal-body .cabin-tag{
+    display:inline-block;margin-top:8px;
+    font-size:11.5px;letter-spacing:.6px;
+    color:var(--navy-700);background:#EEF3FA;
+    border-radius:2px;padding:3px 9px;align-self:flex-start;
+  }
+  .deal-fare{
+    margin-top:auto;padding-top:15px;
+    border-top:1px dashed var(--line);
+    display:flex;align-items:baseline;gap:6px;
+  }
+  .deal-fare .cur{font-size:12px;font-weight:700;color:var(--navy-700);letter-spacing:1px;}
+  .deal-fare .amount{
+    font-size:25px;font-weight:700;color:var(--navy-800);line-height:1;
+  }
+  .deal-fare .from{font-size:12px;color:var(--muted);}
+  .deal-link{
+    display:block;margin-top:15px;text-align:center;
+    font-size:14px;font-weight:600;letter-spacing:.8px;
+    color:var(--navy-800);
+    border:1px solid var(--navy-700);
+    border-radius:4px;padding:10px 0;
+    transition:.22s;
+  }
+  .deal-link:hover{background:var(--navy-800);color:#fff;border-color:var(--navy-800);}
+
+  /* ============ 机舱 2x2 ============ */
+  .cabin-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:22px;
+  }
+  .cabin-card{
+    position:relative;border-radius:6px;overflow:hidden;
+    min-height:280px;
+    display:flex;align-items:flex-end;
+  }
+  .cabin-card .ph{position:absolute;inset:0;height:100%;}
+  .cabin-panel{
+    position:relative;z-index:4;
+    background:#fff;
+    margin:0 26px 26px;
+    border-radius:5px;
+    padding:22px 24px;
+    box-shadow:0 14px 34px rgba(6,20,40,.18);
+    max-width:420px;
+  }
+  .cabin-panel h3{
+    font-size:19px;font-weight:600;color:var(--navy-800);
+    letter-spacing:.4px;line-height:1.4;
+  }
+  .cabin-panel p{
+    margin-top:9px;font-size:13.5px;color:var(--muted);line-height:1.75;
+  }
+  .cabin-panel .link-plain{
+    display:inline-block;margin-top:14px;font-size:13.5px;
+  }
+
+  /* ============ 假期（大图） ============ */
+  .holiday-card{
+    border-radius:6px;overflow:hidden;
+    position:relative;min-height:420px;
+    display:flex;align-items:flex-end;
+  }
+  .holiday-card .ph{position:absolute;inset:0;height:100%;}
+  .holiday-panel{
+    position:relative;z-index:4;
+    background:#fff;
+    margin:0 auto 34px;
+    border-radius:5px;
+    padding:26px 30px;
+    box-shadow:0 16px 38px rgba(6,20,40,.18);
+    max-width:460px;
+  }
+  .holiday-panel h3{
+    font-size:21px;font-weight:600;color:var(--navy-800);
+    letter-spacing:.4px;
+  }
+  .holiday-panel p{
+    margin-top:9px;font-size:13.5px;color:var(--muted);line-height:1.75;
+  }
+  .holiday-panel .link-plain{display:inline-block;margin-top:14px;font-size:13.5px;}
+
+  /* ============ 购物 ============ */
+  .shop-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:22px;
+  }
+  .shop-card{
+    border:1px solid var(--line);border-radius:6px;overflow:hidden;
+    background:#fff;
+    transition:transform .28s ease, box-shadow .28s ease;
+  }
+  .shop-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 20px 44px rgba(10,30,60,.13);
+  }
+  .shop-media{height:190px;}
+  .shop-body{padding:16px 18px 20px;}
+  .shop-body h4{
+    font-size:15.5px;font-weight:600;color:var(--navy-800);
+    line-height:1.45;
+  }
+  .shop-body .price{
+    margin-top:8px;font-size:13px;color:var(--muted);
+  }
+  .shop-body .price b{color:var(--navy-800);font-size:15px;}
+
+  .center-cta{text-align:center;margin-top:40px;}
+  .btn-ghost-line{
+    display:inline-block;
+    border:1px solid var(--navy-700);
+    color:var(--navy-800);
+    font-size:14.5px;font-weight:600;letter-spacing:1px;
+    padding:13px 40px;border-radius:4px;
+    transition:.22s;
+  }
+  .btn-ghost-line:hover{background:var(--navy-800);color:#fff;border-color:var(--navy-800);}
+
+  /* ============ 餐饮 ============ */
+  .dining-grid{
+    display:grid;grid-template-columns:1.35fr 1fr;gap:0;
+    border-radius:6px;overflow:hidden;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  .dining-media{min-height:360px;}
+  .dining-text{
+    padding:44px 46px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .dining-text h3{
+    font-size:24px;font-weight:600;color:var(--navy-800);
+    letter-spacing:.4px;line-height:1.4;
+  }
+  .dining-text p{
+    margin-top:14px;font-size:14.5px;color:var(--muted);line-height:1.85;
+  }
+  .dining-text .link-plain{display:inline-block;margin-top:20px;align-self:flex-start;}
+
+  /* ============ 支付 ============ */
+  .pay-card{
+    display:grid;grid-template-columns:1fr 1.1fr;
+    border-radius:6px;overflow:hidden;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  .pay-text{
+    padding:44px 46px;
+    display:flex;flex-direction:column;justify-content:center;
+  }
+  .pay-text h3{
+    font-size:24px;font-weight:600;color:var(--navy-800);
+    letter-spacing:.4px;line-height:1.4;
+  }
+  .pay-text p{
+    margin-top:14px;font-size:14.5px;color:var(--muted);line-height:1.85;
+  }
+  .pay-text .link-plain{display:inline-block;margin-top:20px;align-self:flex-start;}
+  .pay-media{min-height:320px;}
+
+  /* ============ 会籍 ============ */
+  .member-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:22px;
+  }
+  .member-card{
+    border-radius:6px;overflow:hidden;position:relative;
+    min-height:300px;display:flex;align-items:flex-end;
+    border:1px solid var(--line);
+  }
+  .member-card .ph{position:absolute;inset:0;height:100%;}
+  .member-panel{
+    position:relative;z-index:4;
+    background:#fff;
+    margin:0 24px 24px;
+    border-radius:5px;
+    padding:22px 24px;
+    box-shadow:0 14px 34px rgba(6,20,40,.16);
+    max-width:400px;
+  }
+  .member-panel h3{
+    font-size:18px;font-weight:600;color:var(--navy-800);
+    letter-spacing:.4px;line-height:1.4;
+  }
+  .member-panel p{
+    margin-top:9px;font-size:13.5px;color:var(--muted);line-height:1.75;
+  }
+  .member-panel .link-plain{display:inline-block;margin-top:14px;font-size:13.5px;}
+
+  /* ============ 灵感 ============ */
+  .inspire-card{
+    border-radius:6px;overflow:hidden;position:relative;
+    min-height:400px;display:flex;align-items:flex-end;
+  }
+  .inspire-card .ph{position:absolute;inset:0;height:100%;}
+  .inspire-panel{
+    position:relative;z-index:4;
+    background:#fff;
+    margin:0 0 34px 34px;
+    border-radius:5px;
+    padding:26px 30px;
+    box-shadow:0 16px 38px rgba(6,20,40,.18);
+    max-width:440px;
+  }
+  .inspire-panel h3{
+    font-size:21px;font-weight:600;color:var(--navy-800);
+    letter-spacing:.4px;
+  }
+  .inspire-panel p{
+    margin-top:9px;font-size:13.5px;color:var(--muted);line-height:1.75;
+  }
+  .inspire-panel .link-plain{display:inline-block;margin-top:14px;font-size:13.5px;}
+
+  /* ============ 页脚 ============ */
+  footer{
+    background:var(--navy-900);
+    color:#A5B5C9;
+    padding:62px 0 26px;
+    font-size:14px;
+  }
+  .foot-grid{
+    display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;
+    gap:38px;
+  }
+  footer h4{
+    color:#fff;font-size:13.5px;font-weight:600;
+    letter-spacing:1.4px;margin-bottom:18px;
+  }
+  footer a{
+    display:block;padding:5px 0;color:#A5B5C9;
+    font-size:13.5px;transition:.2s;
+  }
+  footer a:hover{color:#fff;}
+
+  .foot-brand{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+  .foot-brand img{height:38px;}
+  .foot-brand-text strong{display:block;color:#fff;font-size:15.5px;letter-spacing:2px;}
+  .foot-brand-text small{display:block;font-size:9px;letter-spacing:2.3px;color:#7E90A8;}
+
+  .address{
+    font-size:13.5px;line-height:1.9;color:#8FA1B8;
+    padding-left:14px;border-left:2px solid var(--gold);
+    margin-bottom:20px;
+  }
+  .address strong{color:#D5DFEC;font-weight:500;}
+
+  .socials{display:flex;gap:12px;}
+  .socials a{
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.22);
+    display:flex;align-items:center;justify-content:center;
+    transition:.2s;padding:0;
+  }
+  .socials a:hover{background:#fff;border-color:#fff;}
+  .socials svg{width:16px;height:16px;fill:#A5B5C9;transition:.2s;}
+  .socials a:hover svg{fill:var(--navy-900);}
+
+  .foot-bottom{
+    margin-top:46px;padding-top:22px;
+    border-top:1px solid rgba(255,255,255,.12);
+    display:flex;justify-content:space-between;align-items:center;
+    gap:16px;flex-wrap:wrap;
+    font-size:12.5px;color:#7E90A8;
+  }
+  .foot-bottom .legal{display:flex;gap:20px;flex-wrap:wrap;}
+  .foot-bottom .legal a{display:inline;padding:0;}
+  .star-mark{display:flex;align-items:center;gap:10px;font-size:12px;color:#8FA1B8;}
+  .star-mark img{height:24px;opacity:.85;}
+
+  /* ============ 响应式 ============ */
+  @media (max-width:1080px){
+    .topmenu{display:none;}
+    .deal-grid,.shop-grid{grid-template-columns:repeat(2,1fr);}
+    .hero-card{grid-template-columns:1fr;}
+    .hero-media{min-height:260px;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .cabin-grid,.member-grid{grid-template-columns:1fr;}
+    .dining-grid,.pay-card{grid-template-columns:1fr;}
+  }
+  @media (max-width:820px){
+    .sf{border-right:0;border-bottom:1px solid var(--line);flex:1 1 100%;}
+    .sf-submit{flex:1 1 100%;padding:18px 22px;}
+    .sf-submit .btn-gold{width:100%;}
+    .topnav-right .hello{display:none;}
+    .combo-list{width:100%;max-width:100%;}
+  }
+  @media (max-width:640px){
+    .container{padding:0 18px;}
+    .topnav-inner{height:64px;gap:16px;}
+    .brand img{height:32px;}
+    .brand-text strong{font-size:14px;}
+    .hero-text{padding:32px 24px;}
+    .hero-text h1{font-size:23px;}
+    .section{padding:52px 0;}
+    .section-head h2{font-size:22px;}
+    .deal-grid,.shop-grid{grid-template-columns:1fr;}
+    .cabin-panel,.member-panel,.holiday-panel,.inspire-panel{margin:0 16px 16px;}
+    .inspire-panel{margin-left:16px;}
+    .dining-text,.pay-text{padding:30px 24px;}
+    .foot-grid{grid-template-columns:1fr;gap:28px;}
+    .foot-bottom{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 顶部导航 ==================== -->
+<header class="topnav">
+  <div class="container topnav-inner">
+    <a href="#" class="brand">
+      <img src="Logo.png" alt="众和航空" onerror="this.style.visibility='hidden'">
+
+    </a>
+
+    <nav class="topmenu">
+      <a href="#">航班</a>
+      <a href="#">旅游</a>
+      <a href="#">购物</a>
+      <a href="#">餐饮</a>
+      <a href="#">支付</a>
+      <a href="#">会籍</a>
+    </nav>
+
+    <div class="topnav-right">
+      <span class="hello">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <circle cx="12" cy="8" r="3.6"/>
+          <path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4S18.3 16.4 19.5 20"/>
+        </svg>
+        你好，中国
+      </span>
+      <a href="#" class="btn-outline">登录</a>
+      <a href="#" class="btn-solid">立即注册</a>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== Hero + 搜索 ==================== -->
+<section class="hero">
+  <div class="container">
+
+    <div class="hero-card">
+      <div class="hero-text">
+        <h1>结伴同赏世界<br>前座 75 折*优惠</h1>
+        <p class="sub">
+          自瑞州（JCU）出发，与挚爱同游。即日起至 12 月 31 日，
+          预订指定航线经济舱及优选经济舱，即享前座 75 折优惠。
+        </p>
+        <div class="hero-actions">
+          <button class="btn-gold">立即预订</button>
+          <a href="#" class="link-plain">了解详情 →</a>
+        </div>
+        <p class="hero-note">*须受条款及细则约束。优惠名额有限，售完即止。</p>
+      </div>
+      <div class="hero-media ph" data-name="hero-travelers.png"></div>
+    </div>
+
+    <!-- 搜索面板 -->
+    <div class="searchbar">
+      <div class="search-tabs" id="tabs">
+        <button class="active" data-tab="book">预订行程</button>
+        <a class="tab-link" href="checkin.html">网上值机</a>
+        <button data-tab="status">航班状况</button>
+      </div>
+
+      <form class="search-fields" onsubmit="return false;" autocomplete="off">
+
+        <!-- 出发地：可输入 + 列表匹配 -->
+        <div class="sf combo" data-combo="from">
+          <label for="from">出发地</label>
+          <input id="from" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="输入城市或机场代码"
+                 aria-autocomplete="list" aria-expanded="false" role="combobox">
+          <div class="combo-list" role="listbox" aria-label="出发地候选列表"></div>
+          <div class="hint">瑞州特别市 · 众和航空枢纽</div>
+        </div>
+
+        <!-- 目的地：可输入 + 列表匹配 -->
+        <div class="sf combo" data-combo="to" data-fare="true">
+          <label for="to">目的地</label>
+          <input id="to" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="输入城市或机场代码"
+                 aria-autocomplete="list" aria-expanded="false" role="combobox">
+          <div class="combo-list" role="listbox" aria-label="目的地候选列表"></div>
+          <div class="hint">输入城市或机场代码，查看 MZB 起价</div>
+        </div>
+
+        <div class="sf">
+          <label for="dep">出发日期</label>
+          <input id="dep" type="date">
+          <div class="hint">请选择出发日期</div>
+        </div>
+
+        <div class="sf" id="returnField">
+          <label for="ret">返回日期</label>
+          <input id="ret" type="date">
+          <div class="hint">请选择返回日期</div>
+        </div>
+
+        <!-- 行程类型：单程 / 往返 / 多程 -->
+        <div class="sf">
+          <label for="tripType">行程类型</label>
+          <select id="tripType">
+            <option value="round">往返</option>
+            <option value="oneway">单程</option>
+            <option value="multi">多程</option>
+          </select>
+          <div class="hint">选择您的行程类型</div>
+        </div>
+
+        <div class="sf-submit">
+          <button class="btn-gold" type="button" id="mainSearchBtn">搜索航班</button>
+        </div>
+      </form>
+
+      <div class="search-foot">
+        <span class="dot"></span>
+        <span>票价以 MZB 计价，实际价格随舱位与出行日期浮动，以出票时为准。</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== 最新热门优惠 ==================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>最新热门优惠</h2>
+        <p>自瑞州（JCU）出发，精选目的地经济舱优惠票价，MZB 起。</p>
+      </div>
+      <a href="#" class="link-more">查看全部优惠 →</a>
+    </div>
+
+    <div class="deal-grid">
+
+      <article class="deal-card">
+        <div class="deal-media ph" data-name="deal-london.png"></div>
+        <div class="deal-body">
+          <h3>伦敦 London</h3>
+          <span class="cabin-tag">经济舱 MZB · 往返含税</span>
+          <p class="deal-fare">
+            <span class="cur">MZB</span>
+            <span class="amount">12,000</span>
+            <span class="from">起</span>
+          </p>
+          <a href="#" class="deal-link">立即预订</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-media ph" data-name="deal-cinnon.png"></div>
+        <div class="deal-body">
+          <h3>容新 Cinnon</h3>
+          <span class="cabin-tag">经济舱 MZB · 往返含税</span>
+          <p class="deal-fare">
+            <span class="cur">MZB</span>
+            <span class="amount">2,500</span>
+            <span class="from">起</span>
+          </p>
+          <a href="#" class="deal-link">立即预订</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-media ph" data-name="deal-pingsi.png"></div>
+        <div class="deal-body">
+          <h3>平四 Pingsi</h3>
+          <span class="cabin-tag">经济舱 MZB · 往返含税</span>
+          <p class="deal-fare">
+            <span class="cur">MZB</span>
+            <span class="amount">1,800</span>
+            <span class="from">起</span>
+          </p>
+          <a href="#" class="deal-link">立即预订</a>
+        </div>
+      </article>
+
+      <article class="deal-card">
+        <div class="deal-media ph" data-name="deal-luto.png"></div>
+        <div class="deal-body">
+          <h3>蓝涛 Luto</h3>
+          <span class="cabin-tag">经济舱 MZB · 往返含税</span>
+          <p class="deal-fare">
+            <span class="cur">MZB</span>
+            <span class="amount">2,500</span>
+            <span class="from">起</span>
+          </p>
+          <a href="#" class="deal-link">立即预订</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 机舱 ==================== -->
+<section class="section soft">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>机舱</h2>
+        <p>展开一趟赏心之旅——让我们的机舱设施及服务，为您缔造一段难忘的空中旅程。</p>
+      </div>
+    </div>
+
+    <div class="cabin-grid">
+
+      <div class="cabin-card">
+        <div class="ph" data-name="cabin-business.png"></div>
+        <div class="cabin-panel">
+          <h3>搭乘商务舱和优选经济舱</h3>
+          <p>享受宽敞座椅、优先登机与专属餐膳服务，让飞行不只是抵达。</p>
+          <a href="#" class="link-plain">了解更多 →</a>
+        </div>
+      </div>
+
+      <div class="cabin-card">
+        <div class="ph" data-name="cabin-student.png"></div>
+        <div class="cabin-panel">
+          <h3>「国泰学生惠」，伴您迈出每一步</h3>
+          <p>学生专享票价优惠，免费托运行李额及灵活改签，让求学之路更从容。</p>
+          <a href="#" class="link-plain">立即预订 →</a>
+        </div>
+      </div>
+
+      <div class="cabin-card">
+        <div class="ph" data-name="cabin-events.png"></div>
+        <div class="cabin-panel">
+          <h3>香港 10 月赏心乐事</h3>
+          <p>从维港夜景、艺术展览到街头美食，带你发现这座城市的多重魅力。</p>
+          <a href="#" class="link-plain">立即探索 →</a>
+        </div>
+      </div>
+
+      <div class="cabin-card">
+        <div class="ph" data-name="cabin-routes.png"></div>
+        <div class="cabin-panel">
+          <h3>更多航班，更多新航点</h3>
+          <p>我们的航线网络持续拓展，为您连接更多精彩目的地。</p>
+          <a href="#" class="link-plain">了解详情 →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="center-cta">
+      <a href="#" class="btn-ghost-line">发现更多</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 假期 ==================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>假期</h2>
+        <p>预订您的完美假期——航班、酒店、租车及当地体验，一站式轻松规划。</p>
+      </div>
+    </div>
+
+    <div class="holiday-card">
+      <div class="ph" data-name="holiday-cityscape.png"></div>
+      <div class="holiday-panel">
+        <h3>独家假期优惠</h3>
+        <p>预订机票加酒店套餐，尊享专属折扣与灵活取消政策，让旅程更省心。</p>
+        <a href="#" class="link-plain">探索假期优惠 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 购物 ==================== -->
+<section class="section soft">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>购物</h2>
+        <p>发掘众和精选旅行系列，尊享低至 USD 0.65 = 1 里程的累积优惠，从出行装备到居家生活，一应俱全。</p>
+      </div>
+      <a href="#" class="link-more">查看全部商品 →</a>
+    </div>
+
+    <div class="shop-grid">
+
+      <article class="shop-card">
+        <div class="shop-media ph" data-name="shop-watch.png"></div>
+        <div class="shop-body">
+          <h4>飞行腕表系列</h4>
+          <p class="price">参考价 <b>MZB 3,200</b> 起</p>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-media ph" data-name="shop-camera.png"></div>
+        <div class="shop-body">
+          <h4>旅途摄影套装</h4>
+          <p class="price">参考价 <b>MZB 2,680</b> 起</p>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-media ph" data-name="shop-trolley.png"></div>
+        <div class="shop-body">
+          <h4>轻量登机行李箱</h4>
+          <p class="price">参考价 <b>MZB 1,980</b> 起</p>
+        </div>
+      </article>
+
+      <article class="shop-card">
+        <div class="shop-media ph" data-name="shop-model.png"></div>
+        <div class="shop-body">
+          <h4>飞机模型珍藏版</h4>
+          <p class="price">参考价 <b>MZB 680</b> 起</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="center-cta">
+      <a href="#" class="btn-ghost-line">立即选购 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 餐饮 ==================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>餐饮</h2>
+        <p>每次享受美食更可累积里数——我们的餐饮伙伴为您带来舌尖上的旅程。</p>
+      </div>
+    </div>
+
+    <div class="dining-grid">
+      <div class="dining-media ph" data-name="dining-table.png"></div>
+      <div class="dining-text">
+        <h3>品尝世界的风味</h3>
+        <p>
+          从瑞州出发的航班上，我们为您呈现融合东方与世界的味觉体验。
+          精选当季食材，由星级厨艺团队精心设计，让高空餐膳同样值得期待。
+        </p>
+        <a href="#" class="link-plain">了解更多 →</a>
+      </div>
+    </div>
+
+    <div class="center-cta">
+      <a href="#" class="btn-ghost-line">发掘更多餐饮优惠</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 支付 ==================== -->
+<section class="section soft">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>支付</h2>
+        <p>每次合资格消费可获取丰富奖赏，让日常消费转化为下一次旅程。</p>
+      </div>
+    </div>
+
+    <div class="pay-card">
+      <div class="pay-text">
+        <h3>众和航空联名信用卡</h3>
+        <p>
+          凭卡消费可享里程加倍、机场贵宾室礼遇及专属票价优惠。
+          让每一次支付，都离下一段旅程更近一步。
+        </p>
+        <a href="#" class="link-plain">立即申请 →</a>
+      </div>
+      <div class="pay-media ph" data-name="pay-phones.png"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 会籍 ==================== -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>会籍</h2>
+        <p>跃升体验待您享受——注册成为会员，不论在地面还是空中，都可尊享礼遇及奖赏。</p>
+      </div>
+    </div>
+
+    <div class="member-grid">
+
+      <div class="member-card">
+        <div class="ph" data-name="member-jetty.png"></div>
+        <div class="member-panel">
+          <h3>我们的伙伴</h3>
+          <p>凭借遍布全球的伙伴网络，让您的里数累积与兑换更加灵活自由。</p>
+          <a href="#" class="link-plain">探索我们的伙伴 →</a>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="ph" data-name="member-lounge.png"></div>
+        <div class="member-panel">
+          <h3>会员礼遇</h3>
+          <p>登记成为会员后，即可尊享优先值机、额外行李额及贵宾休息室礼遇。</p>
+          <a href="#" class="link-plain">探索礼遇 →</a>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="ph" data-name="member-water.png"></div>
+        <div class="member-panel">
+          <h3>随时随地累积里数</h3>
+          <p>凭消费、住宿与出行累积里数，让生活的每一刻都成为旅程的一部分。</p>
+          <a href="#" class="link-plain">了解累积方式 →</a>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="ph" data-name="member-aircraft.png"></div>
+        <div class="member-panel">
+          <h3>兑换奖励机票</h3>
+          <p>使用里数兑换奖励机票、舱位升级及精选商品，让旅程更超值。</p>
+          <a href="#" class="link-plain">立即兑换 →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="center-cta">
+      <a href="#" class="btn-ghost-line">了解更多关于会员计划</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 灵感 ==================== -->
+<section class="section soft">
+  <div class="container">
+    <div class="inspire-card">
+      <div class="ph" data-name="inspire-destination.png"></div>
+      <div class="inspire-panel">
+        <h3>探索您的梦想目的地</h3>
+        <p>透过我们的旅游指南、目的地攻略与灵感故事，开启您的下一段旅程。</p>
+        <a href="#" class="link-plain">浏览更多 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 页脚 ==================== -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+
+      <div>
+        <div class="foot-brand">
+          <img src="Logo.png" alt="众和航空" onerror="this.style.visibility='hidden'">
+          <span class="foot-brand-text">
+            <strong>众和航空</strong>
+            <small>PEACE AIRLINES</small>
+          </span>
+        </div>
+        <p class="address">
+          <strong>总部地址</strong><br>
+          瑞州特别市瑞云区大阪街道<br>
+          大阪新路 100–118 号
+        </p>
+        <div class="socials">
+          <a href="#" aria-label="微信">
+            <svg viewBox="0 0 24 24"><path d="M8.7 3C4.9 3 1.8 5.6 1.8 8.8c0 1.8 1 3.4 2.6 4.5l-.7 2.1 2.4-1.2c.8.2 1.6.3 2.5.3h.6c-.1-.4-.2-.9-.2-1.3 0-3.2 3.1-5.8 6.9-5.8h.6C15.9 4.8 12.6 3 8.7 3Zm-2.4 4.4c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9Zm4.8 0c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9Z"/><path d="M22.2 13.2c0-2.7-2.6-4.9-5.8-4.9s-5.8 2.2-5.8 4.9 2.6 4.9 5.8 4.9c.7 0 1.4-.1 2-.3l1.9 1-.5-1.7c1.5-.9 2.4-2.3 2.4-3.9Zm-7.7-1.4c-.4 0-.7-.3-.7-.7s.3-.7.7-.7.7.3.7.7-.3.7-.7.7Zm3.8 0c-.4 0-.7-.3-.7-.7s.3-.7.7-.7.7.3.7.7-.3.7-.7.7Z"/></svg>
+          </a>
+          <a href="#" aria-label="微博">
+            <svg viewBox="0 0 24 24"><path d="M10 20.3c-3.6.4-6.7-1.3-6.9-3.8-.2-2.5 2.5-4.8 6.1-5.2 3.6-.4 6.7 1.3 6.9 3.8.2 2.5-2.5 4.8-6.1 5.2Zm-.4-7c-2.9.3-5 2-4.8 3.8.2 1.8 2.7 3 5.6 2.7 2.9-.3 5-2 4.8-3.8-.2-1.8-2.7-3-5.6-2.7Zm.6 1.7c-1.1.3-1.8 1.1-1.5 1.8.3.7 1.4 1 2.5.7 1.1-.3 1.8-1.1 1.5-1.8-.3-.7-1.4-1-2.5-.7Z"/><path d="M18.2 10.3c-.4-.1-.7-.5-.6-.9.3-1.3-.4-2.7-1.7-3.3-.4-.2-.6-.7-.4-1.1.2-.4.7-.6 1.1-.4 2 .9 3 2.9 2.5 5-.1.4-.5.7-.9.7Zm2.5-4.6c-.4-.2-.6-.6-.4-1 1.1-2.2.3-4.9-1.8-6.2-.4-.2-.5-.7-.3-1.1.2-.4.7-.5 1.1-.3 2.9 1.7 4 5.3 2.5 8.2-.2.4-.7.6-1.1.4Z"/></svg>
+          </a>
+          <a href="#" aria-label="小红书">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2Zm-1.6 4.4h3.2c.4 0 .7.3.7.7s-.3.7-.7.7h-3.2c-.4 0-.7-.3-.7-.7s.3-.7.7-.7Zm5.9 11.2H7.7c-.4 0-.7-.3-.7-.7s.3-.7.7-.7h8.6c.4 0 .7.3.7.7s-.3.7-.7.7Zm0-3.3H7.7c-.4 0-.7-.3-.7-.7s.3-.7.7-.7h8.6c.4 0 .7.3.7.7s-.3.7-.7.7Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <h4>关于我们</h4>
+        <a href="#">公司简介</a>
+        <a href="#">新闻中心</a>
+        <a href="#">人才招聘</a>
+        <a href="#">可持续发展</a>
+        <a href="#">投资者关系</a>
+        <a href="#">我们的承诺</a>
+      </div>
+
+      <div>
+        <h4>法律及隐私声明</h4>
+        <a href="#">条款及细则</a>
+        <a href="#">隐私政策</a>
+        <a href="#">Cookie 设置</a>
+        <a href="#">无障碍声明</a>
+        <a href="#">安全须知</a>
+      </div>
+
+      <div>
+        <h4>协助及支持</h4>
+        <a href="#">联系我们</a>
+        <a href="#">常见问题</a>
+        <a href="#">特殊协助服务</a>
+        <a href="#">行李须知</a>
+        <a href="#">退款与改签</a>
+      </div>
+
+    </div>
+
+    <div class="foot-bottom">
+      <div class="legal">
+        <span>© 2025 众和航空 Peace Airlines 版权所有</span>
+        <a href="#">隐私政策</a>
+        <a href="#">使用条款</a>
+        <a href="#">Cookie 设置</a>
+      </div>
+      <div class="star-mark">
+        <span>星空联盟成员</span>
+        <img src="SAL.png" alt="星空联盟 Star Alliance" onerror="this.style.visibility='hidden'">
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ============================================================
+     统一地名信息库
+     —— 出发地 / 目的地共用同一份数据
+     ============================================================ */
+  var PLACES = [
+    /* ── 国内 ── */
+    { city:'瑞州',       en:'Jucu',        code:'JCU', note:'瑞云国际机场' },
+    { city:'瑞州',       en:'Jucu',        code:'PAS', note:'磐石机场' },
+    { city:'容新',       en:'Cinnon',      code:'RFG', note:'龙凤国际机场' },
+    { city:'平四',       en:'Pingsi',      code:'CPL', note:'首都国际机场' },
+    { city:'蓝涛',       en:'Luto',        code:'LON', note:'明波国际机场' },
+    { city:'香洲',       en:'Xiangzhou',   code:'CES', note:'春山国际机场' },
+    { city:'寒山',       en:'Hanshan',     code:'TAG', note:'天港国际机场' },
+    { city:'寒山',       en:'Hanshan',     code:'HOK', note:'虹口国际机场' },
+    { city:'御江',       en:'Yujiang',     code:'DZA', note:'澹泽国际机场' },
+    { city:'尖东',       en:'Kam Tong',    code:'KTG', note:'尖东国际机场' },
+
+    /* ── 亚洲 ── */
+    { city:'大阪',       en:'Osaka',       code:'KIX', note:'关西国际机场' },
+    { city:'东京',       en:'Tokyo',       code:'NRT', note:'成田国际机场' },
+    { city:'东京',       en:'Tokyo',       code:'HND', note:'羽田机场' },
+    { city:'福冈',       en:'Fukuoka',     code:'FUK', note:'福冈机场' },
+    { city:'南都',       en:'Namdo',       code:'GMP', note:'金浦国际机场' },
+    { city:'仙乡',       en:'Sianhyang',   code:'ICN', note:'仁川国际机场' },
+    { city:'狮驼',       en:'Sinhala',     code:'SIN', note:'樟宜机场' },
+    { city:'名古屋',     en:'Nagoya',      code:'NGO', note:'中部国际机场' },
+    { city:'中塘',       en:'Zhongtang',   code:'TPE', note:'枣园机场' },
+    { city:'中塘',       en:'Zhongtang',   code:'TSA', note:'虹夏机场' },
+
+    /* ── 欧洲 ── */
+    { city:'伦敦',       en:'London',      code:'LHR', note:'希思罗机场' },
+    { city:'伦敦',       en:'London',      code:'LGW', note:'盖特威克机场' },
+    { city:'曼切斯特',   en:'Manchester',  code:'MAN', note:'曼切斯特机场' },
+    { city:'里斯本',     en:'Lisbon',      code:'LIS', note:'里斯本机场' },
+    { city:'柏林',       en:'Berlin',      code:'BER', note:'勃兰登堡机场' },
+    { city:'慕尼黑',     en:'Munich',      code:'MUC', note:'慕尼黑机场' },
+    { city:'阿姆斯特丹', en:'Amsterdam',   code:'AMS', note:'史基普国际机场' },
+    { city:'马德里',     en:'Madrid',      code:'MAD', note:'巴拉哈斯机场' },
+    { city:'法兰克福',   en:'Frankfurt',   code:'FRA', note:'法兰克福机场' },
+
+    /* ── 其他 ── */
+    { city:'本尼迪特',   en:'Benedict',    code:'BNT', note:'本尼迪特国际机场' }
+  ];
+
+  /* ---------- 工具函数 ---------- */
+  function escHtml(s){
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c];
+    });
+  }
+
+  function fmtNum(n){
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function hl(text, q){
+    var t = String(text);
+    if (!q) return escHtml(t);
+    var i = t.toLowerCase().indexOf(q.toLowerCase());
+    if (i < 0) return escHtml(t);
+    return escHtml(t.slice(0, i)) +
+           '<mark>' + escHtml(t.slice(i, i + q.length)) + '</mark>' +
+           escHtml(t.slice(i + q.length));
+  }
+
+  function isMatch(it, q){
+    var ql = String(q || '').trim().toLowerCase();
+    if (!ql) return true;
+    return [it.city, it.en, it.code, it.note || ''].some(function (f) {
+      return String(f).toLowerCase().indexOf(ql) > -1;
+    });
+  }
+
+  function subText(it, showFare){
+    var parts = [];
+    if (it.note) parts.push(escHtml(it.note));
+    if (showFare && it.fare) {
+      parts.push('经济舱 <b>MZB ' + fmtNum(it.fare) + '</b> 起');
+    }
+    return parts.join(' · ');
+  }
+
+  function hintText(it, showFare){
+    var parts = [];
+    if (it.note) parts.push(it.note);
+    if (showFare && it.fare) parts.push('经济舱 MZB ' + fmtNum(it.fare) + ' 起');
+    return parts.length ? parts.join(' · ') : (it.city + ' · ' + it.en);
+  }
+
+  /* ---------- 初始化组合框 ---------- */
+  function initCombo(root){
+    var key      = root.getAttribute('data-combo');
+    var showFare = root.getAttribute('data-fare') === 'true';
+    var isOrigin = key === 'from';
+
+    var input    = root.querySelector('input');
+    var list     = root.querySelector('.combo-list');
+    var hintEl   = root.querySelector('.hint');
+
+    var selected    = null;
+    var filtered    = [];
+    var activeIndex = -1;
+    var isOpen      = false;
+
+    function label(it){ return it.city + ' (' + it.code + ')'; }
+
+    function openList(){
+      if (isOpen) return;
+      isOpen = true;
+      root.classList.add('is-open');
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeList(){
+      if (!isOpen) return;
+      isOpen = false;
+      root.classList.remove('is-open');
+      input.setAttribute('aria-expanded', 'false');
+      activeIndex = -1;
+
+      var v = input.value.trim();
+      var found = null;
+      for (var i = 0; i < PLACES.length; i++) {
+        var it = PLACES[i];
+        if (label(it) === v ||
+            it.city === v ||
+            it.en.toLowerCase() === v.toLowerCase() ||
+            it.code.toLowerCase() === v.toLowerCase() ||
+            (it.note && it.note === v)) {
+          found = it;
+          break;
+        }
+      }
+      if (found) {
+        setSelected(found);
+      } else if (selected) {
+        input.value = label(selected);
+      } else {
+        input.value = '';
+      }
+    }
+
+    function setSelected(it){
+      selected = it;
+      input.value = label(it);
+      if (hintEl) hintEl.textContent = hintText(it, showFare);
+
+      if (key === 'from') window.__selectedFrom = it;
+      else if (key === 'to') window.__selectedTo = it;
+    }
+
+    function render(q){
+      filtered = PLACES.filter(function (it) { return isMatch(it, q); });
+
+      if (!filtered.length) {
+        list.innerHTML = '<div class="combo-empty">未找到匹配的城市或机场代码</div>';
+        activeIndex = -1;
+        return;
+      }
+      if (activeIndex < 0 || activeIndex >= filtered.length) activeIndex = 0;
+
+      var html = '';
+      for (var i = 0; i < filtered.length; i++) {
+        var it = filtered[i];
+        var sub = subText(it, showFare);
+        html += '<div class="combo-item' + (i === activeIndex ? ' active' : '') + '"'
+              +      ' role="option" data-index="' + i + '">'
+              +   '<span class="ci-code">' + hl(it.code, q) + '</span>'
+              +   '<span class="ci-body">'
+              +     '<span class="ci-name">' + hl(it.city, q) + ' <em>' + hl(it.en, q) + '</em></span>'
+              +     (sub ? '<span class="ci-note">' + sub + '</span>' : '')
+              +   '</span>'
+              + '</div>';
+      }
+      list.innerHTML = html;
+    }
+
+    function updateActive(){
+      var nodes = list.querySelectorAll('.combo-item');
+      for (var i = 0; i < nodes.length; i++) {
+        nodes[i].classList.toggle('active', i === activeIndex);
+      }
+      var act = list.querySelector('.combo-item.active');
+      if (act && act.scrollIntoView) act.scrollIntoView({ block: 'nearest' });
+    }
+
+    function move(dir){
+      if (!filtered.length) return;
+      activeIndex = (activeIndex + dir + filtered.length) % filtered.length;
+      updateActive();
+    }
+
+    input.addEventListener('focus', function () {
+      var cur = input.value.trim();
+      var q = (selected && cur === label(selected)) ? '' : cur;
+      render(q);
+      openList();
+      input.select();
+    });
+
+    input.addEventListener('input', function () {
+      render(input.value.trim());
+      openList();
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!isOpen) { render(input.value.trim()); openList(); }
+        else { move(1); }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        move(-1);
+      } else if (e.key === 'Enter') {
+        if (isOpen && filtered[activeIndex]) {
+          e.preventDefault();
+          setSelected(filtered[activeIndex]);
+          closeList();
+          input.blur();
+        }
+      } else if (e.key === 'Escape') {
+        closeList();
+      }
+    });
+
+    list.addEventListener('mousedown', function (e) { e.preventDefault(); });
+
+    list.addEventListener('mouseover', function (e) {
+      var item = e.target.closest ? e.target.closest('.combo-item') : null;
+      if (!item) return;
+      activeIndex = parseInt(item.getAttribute('data-index'), 10);
+      updateActive();
+    });
+
+    list.addEventListener('click', function (e) {
+      var item = e.target.closest ? e.target.closest('.combo-item') : null;
+      if (!item) return;
+      var idx = parseInt(item.getAttribute('data-index'), 10);
+      if (filtered[idx]) {
+        setSelected(filtered[idx]);
+        closeList();
+      }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!root.contains(e.target)) closeList();
+    });
+
+    if (isOrigin) {
+      var defaultFrom = null;
+      for (var i = 0; i < PLACES.length; i++) {
+        if (PLACES[i].code === 'JCU') { defaultFrom = PLACES[i]; break; }
+      }
+      if (defaultFrom) setSelected(defaultFrom);
+    } else {
+      var defaultTo = null;
+      for (var j = 0; j < PLACES.length; j++) {
+        if (PLACES[j].code === 'LHR') { defaultTo = PLACES[j]; break; }
+      }
+      if (defaultTo) setSelected(defaultTo);
+    }
+  }
+
+  document.querySelectorAll('.sf.combo').forEach(initCombo);
+
+  /* ==================== 行程类型切换 ==================== */
+  var tripType    = document.getElementById('tripType');
+  var returnField = document.getElementById('returnField');
+  var retInput    = returnField.querySelector('input');
+  var retHint     = returnField.querySelector('.hint');
+
+  function applyTripType(){
+    var type = tripType.value;
+    if (type === 'oneway') {
+      returnField.style.opacity = '0.45';
+      retInput.disabled = true;
+      retHint.textContent = '单程行程无需返回日期';
+    } else if (type === 'multi') {
+      returnField.style.opacity = '1';
+      retInput.disabled = false;
+      retHint.textContent = '多程请按航段分别选择日期';
+    } else {
+      returnField.style.opacity = '1';
+      retInput.disabled = false;
+      retHint.textContent = '请选择返回日期';
+    }
+  }
+
+  tripType.addEventListener('change', applyTripType);
+  applyTripType();
+
+  /* ==================== 搜索标签激活状态 ==================== */
+  document.querySelectorAll('#tabs button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('#tabs button').forEach(function (b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
+    });
+  });
+
+  /* ==================== 日期最小值限制 ==================== */
+  var today = new Date().toISOString().split('T')[0];
+  var dep = document.getElementById('dep');
+  var ret = document.getElementById('ret');
+  dep.min = today;
+  ret.min = today;
+  dep.addEventListener('change', function () {
+    ret.min = dep.value || today;
+  });
+
+  /* ==================== 搜索航班：跳转 ticket.html 并携带参数 ==================== */
+  document.getElementById('mainSearchBtn').addEventListener('click', function () {
+    var fromCode = window.__selectedFrom ? window.__selectedFrom.code : 'JCU';
+    var toCode   = window.__selectedTo   ? window.__selectedTo.code   : 'LHR';
+
+    var depVal = document.getElementById('dep').value;
+    var retVal = document.getElementById('ret').value;
+    var tripTypeVal = document.getElementById('tripType').value;
+
+    var url = 'ticket.html'
+      + '?from=' + encodeURIComponent(fromCode)
+      + '&to='   + encodeURIComponent(toCode)
+      + '&dep='  + encodeURIComponent(depVal)
+      + '&ret='  + encodeURIComponent(retVal)
+      + '&type=' + encodeURIComponent(tripTypeVal);
+
+    location.href = url;
+  });
+
+})();
+</script>
+
+</body>
+</html>

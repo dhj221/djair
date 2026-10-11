@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>选择航班 | 众和航空</title>
+<style>
+:root{--n8:#0B2038;--n7:#102A4C;--n6:#16365F;--gold:#C9A227;--ink:#12233B;--muted:#5B6B80;--line:#E3E8EF;--bg:#F5F7FA;--ok:#1B7A4B}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:var(--ink);background:#fff;line-height:1.6;transition:padding-bottom .3s}
+body.ck{padding-bottom:96px}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{font-family:inherit;cursor:pointer}
+.ct{max-width:1200px;margin:0 auto;padding:0 24px}
+.topnav{background:#fff;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--line);box-shadow:0 2px 12px rgba(10,30,60,.05)}
+.tn{display:flex;align-items:center;height:72px;gap:34px}
+.brand img{height:38px}
+.tm{display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500}
+.tm a{color:var(--n7);position:relative;padding:6px 0;transition:.2s}
+.tm a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--gold);transition:right .28s}
+.tm a:hover{color:var(--n8)}.tm a:hover::after{right:0}
+.tnr{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:13.5px}
+.hi{display:flex;align-items:center;gap:6px;color:var(--muted)}
+.hi svg{width:16px;height:16px;stroke:var(--n7)}
+.bo{border:1px solid var(--line);color:var(--n8);background:#fff;border-radius:3px;padding:7px 16px;font-size:13px}
+.bo:hover{background:var(--n8);color:#fff}
+.bs{background:var(--gold);color:var(--n8);font-weight:600;border:0;border-radius:3px;padding:8px 18px;font-size:13px}
+.band{background:linear-gradient(180deg,#0A1E3C,#113058);color:#fff;padding:34px 0 0}
+.band h1{font-size:26px;font-weight:600}
+.sc{background:#fff;border-radius:6px;box-shadow:0 18px 48px rgba(3,12,26,.28);margin-top:26px;position:relative;z-index:10}
+.tst{display:flex;padding:0 22px;border-bottom:1px solid var(--line);background:#FBFCFE;border-radius:6px 6px 0 0}
+.tst button,.tst a{background:none;border:0;font-size:15px;color:var(--muted);font-weight:500;padding:16px 22px;border-bottom:3px solid transparent;transition:.2s;text-decoration:none;cursor:pointer;font-family:inherit;display:inline-block}
+.tst button:hover,.tst a:hover{color:var(--n7)}
+.tst button.on{color:var(--n8);font-weight:600;border-bottom-color:var(--n8)}
+.tr{display:flex;flex-wrap:wrap;align-items:stretch}
+.sf{flex:1 1 160px;padding:15px 20px;border-right:1px solid var(--line);position:relative;transition:background .2s}
+.sf:hover{background:#F8FAFD}
+.sf label{display:block;font-size:11px;letter-spacing:1.2px;color:var(--muted);margin-bottom:4px}
+.sf input{width:100%;border:0;outline:none;background:transparent;font-size:15.5px;font-weight:600;color:var(--n8);font-family:inherit}
+.sf input::placeholder{color:#9DAABD;font-weight:400;font-size:14px}
+.sfsub{flex:0 0 auto;display:flex;align-items:center;padding:15px 20px}
+.btn-search{background:var(--n8);color:#fff;border:0;border-radius:4px;padding:13px 34px;font-size:15px;font-weight:600;letter-spacing:1px;white-space:nowrap}
+.btn-search:hover{background:var(--n6)}
+.sf.combo{z-index:1}.sf.combo.open{z-index:70;background:#F8FAFD}
+.clist{position:absolute;top:100%;left:0;min-width:100%;width:max-content;max-width:360px;background:#fff;border:1px solid var(--line);border-top:0;border-radius:0 0 6px 6px;box-shadow:0 20px 44px rgba(10,30,60,.2);max-height:280px;overflow-y:auto;display:none;z-index:80}
+.sf.combo.open .clist{display:block}
+.citem{display:flex;align-items:center;gap:12px;padding:11px 16px;cursor:pointer;border-bottom:1px solid #F1F4F9}
+.citem:last-child{border-bottom:0}.citem.act,.citem:hover{background:#F2F7FD}
+.cc{flex:0 0 auto;min-width:52px;text-align:center;font-size:11px;font-weight:700;color:var(--n7);background:#EEF3FA;border-radius:3px;padding:4px 8px}
+.citem.act .cc{background:var(--n8);color:#fff}
+.cb{display:flex;flex-direction:column;min-width:0;flex:1}
+.cn{font-size:14.5px;font-weight:600;color:var(--n8);white-space:nowrap}
+.cn em{font-style:normal;font-weight:400;font-size:13px;color:var(--muted);margin-left:6px}
+.cnote{font-size:12px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc mark,.cn mark{background:rgba(201,162,39,.32);color:inherit;padding:0 1px;border-radius:2px}
+.cempty{padding:18px 16px;font-size:13px;color:var(--muted);text-align:center}
+.rb{background:var(--bg);padding:34px 0 70px;min-height:calc(100vh - 320px)}
+.rh{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.rt{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.rt h2{font-size:21px;font-weight:600;color:var(--n8)}
+.rt h2 span{color:var(--gold)}
+.rt .cnt{font-size:13.5px;color:var(--muted)}
+.sort{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:4px;padding:3px}
+.sort .lbl{font-size:12px;color:var(--muted);padding:0 10px 0 6px}
+.sort button{background:transparent;border:0;padding:7px 16px;border-radius:3px;font-size:13px;font-weight:600;color:var(--muted)}
+.sort button.on{background:var(--n8);color:#fff}
+.seg{margin-bottom:38px;scroll-margin-top:96px}.seg:last-child{margin-bottom:0}
+.sgh{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid #DDE4EE}
+.sgh .dir{display:inline-flex;align-items:center;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--n7);background:#E9EFF8;border-radius:3px;padding:4px 10px}
+.sgh h3{font-size:18px;font-weight:600;color:var(--n8)}
+.sgh .dt{margin-left:auto;font-size:13px;color:var(--muted)}
+.ast{display:flex;align-items:center;gap:10px;margin:26px 0 14px;padding:9px 14px;background:#EEF3FA;border-left:3px solid var(--n7);border-radius:0 4px 4px 0;font-size:13.5px;font-weight:700;color:var(--n8)}
+.ast:first-of-type{margin-top:0}
+.ast .bdg{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--n7);background:#D6E0EE;border-radius:2px;padding:2px 8px}
+.ast.alt{background:#FBF3DD;border-left-color:var(--gold);color:#7A5A0E}
+.ast.alt .bdg{background:#EFD8A8}
+.sub{display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;color:var(--n7);margin:20px 0 12px}
+.sub:first-of-type{margin-top:0}
+.sub::before{content:"";width:4px;height:14px;background:var(--gold);border-radius:2px}
+.sub .n{margin-left:auto;font-weight:400;font-size:12.5px;color:var(--muted)}
+.fc{background:#fff;border:1px solid var(--line);border-radius:6px;margin-bottom:16px;transition:.25s;overflow:hidden}
+.fc:hover{box-shadow:0 14px 34px rgba(10,30,60,.12);border-color:#CBD7E6}
+.fc.sel{border-color:var(--n7);box-shadow:0 0 0 1px var(--n7),0 14px 34px rgba(10,30,60,.14)}
+.fh{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid #F1F4F9;background:#FCFDFE;flex-wrap:wrap}
+.fa{display:flex;align-items:center;gap:10px}
+.flg{width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;position:relative}
+.flg img{width:100%;height:100%;object-fit:contain}
+.flg.fb{border-radius:4px;background:linear-gradient(135deg,#0B2038,#16365F)}
+.flg.fb::before{content:attr(data-code);font-size:12px;font-weight:700;color:#E3C567}
+.fat{display:flex;flex-direction:column;line-height:1.3}
+.fat strong{font-size:15px;font-weight:700;color:var(--n8)}
+.fat small{font-size:11.5px;color:var(--muted)}
+.ftg{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.ft{font-size:11.5px;font-weight:600;border-radius:3px;padding:4px 10px;background:#EEF3FA;color:var(--n7)}
+.ft.via{background:#FBF3DD;color:#8A6A0E}.ft.nd{background:#E8EEF6;color:#37517A}
+.ft.pt{background:#E7F0EA;color:var(--ok)}.ft.ex{background:#E9EFF8;color:var(--n7);border:1px solid #C9D6E8}
+.ft.tf{background:#FBEFD6;color:#8A5A0E;border:1px solid #EFD8A8}
+.fr{display:grid;grid-template-columns:minmax(100px,1fr) minmax(140px,1.6fr) minmax(100px,1fr);align-items:center;gap:10px;padding:22px 26px 18px}
+.fp{display:flex;flex-direction:column;min-width:0}
+.fp.ar{align-items:flex-end;text-align:right}
+.fd{font-size:11.5px;color:var(--muted);margin-bottom:2px;white-space:nowrap}
+.ftm{font-size:24px;font-weight:700;color:var(--n8);line-height:1.1}
+.fst{display:flex;align-items:baseline;gap:8px;margin-top:5px;flex-wrap:wrap}
+.fp.ar .fst{justify-content:flex-end}
+.fcod{font-size:13.5px;font-weight:700;letter-spacing:1.2px;color:var(--n7);background:#EEF3FA;border-radius:3px;padding:2px 8px}
+.fct{font-size:13px;color:var(--muted)}
+.fj{display:flex;flex-direction:column;align-items:center;padding:0 6px}
+.fdu{font-size:12.5px;color:var(--muted);margin-bottom:7px}
+.ftrk{display:flex;align-items:center;width:100%}
+.fnd{width:8px;height:8px;border-radius:50%;background:#C4D2E4;flex-shrink:0}
+.fnd.stop{background:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.22)}
+.fln{flex:1;height:1px;background:linear-gradient(90deg,#C4D2E4,#8FA8C6);position:relative;min-width:20px}
+.fln::after{content:"";position:absolute;right:-1px;top:-3px;border-left:6px solid #8FA8C6;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent}
+.fln.gap{margin:0 3px}
+.fvl{margin-top:7px;font-size:11.5px;font-weight:600;color:#8A6A0E;background:#FBF3DD;border-radius:2px;padding:2px 8px;white-space:nowrap}
+.fdl{margin-top:7px;font-size:11.5px;color:var(--muted)}
+.fm{display:flex;align-items:center;gap:22px;padding:0 26px 16px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+.fm .mi{display:inline-flex;align-items:center;gap:6px}
+.fm svg{width:15px;height:15px;flex-shrink:0;stroke:currentColor}
+.ff{border-top:1px solid #F1F4F9;background:#FCFDFE}
+.frow{display:flex;align-items:center;gap:16px;padding:12px 26px;border-bottom:1px solid #F1F4F9;transition:background .18s;cursor:pointer}
+.frow:last-child{border-bottom:0}.frow:hover{background:#F4F8FD}
+.fcb{flex:0 0 130px;display:flex;align-items:center;gap:8px}
+.fcb .nm{font-size:14px;font-weight:600;color:var(--n8)}
+.fcb .cd{font-size:11px;font-weight:700;color:var(--n7);background:#EEF3FA;border-radius:2px;padding:2px 6px}
+.fpr{margin-left:auto;display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.fpr .old{font-size:11.5px;color:#9DAABD;text-decoration:line-through;margin-right:5px}
+.fpr em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--n7)}
+.fpr b{font-size:19px;font-weight:700;color:var(--n8);line-height:1}
+.fpr small{font-size:11.5px;color:var(--muted);margin-left:2px}
+.fsel{flex:0 0 auto;background:#fff;border:1px solid var(--n7);color:var(--n8);font-size:13px;font-weight:600;border-radius:4px;padding:8px 20px}
+.fsel:hover{background:var(--n8);color:#fff}
+.frow.sel{background:#EEF5EE}
+.frow.sel .fsel{background:var(--ok);border-color:var(--ok);color:#fff;cursor:default}
+.ts{border-top:1px solid #F1F4F9}.ts:first-child{border-top:0}
+.tsh{display:flex;align-items:center;gap:10px;padding:13px 26px;background:#F5F8FC;font-size:13.5px;font-weight:600;color:var(--n7);border-bottom:1px solid var(--line)}
+.tsh .bg{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--n8);color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+.tsh .pr{margin-left:auto;font-size:12px;color:var(--muted)}
+.tsh .pr b{color:var(--n8);font-size:15px;font-weight:700}
+.tsh .fno{font-weight:700;color:var(--n8);letter-spacing:.5px;margin-right:2px}
+.tbnr{display:flex;align-items:center;gap:16px;padding:12px 26px;background:linear-gradient(90deg,#F5F8FC,#FBF6E8);border-bottom:1px solid #F0E1B5;flex-wrap:wrap}
+.tbp{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.tbp .lb{font-size:12px;color:var(--muted);text-transform:uppercase}
+.tbp em{font-style:normal;font-size:11.5px;font-weight:700;color:var(--gold)}
+.tbp b{font-size:21px;font-weight:700;color:var(--n8);line-height:1}
+.tbp small{font-size:11.5px;color:var(--muted)}
+.tba{margin-left:auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ackd{font-size:11.5px;font-weight:700;color:#fff;background:var(--gold);border-radius:3px;padding:3px 10px}
+.adsc{font-size:12px;color:#7A5A0E;background:#FFF9E9;padding:3px 10px;border-radius:3px;border:1px solid #EFD8A8}
+.ts.leg2{background:#FAFCFE;border-top:1px solid var(--line)}
+.ts.leg2 .ff{background:#fff}
+.ts.leg2.lock .l2b{display:none}
+.l2h{padding:22px 26px;font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:10px;background:#FAFCFE}
+.l2h::before{content:"";display:block;width:14px;height:14px;border-radius:50%;border:1.5px dashed #B7C3D2;flex-shrink:0}
+.l2f{border-bottom:1px solid #EEF2F7}.l2f:last-child{border-bottom:0}
+.l2fh{display:flex;align-items:center;gap:12px;padding:13px 26px;background:#fff;flex-wrap:wrap;border-bottom:1px solid #F1F4F9}
+.l2fh .no{font-size:14.5px;font-weight:700;color:var(--n8)}
+.l2fh .al{font-size:12px;color:var(--muted)}
+.l2fh .ac{font-size:12px;color:var(--muted);padding:2px 7px;background:#EEF3FA;border-radius:2px}
+.l2d{font-size:11px;font-weight:700;color:#fff;background:var(--gold);border-radius:2px;padding:2px 7px}
+.l2r{margin-left:auto;display:flex;align-items:baseline;gap:8px;font-size:13.5px;font-weight:600;color:var(--n7);flex-wrap:wrap}
+.l2r b{color:var(--n8);font-size:15px;font-weight:700}
+.l2r .dt{font-size:11.5px;font-weight:500;color:var(--muted)}
+.l2r .ar{color:#9DAABD}
+.lb2{display:flex;align-items:center;gap:10px;padding:9px 26px;background:#FBF6E8;border-top:1px solid #F0E1B5;border-bottom:1px solid #F0E1B5;font-size:12.5px;color:#7A5A0E}
+.lb2 b{font-weight:700;color:#5C4206}
+.lb2 .ic{font-size:11px;background:var(--gold);color:#fff;border-radius:2px;padding:1px 6px;font-weight:700}
+.ts.l1ok .tsh,.ts.l2ok .tsh{background:#EEF5EE}
+.ts.l1ok .tsh .bg,.ts.l2ok .tsh .bg{background:var(--ok)}
+.ts.l2ok .l2b .l2f:not(.picked){opacity:.55}
+.es{background:#fff;border:1px dashed #D3DCE8;border-radius:6px;padding:46px 30px;text-align:center}
+.es h4{font-size:17px;font-weight:600;color:var(--n8);margin-bottom:8px}
+.es p{font-size:14px;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.8}
+.ckb{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #DDE4EE;box-shadow:0 -12px 34px rgba(10,30,60,.12);transform:translateY(110%);transition:transform .35s;z-index:300}
+.ckb.on{transform:translateY(0)}
+.cki{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.cks{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1 1 auto}
+.cln{display:flex;align-items:baseline;gap:10px;font-size:13px;min-width:0}
+.clb{flex:0 0 auto;font-size:11px;font-weight:700;color:#fff;background:var(--n7);padding:2px 8px;border-radius:2px;text-transform:uppercase}
+.clt{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clt b{color:var(--n8);font-weight:600}
+.ckt{display:flex;align-items:baseline;gap:6px;flex:0 0 auto}
+.ckt .lb{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-right:4px}
+.ckt em{font-style:normal;font-size:12px;font-weight:700;color:var(--n7)}
+.ckt b{font-size:26px;font-weight:700;color:var(--n8);line-height:1}
+.ckt small{font-size:12px;color:var(--muted)}
+.ckt .rnd{font-size:11px;font-weight:700;color:var(--ok);background:#E7F0EA;border-radius:2px;padding:2px 6px;margin-left:6px}
+.btn-ck{flex:0 0 auto;background:var(--n8);color:#fff;border:0;border-radius:4px;padding:14px 36px;font-size:15px;font-weight:600;letter-spacing:1.2px}
+.btn-ck:hover{background:var(--n6)}
+.snav{position:fixed;right:22px;top:50%;transform:translateY(-50%) translateX(140%);display:flex;flex-direction:column;gap:6px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 14px 34px rgba(10,30,60,.14);z-index:250;transition:transform .35s}
+.snav.on{transform:translateY(-50%) translateX(0)}
+.snav::before{content:"航段";display:block;font-size:10px;font-weight:700;letter-spacing:1.4px;color:var(--muted);text-align:center;padding:2px 0 6px;border-bottom:1px solid #EDF1F6;margin-bottom:4px}
+.snb{display:flex;flex-direction:column;align-items:flex-start;background:transparent;border:0;border-radius:6px;padding:9px 14px;min-width:96px;cursor:pointer;text-align:left;transition:.2s}
+.snb:hover{background:#F4F8FD}.snb.act{background:#E9EFF8}
+.snb .snl{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--n7)}
+.snb .snl::before{content:"";width:5px;height:5px;border-radius:50%;background:#C4D2E4}
+.snb.done .snl::before{background:var(--ok)}
+.snb .sns{font-size:11px;color:var(--muted);margin-top:2px;margin-left:11px}
+@media(max-width:1080px){.tm{display:none}}
+@media(max-width:960px){.snav{display:none !important}}
+@media(max-width:820px){.sf{border-right:0;border-bottom:1px solid var(--line);flex:1 1 100%}.sfsub{flex:1 1 100%;padding:14px 20px 18px}.btn-search{width:100%}.hi{display:none}.clist{width:100%;max-width:100%}.fr{grid-template-columns:1fr;gap:14px;padding:20px}.fp.ar{align-items:flex-start;text-align:left}.fp.ar .fst{justify-content:flex-start}.fj{align-items:flex-start;padding:0}.ftrk{width:100%;max-width:240px}body.ck{padding-bottom:150px}}
+@media(max-width:640px){.ct{padding:0 16px}.tn{height:64px;gap:16px}.brand img{height:32px}.band h1{font-size:21px}.rb{padding:26px 0 54px}.rt h2{font-size:18px}.fh{padding:12px 16px}.fr{padding:16px}.ftm{font-size:21px}.fm{padding:0 16px 14px;gap:14px;font-size:12.5px}.frow{flex-wrap:wrap;gap:10px;padding:12px 16px}.fcb{flex:0 0 auto}.fpr{margin-left:auto}.fsel{flex:1 1 100%;text-align:center;padding:10px 0}.sgh{flex-wrap:wrap;gap:8px}.sgh .dt{margin-left:0;width:100%}.tsh,.l2fh,.lb2,.tbnr{padding-left:16px;padding-right:16px}.l2h{padding:18px 16px;font-size:12.5px}.cki{padding:12px 16px;gap:14px}.cks{flex:1 1 100%;order:1}.ckt{flex:1 1 auto;order:2}.btn-ck{flex:1 1 100%;order:3;padding:12px 0}body.ck{padding-bottom:180px}}
+</style>
+</head>
+<body>
+
+<header class="topnav"><div class="ct tn">
+<a href="index.html" class="brand"><img src="Logo.png" alt="众和航空" onerror="this.style.visibility='hidden'"></a>
+<nav class="tm"><a href="#">航班</a><a href="#">旅游</a><a href="#">购物</a><a href="#">餐饮</a><a href="#">支付</a><a href="#">会籍</a></nav>
+<div class="tnr">
+<span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4S18.3 16.4 19.5 20"/></svg>你好，中国</span>
+<a href="#" class="bo">登录</a><a href="#" class="bs">立即注册</a>
+</div></div></header>
+
+<section class="band"><div class="ct">
+<h1>选择航班</h1>
+<div class="sc">
+<div class="tst" id="tabs">
+<button class="on" data-t="round">往返</button>
+<button data-t="oneway">单程</button>
+<a href="checkin.html">网上值机</a>
+</div>
+<form class="tr" onsubmit="return false" autocomplete="off">
+<div class="sf combo" data-combo="from"><label for="from">出发地</label><input id="from" type="text" placeholder="输入城市或机场代码"><div class="clist"></div></div>
+<div class="sf combo" data-combo="to"><label for="to">目的地</label><input id="to" type="text" placeholder="输入城市或机场代码"><div class="clist"></div></div>
+<div class="sf"><label for="dep">出发日期</label><input id="dep" type="date"></div>
+<div class="sf" id="retF"><label for="ret">返回日期</label><input id="ret" type="date"></div>
+<div class="sfsub"><button class="btn-search" type="button" id="searchBtn">搜索航班</button></div>
+</form>
+</div></div></section>
+
+<section class="rb"><div class="ct">
+<div class="rh"><div class="rt"><h2>搜索结果 <span id="rr"></span></h2><span class="cnt" id="rc"></span></div>
+<div class="sort" id="sortBox"><span class="lbl">排序</span><button class="on" data-s="price">价格优先</button><button data-s="dur">耗时优先</button></div></div>
+<div id="results"></div>
+</div></section>
+
+<div class="ckb" id="ckb"><div class="cki">
+<div class="cks" id="cks"></div>
+<div class="ckt" id="cktWrap"><span class="lb">总计</span><em>MZB</em><b id="ckt">0</b><small>起</small></div>
+<button class="btn-ck" id="ckBtn">去结算</button>
+</div></div>
+
+<nav class="snav" id="snav">
+<button class="snb" data-t="seg-out"><span class="snl">第一程</span><span class="sns">去程</span></button>
+<button class="snb" data-t="seg-in"><span class="snl">第二程</span><span class="sns">回程</span></button>
+</nav>
+
+<script>
+(function(){
+/* ============ 折扣与活动 ============ */
+var DISC={express:.73,longhaul:.78,shorthaul:.62};
+var RND=.96;
+var ACT={
+  DJDF01:{code:'DJDF01',label:'国内-洲际联程',rate:.88},
+  DJDF02:{code:'DJDF02',label:'国内-短途国际联程',rate:.92},
+  DJDF03:{code:'DJDF03',label:'国内-国内转机',rate:.95},
+  DJFE01:{code:'DJFE01',label:'短途国际→洲际联程',rate:.72},
+  DJEF01:{code:'DJEF01',label:'洲际→短途国际回程',rate:.72}
+};
+var DOM=['JCU','PAS','RFG','CPL','LON','CES','TAG','HOK','DZA'];
+var LH=['LHR','LGW','AMS','BNT','MAD','FRA','MAN','LIS','BER','MUC'];
+function isDom(c){return DOM.indexOf(c)>-1}
+function isLH(c){return LH.indexOf(c)>-1}
+function isShortIntl(c){return !isDom(c)&&!isLH(c)}
+function isIsoAp(c){return c==='JCU'||c==='PAS'}
+var LH_HUB=['JCU','LON','TAG'];
+
+/* 机型→可用舱位 */
+var CABIN_BY_AC={
+'319':['C','Y'],'32B':['Y'],'32N':['W','Y'],'32P':['C','Y'],'32L':['W','Y'],'32X':['C','Y'],'32V':['W','Y'],'32Q':['C','Y'],
+'33A':['F','C','W','Y'],'33S':['W','Y'],'33N':['C','Y'],'33E':['W','Y'],
+'35T':['W','Y'],'359':['F','C','W','Y'],'35N':['F','C','W','Y'],'351':['F','C','W','Y'],'35K':['F','C','W','Y'],'35P':['A','F','C','W'],
+'380':['F','C','W','Y'],'38P':['A','F','C','W','Y'],
+'7MT':['W','Y'],'7MB':['Y'],'73T':['W','Y'],
+'77W':['F','C','W','Y'],'779':['F','C','W','Y'],'77X':['F','C','W','Y'],
+'789':['C','W','Y'],'78T':['W','Y'],'78X':['F','C','W','Y'],
+'91A':['A'],'91B':['Y'],'91T':['W','Y'],'919':['C','Y'],'917':['W','Y'],'91S':['C','Y'],'929':['F','C','W','Y'],'93W':['A','F','C','W','Y']
+};
+
+var AP={
+JCU:{city:'瑞州',en:'Jucu',ap:'瑞云国际机场',ut:8},PAS:{city:'瑞州',en:'Jucu',ap:'磐石机场',ut:8},
+LHR:{city:'伦敦',en:'London',ap:'希思罗机场',ut:0},LGW:{city:'伦敦',en:'London',ap:'盖特威克机场',ut:0},
+MAN:{city:'曼切斯特',en:'Manchester',ap:'曼切斯特机场',ut:0},LIS:{city:'里斯本',en:'Lisbon',ap:'里斯本机场',ut:0},
+BER:{city:'柏林',en:'Berlin',ap:'勃兰登堡机场',ut:1},MUC:{city:'慕尼黑',en:'Munich',ap:'慕尼黑机场',ut:1},
+RFG:{city:'容新',en:'Cinnon',ap:'龙凤国际机场',ut:8},CPL:{city:'平四',en:'Pingsi',ap:'首都国际机场',ut:8},
+LON:{city:'蓝涛',en:'Luto',ap:'明波国际机场',ut:8},CES:{city:'香洲',en:'Xiangzhou',ap:'春山国际机场',ut:8},
+TAG:{city:'寒山',en:'Hanshan',ap:'天港国际机场',ut:8},HOK:{city:'寒山',en:'Hanshan',ap:'虹口国际机场',ut:8},
+AMS:{city:'阿姆斯特丹',en:'Amsterdam',ap:'史基普国际机场',ut:1},DZA:{city:'御江',en:'Yujiang',ap:'澹泽国际机场',ut:8},
+KTG:{city:'尖东',en:'Kam Tong',ap:'尖东国际机场',ut:8},
+KIX:{city:'大阪',en:'Osaka',ap:'关西国际机场',ut:9},NRT:{city:'东京',en:'Tokyo',ap:'成田国际机场',ut:9},
+HND:{city:'东京',en:'Tokyo',ap:'羽田机场',ut:9},FUK:{city:'福冈',en:'Fukuoka',ap:'福冈机场',ut:9},
+GMP:{city:'南都',en:'Namdo',ap:'金浦国际机场',ut:9},ICN:{city:'仙乡',en:'Sianhyang',ap:'仁川国际机场',ut:9},
+SIN:{city:'狮驼',en:'Sinhala',ap:'樟宜机场',ut:8},NGO:{city:'名古屋',en:'Nagoya',ap:'中部国际机场',ut:9},
+MAD:{city:'马德里',en:'Madrid',ap:'巴拉哈斯机场',ut:1},FRA:{city:'法兰克福',en:'Frankfurt',ap:'法兰克福机场',ut:1},
+TPE:{city:'中塘',en:'Zhongtang',ap:'枣园机场',ut:8},TSA:{city:'中塘',en:'Zhongtang',ap:'虹夏机场',ut:8},
+BNT:{city:'本尼迪特',en:'Benedict',ap:'本尼迪特国际机场',ut:-10}
+};
+var GEO={JCU:[36.27,120.37],PAS:[34.75,121.55],RFG:[30.23,120.43],CPL:[40.08,116.60],
+LON:[29.87,121.55],CES:[30.30,120.10],TAG:[31.14,121.80],HOK:[31.20,121.33],
+DZA:[30.50,120.50],KTG:[22.30,114.20],KIX:[34.43,135.24],NRT:[35.77,140.39],
+HND:[35.55,139.78],FUK:[33.59,130.45],GMP:[37.56,126.79],ICN:[37.46,126.44],
+SIN:[1.36,103.99],NGO:[34.86,136.81],TPE:[25.08,121.23],TSA:[25.06,121.55],
+LHR:[51.47,-0.45],LGW:[51.15,-0.19],MAN:[53.35,-2.27],LIS:[38.77,-9.13],
+BER:[52.36,13.50],MUC:[48.35,11.79],AMS:[52.31,4.76],MAD:[40.47,-3.57],
+FRA:[50.03,8.57],BNT:[20.89,-156.44]};
+function distanceKm(fc,tc){var a=GEO[fc],b=GEO[tc];if(!a||!b)return 9999;var R=6371,rad=Math.PI/180;var dLat=(b[0]-a[0])*rad,dLon=(b[1]-a[1])*rad;var s1=Math.sin(dLat/2),s2=Math.sin(dLon/2);var h=s1*s1+Math.cos(a[0]*rad)*Math.cos(b[0]*rad)*s2*s2;return 2*R*Math.asin(Math.sqrt(h))}
+function r50(v){return Math.round(v/50)*50}
+function yBase(d){var v;if(d<=300)v=2000+d*4.5;else if(d<=1000)v=3350+(d-300)*2.2;else if(d<=2000)v=4890+(d-1000)*1.2;else if(d<=4000)v=6090+(d-2000)*0.9;else if(d<=6000)v=7890+(d-4000)*0.85;else if(d<=9000)v=9590+(d-6000)*0.9;else if(d<=12000)v=12290+(d-9000)*0.9;else v=14990+(d-12000)*0.7;return v}
+function fares(fc,tc){var d=distanceKm(fc,tc),y=r50(yBase(d));return {Y:y,W:r50(y*1.55),C:r50(y*7.5),F:r50(y*13.5),A:r50(y*17)}}
+
+var AL={DJ:{n:'众和航空',l:'minilogoDJ.png'},JC:{n:'瑞州航空',l:'minilogoJC.png'},QL:{n:'容新航空',l:'minilogoQL.png'}};
+function alOf(no){var p=String(no||'').slice(0,2).toUpperCase();return AL[p]||AL.DJ}
+function isMain(no){var p=String(no||'').slice(0,2).toUpperCase();return p==='DJ'||p==='JC'}
+var C2A={};Object.keys(AP).forEach(function(c){var x=AP[c].city;if(!C2A[x])C2A[x]=[];C2A[x].push(c)});
+function acCode(ac){var p=String(ac||'').split('·');return p.length>=2?p[p.length-1].trim():''}
+function cabinsForFlight(f,cbArr){
+  var code=acCode(f.ac),list=CABIN_BY_AC[code];
+  if(!list)list=['Y','W','C','F','A'];
+  var out=[];cbArr.forEach(function(c){if(list.indexOf(c.c)>-1)out.push(c)});
+  return out;
+}
+
+var FL=[
+{no:'DJ225',from:'JCU',to:'LHR',dep:'0900',arr:'1335',nd:false,ac:'A350-900 · 359',ml:['正','早'],via:null},
+{no:'QL743',from:'JCU',to:'LHR',dep:'1000',arr:'1435',nd:false,ac:'B777-300ER · 77W',ml:['正','早'],via:null},
+{no:'DJ226',from:'LHR',to:'JCU',dep:'1630',arr:'1105',nd:true,ac:'A350-900 · 359',ml:['正','早'],via:null},
+{no:'DJ8888',from:'LGW',to:'JCU',dep:'1630',arr:'1105',nd:true,ac:'A350-1000 · 35K',ml:['正','早'],via:null},
+{no:'DJ9999',from:'KTG',to:'LHR',dep:'0530',arr:'1335',nd:false,ac:'A350-900 · 359',ml:['点','正','早'],via:['JCU']}];
+FL.forEach(function(f){
+  if(!f.fa)f.fa=fares(f.from,f.to);
+  if(!f.dt){f.dt=f.remark==='众航快线'?'express':((isLH(f.to)||isLH(f.from))?'longhaul':'shorthaul')}
+});
+(function(){
+function A(t,m){var h=+t.slice(0,2),x=+t.slice(2),tt=h*60+x+m,nh=(tt/60|0)%24,nm=tt%60;return(nh<10?'0':'')+nh+(nm<10?'0':'')+nm}
+function M(t){var m=+t.slice(0,2)*60+ +t.slice(2);if(m>=360&&m<=570)return['早'];if(m>=660&&m<=810)return['正'];if(m>=1020&&m<=1170)return['正'];return['点']}
+function F(n,f,t,d,du,ac,o){o=o||{};FL.push({no:n,from:f,to:t,dep:d,arr:A(d,du),nd:!!o.nextDay,ac:ac,ml:M(d),via:o.via||null,fa:fares(f,t),remark:o.remark||''})}
+F('DJ301','TAG','BNT','1930',605,'A380-800 · 380');F('DJ302','BNT','TAG','1500',605,'A380-800 · 380',{nextDay:true});
+F('DJ315','TAG','NRT','0800',210,'A350-900 · 35T');F('DJ316','NRT','TAG','1230',210,'A350-900 · 35T');
+F('DJ317','TAG','NRT','1400',210,'B777-300ER · 77W');F('DJ318','NRT','TAG','1830',210,'B777-300ER · 77W');
+F('DJ311','TAG','KIX','0900',150,'A320-251N · 32N');F('DJ312','KIX','TAG','1200',150,'A320-251N · 32N');
+F('DJ319','TAG','GMP','1600',120,'B737-89P · 73T');F('DJ320','GMP','TAG','1830',120,'B737-89P · 73T');
+F('DJ211','JCU','KTG','0800',180,'A321-271NX · 32L');F('DJ212','KTG','JCU','1230',180,'A321-271NX · 32L');
+F('DJ213','JCU','KTG','1500',180,'B737-8 · 7MT');F('DJ214','KTG','JCU','1930',180,'B737-8 · 7MT');
+F('DJ215','JCU','NRT','0700',180,'A321-251N · 32P');F('DJ216','NRT','JCU','1230',180,'A321-251N · 32P');
+F('DJ217','JCU','NRT','1300',180,'A321-253NY(XLR) · 32V');F('DJ218','NRT','JCU','1830',180,'A321-253NY(XLR) · 32V');
+F('DJ219','JCU','KIX','0900',180,'A320-251N · 32N');F('DJ220','KIX','JCU','1430',180,'A320-251N · 32N');
+F('DJ321','TAG','SIN','1000',300,'A330-900neo · 33N');F('DJ322','SIN','TAG','1630',300,'A330-900neo · 33N');
+F('DJ313','TAG','CPL','1200',110,'A330-900neo · 33E');F('DJ314','CPL','TAG','1530',110,'A330-900neo · 33E');
+F('JC2011','JCU','PAS','0800',40,'C919-100STD · 91B');F('JC2012','PAS','JCU','0940',40,'C919-100STD · 91B');
+F('JC2013','JCU','PAS','1130',40,'C919-100ER · 91T');F('JC2014','PAS','JCU','1310',40,'C919-100ER · 91T');
+F('JC2015','JCU','PAS','1600',40,'C919-700ER · 917');F('JC2016','PAS','JCU','1740',40,'C919-700ER · 917');
+F('JC2021','PAS','RFG','0900',110,'C929-700STD · 929');F('JC2022','RFG','PAS','1230',110,'C929-700STD · 929');
+F('JC2023','PAS','CPL','1500',90,'C939-700ER · 93W');F('JC2024','CPL','PAS','1800',90,'C939-700ER · 93W');
+F('JC311','JCU','NGO','0900',180,'A321-271NX · 32L');F('JC312','NGO','JCU','1330',180,'A321-271NX · 32L');
+F('JC313','JCU','NGO','1500',180,'B737-8 · 7MT');F('JC314','NGO','JCU','1930',180,'B737-8 · 7MT');
+F('JC315','JCU','FUK','1300',120,'A320-251N · 32N');F('JC316','FUK','JCU','1730',120,'A320-251N · 32N');
+F('JC323','LON','FUK','1000',180,'A321-271NX · 32L');F('JC324','FUK','LON','1530',180,'A321-271NX · 32L');
+[['DJ1601','CPL','LON','0730','A320-251N · 32N',150],['DJ1602','LON','CPL','1130','A320-251N · 32N',150],
+ ['DJ1603','CPL','LON','0930','B737-8 · 7MT',150],['DJ1604','LON','CPL','1330','B737-8 · 7MT',150],
+ ['DJ1605','CPL','LON','1200','C919-100ER · 91T',150],['DJ1606','LON','CPL','1600','C919-100ER · 91T',150],
+ ['DJ1607','CPL','LON','1430','B737-8 · 7MB',150],['DJ1608','LON','CPL','1830','B737-8 · 7MB',150],
+ ['DJ1609','CPL','LON','1700','A320-251N · 32B',150],['DJ1610','LON','CPL','2100','A320-251N · 32B',150],
+ ['DJ1611','JCU','LON','0700','A320-251N · 32N',120],['DJ1612','LON','JCU','1030','A320-251N · 32N',120],
+ ['DJ1613','JCU','LON','0930','C919-100ER · 91T',120],['DJ1614','LON','JCU','1300','C919-100ER · 91T',120],
+ ['DJ1615','JCU','LON','1200','B737-8 · 7MT',120],['DJ1616','LON','JCU','1530','B737-8 · 7MT',120],
+ ['DJ1617','JCU','LON','1430','B737-8 · 7MB',120],['DJ1618','LON','JCU','1800','B737-8 · 7MB',120],
+ ['DJ1619','JCU','LON','1700','A320-251N · 32B',120],['DJ1620','LON','JCU','2030','A320-251N · 32B',120],
+ ['DJ1621','LON','DZA','0800','A320-251N · 32N',90],['DJ1622','DZA','LON','1030','A320-251N · 32N',90],
+ ['DJ1623','LON','DZA','1000','C919-100ER · 91T',90],['DJ1624','DZA','LON','1230','C919-100ER · 91T',90],
+ ['DJ1625','LON','DZA','1400','B737-8 · 7MT',90],['DJ1626','DZA','LON','1630','B737-8 · 7MT',90],
+ ['DJ1627','LON','DZA','1700','B737-8 · 7MB',90],['DJ1628','DZA','LON','1930','B737-8 · 7MB',90]
+].forEach(function(r){F(r[0],r[1],r[2],r[3],r[5],r[4],{remark:'众航快线'})});
+F('DJ331','LON','KTG','1000',120,'B737-8 · 7MT');F('DJ332','KTG','LON','1300',120,'B737-8 · 7MT');
+F('DJ333','LON','KIX','0900',150,'A321-271NX · 32L');F('DJ334','KIX','LON','1230',150,'A321-271NX · 32L');
+F('DJ337','LON','HND','0700',180,'A321-251N · 32P');F('DJ338','HND','LON','1030',180,'A321-251N · 32P');
+F('DJ339','LON','NRT','1100',180,'B737-8 · 7MB');F('DJ340','NRT','LON','1430',180,'B737-8 · 7MB');
+F('DJ341','LON','TPE','0800',90,'A321-271NX · 32L');F('DJ342','TPE','LON','1000',90,'A321-271NX · 32L');
+F('DJ343','LON','TSA','1300',90,'B737-8 · 7MB');F('DJ344','TSA','LON','1500',90,'B737-8 · 7MB');
+F('DJ345','LON','GMP','1600',90,'B737-89P · 73T');F('DJ346','GMP','LON','1800',90,'B737-89P · 73T');
+F('DJ347','LON','ICN','1200',90,'A321-271NX · 32L');F('DJ348','ICN','LON','1400',90,'A321-271NX · 32L');
+F('DJ335','LON','MAD','2000',720,'A350-1000 · 35K',{nextDay:true});F('DJ336','MAD','LON','1300',720,'A350-1000 · 35K');
+F('DJ349','LON','FRA','2130',660,'A350-900 · 359',{nextDay:true});F('DJ350','FRA','LON','1400',660,'A350-900 · 359');
+F('DJ351','LON','AMS','2030',720,'B787-9 · 789',{nextDay:true});F('DJ352','AMS','LON','1330',720,'B787-9 · 789');
+var times=['0720','0800','0900','1000','1200','1330','1500','1830','2000','2200'],
+outN=['DJ1201','DJ1203','DJ1205','DJ1207','DJ1209','DJ1211','DJ1213','DJ1215','DJ1217','DJ1219'],
+inN=['DJ1200','DJ1202','DJ1204','DJ1206','DJ1208','DJ1210','DJ1212','DJ1214','DJ1216','DJ1218'],
+wd=['A350-900 · 35T','A350-1000 · 351','B787-9 · 789','A330-900neo · 33N'],
+nr=['A320-251N · 32N','A320-251N · 32B','B737-8 · 7MT','B737-89P · 73T','C919-100ER · 91T'],
+wi=0,ni=0;
+function pk(t){var m=+t.slice(0,2)*60+ +t.slice(2);if((m>=420&&m<=540)||(m>=1020&&m<=1140)){var a=wd[wi%4];wi++;return a}var b=nr[ni%5];ni++;return b}
+outN.forEach(function(n,i){F(n,'JCU','RFG',times[i],140,pk(times[i]),{remark:'众航快线'})});
+inN.forEach(function(n,i){F(n,'RFG','JCU',times[i],140,pk(times[i]),{remark:'众航快线'})});
+[['DJ1101','JCU','CPL','0730','A330-900neo · 33N'],['DJ1103','JCU','CPL','1100','C919-100ER · 91T'],
+ ['DJ1105','JCU','CPL','1530','B737-8 · 7MB'],['DJ1107','JCU','CPL','1900','A330-900neo · 33N'],
+ ['DJ1100','CPL','JCU','0800','A330-900neo · 33N'],['DJ1102','CPL','JCU','1200','C919-100ER · 91T'],
+ ['DJ1104','CPL','JCU','1630','B737-8 · 7MB'],['DJ1106','CPL','JCU','2000','C919-100ER · 91T']
+].forEach(function(r){F(r[0],r[1],r[2],r[3],110,r[4],{remark:'众航快线'})});
+[{o:'DJ1131',oD:'0730',b:'DJ1130',bD:'1000',ac:'A330-900neo · 33N'},{o:'DJ1133',oD:'1000',b:'DJ1132',bD:'1230',ac:'C919-100ER · 91T'},
+ {o:'DJ1135',oD:'1300',b:'DJ1134',bD:'1530',ac:'B737-8 · 7MB'},{o:'DJ1137',oD:'1700',b:'DJ1136',bD:'1930',ac:'A330-900neo · 33N'},
+ {o:'DJ1139',oD:'2000',b:'DJ1138',bD:'2230',ac:'C919-100ER · 91T'}
+].forEach(function(p){F(p.o,'JCU','TAG',p.oD,90,p.ac,{remark:'众航快线'});F(p.b,'TAG','JCU',p.bD,90,p.ac,{remark:'众航快线'})});
+[{o:'DJ1109',oD:'0630',b:'DJ1108',bD:'0900',ac:'A330-900neo · 33N'},{o:'DJ1111',oD:'0730',b:'DJ1110',bD:'1000',ac:'A330-900neo · 33N'},
+ {o:'DJ1113',oD:'0830',b:'DJ1112',bD:'1100',ac:'A330-900neo · 33N'},{o:'DJ1115',oD:'0930',b:'DJ1114',bD:'1200',ac:'C919-100ER · 91T'},
+ {o:'DJ1117',oD:'1100',b:'DJ1116',bD:'1330',ac:'B737-8 · 7MB'},{o:'DJ1119',oD:'1230',b:'DJ1118',bD:'1500',ac:'C919-100ER · 91T'},
+ {o:'DJ1121',oD:'1400',b:'DJ1120',bD:'1630',ac:'B737-8 · 7MB'},{o:'DJ1123',oD:'1530',b:'DJ1122',bD:'1800',ac:'C919-100ER · 91T'},
+ {o:'DJ1125',oD:'1700',b:'DJ1124',bD:'1930',ac:'A330-900neo · 33N'},{o:'DJ1127',oD:'1830',b:'DJ1126',bD:'2100',ac:'A330-900neo · 33N'}
+].forEach(function(p){F(p.o,'JCU','HOK',p.oD,90,p.ac,{remark:'众航快线'});F(p.b,'HOK','JCU',p.bD,90,p.ac,{remark:'众航快线'})});
+[['DJ1221','CPL','HOK','0630','A320-251N · 32N'],['DJ1223','CPL','HOK','0830','A350-900 · 35T'],
+ ['DJ1225','CPL','HOK','1030','B777-300ER · 77W'],['DJ1227','CPL','HOK','1230','A350-1000 · 351'],
+ ['DJ1229','CPL','HOK','1430','B787-9 · 78T'],['DJ1231','CPL','HOK','1630','A350-900 · 35T'],
+ ['DJ1233','CPL','HOK','1830','B777-300ER · 77W'],['DJ1235','CPL','HOK','2030','A320-251N · 32N'],
+ ['DJ1220','HOK','CPL','0700','A350-900 · 35T'],['DJ1222','HOK','CPL','0900','B777-300ER · 77W'],
+ ['DJ1224','HOK','CPL','1100','A350-1000 · 351'],['DJ1226','HOK','CPL','1300','B787-9 · 78T'],
+ ['DJ1228','HOK','CPL','1500','A350-900 · 35T'],['DJ1230','HOK','CPL','1700','B777-300ER · 77W'],
+ ['DJ1232','HOK','CPL','1900','A350-1000 · 351'],['DJ1234','HOK','CPL','2100','A320-251N · 32N']
+].forEach(function(r){F(r[0],r[1],r[2],r[3],150,r[4],{remark:'众航快线'})});
+[['DJ1237','CPL','TAG','0700','A330-900neo · 33N'],['DJ1239','CPL','TAG','1100','A320-251N · 32N'],
+ ['DJ1241','CPL','TAG','1500','B737-8 · 7MB'],['DJ1243','CPL','TAG','1830','A330-900neo · 33N'],
+ ['DJ1245','CPL','TAG','2100','B737-8 · 7MT'],['DJ1236','TAG','CPL','0800','A330-900neo · 33N'],
+ ['DJ1238','TAG','CPL','1200','A320-251N · 32N'],['DJ1240','TAG','CPL','1530','B737-8 · 7MB'],
+ ['DJ1242','TAG','CPL','1800','A330-900neo · 33N'],['DJ1244','TAG','CPL','2030','B737-8 · 7MT']
+].forEach(function(r){F(r[0],r[1],r[2],r[3],130,r[4],{remark:'众航快线'})});
+})();
+FL.forEach(function(f){if(!f.dt)f.dt=f.remark==='众航快线'?'express':((isLH(f.to)||isLH(f.from))?'longhaul':'shorthaul')});
+
+var CB=[{c:'Y',n:'经济舱'},{c:'W',n:'众选经济舱'},{c:'C',n:'商务舱'},{c:'F',n:'头等舱'},{c:'A',n:'套房'}];
+var MN={'早':'早餐','正':'正餐','点':'点心','轻':'轻食','午':'午餐','晚':'晚餐'};
+
+var state={type:'round',from:'',to:'',dep:'',ret:'',sort:'price'};
+var sel={out:null,in:null};
+
+function $(i){return document.getElementById(i)}
+function pad(n){return n<10?'0'+n:''+n}
+function today(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function addD(s,d){var p=s.split('-'),x=new Date(+p[0],+p[1]-1,+p[2]);x.setDate(x.getDate()+d);return x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate())}
+function sD(s){if(!s)return'';var p=s.split('-');return +p[1]+'月'+ +p[2]+'日'}
+var WK=['周日','周一','周二','周三','周四','周五','周六'];
+function pD(s){if(!s)return'';var p=s.split('-'),x=new Date(+p[0],+p[1]-1,+p[2]);return(x.getMonth()+1)+'月'+x.getDate()+'日 '+WK[x.getDay()]}
+function pT(t){return t.slice(0,2)+':'+t.slice(2)}
+function fp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+function city(c){return AP[c]?AP[c].city:c}
+function apOf(c){return AP[c]?AP[c].ap:''}
+function shortAp(a){return String(a||'').replace(/国际机场$|机场$/,'')}
+function cAp(c){var a=AP[c];if(!a)return c;var s=shortAp(a.ap);return s===a.city?a.city:a.city+s}
+function mlT(m){if(!m||!m.length)return'';return m.map(function(x){return MN[x]||x}).join(' · ')}
+function fDur(m){return (m/60|0)+'h '+pad(m%60)+'m'}
+function cab(c){for(var i=0;i<CB.length;i++)if(CB[i].c===c)return CB[i];return{c:c,n:c}}
+function findF(no){for(var i=0;i<FL.length;i++)if(FL[i].no===no)return FL[i];return null}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function hl(t,q){t=String(t);if(!q)return esc(t);var i=t.toLowerCase().indexOf(q.toLowerCase());if(i<0)return esc(t);return esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length))}
+function dRate(f){return DISC[f.dt]||1}
+function dFare(f,c){if(!f||!f.fa)return null;var x=f.fa[c];return x==null?null:Math.round(x*dRate(f))}
+function minF(f){var m=null;cabinsForFlight(f,CB).forEach(function(c){var p=dFare(f,c.c);if(p!=null&&(m===null||p<m))m=p});return m}
+function dur(f){var fo=AP[f.from]?AP[f.from].ut:0,to=AP[f.to]?AP[f.to].ut:0,dh=+f.dep.slice(0,2),dm=+f.dep.slice(2),ah=+f.arr.slice(0,2),am=+f.arr.slice(2),du=dh*60+dm-fo*60,au=ah*60+am-to*60;if(f.nd)au+=1440;var df=au-du;while(df<0)df+=1440;return df}
+function durT(f){return fDur(dur(f))}
+function arrU(f){var to=AP[f.to]?AP[f.to].ut:0,h=+f.arr.slice(0,2),m=+f.arr.slice(2),t=h*60+m-to*60;if(f.nd)t+=1440;return t}
+function depU(f){var fo=AP[f.from]?AP[f.from].ut:0,h=+f.dep.slice(0,2),m=+f.dep.slice(2);return h*60+m-fo*60}
+function loMin(a,b){var ar=arrU(a),dp=depU(b);while(dp<ar)dp+=1440;return dp-ar}
+function dayOff(a,b){return (dur(a)+loMin(a,b))/1440|0}
+
+/* ★ 活动折扣：包含短途国际↔洲际 */
+function getAct(l1,l2){
+  if(!isMain(l1.no)||!isMain(l2.no))return null;
+  var a=l1.from,b=l2.to;
+  var aD=isDom(a),bD=isDom(b),aL=isLH(a),bL=isLH(b),aS=isShortIntl(a),bS=isShortIntl(b);
+  if((aD&&bL)||(aL&&bD))return ACT.DJDF01;
+  if((aD&&bS)||(aS&&bD))return ACT.DJDF02;
+  if(aD&&bD)return ACT.DJDF03;
+  if(aS&&bL)return ACT.DJFE01;
+  if(aL&&bS)return ACT.DJEF01;
+  return null;
+}
+function tMin(g){
+  var a=minF(g.leg1),b=null;
+  g.leg2s.forEach(function(l){var m=minF(l);if(m!=null&&(b===null||m<b))b=m});
+  if(a==null||b==null)return null;
+  var t=a+b,act=null;
+  for(var i=0;i<g.leg2s.length&&!act;i++)act=getAct(g.leg1,g.leg2s[i]);
+  if(act)t=Math.round(t*act.rate);
+  return{t:t,a:a,b:b,act:act};
+}
+
+var PL=Object.keys(AP).map(function(c){var a=AP[c];return{city:a.city,en:a.en,code:c,note:a.ap}});
+function initCombo(root){
+var key=root.getAttribute('data-combo'),input=root.querySelector('input'),list=root.querySelector('.clist'),selP=null,fil=[],ai=-1,isOpen=false;
+function lb(it){return it.city+' ('+it.code+')'}
+function openL(){if(isOpen)return;isOpen=true;root.classList.add('open')}
+function closeL(){if(!isOpen){syncIn();return}isOpen=false;root.classList.remove('open');ai=-1;syncIn()}
+function syncIn(){var v=input.value.trim();if(!v){selP=null;if(key==='from')state.from='';else state.to='';return}for(var i=0;i<PL.length;i++){var it=PL[i];if(lb(it)===v||it.city===v||it.en.toLowerCase()===v.toLowerCase()||it.code.toLowerCase()===v.toLowerCase()||(it.note&&it.note===v)){setS(it);return}}if(selP)input.value=lb(selP);else input.value=''}
+function setS(it){selP=it;input.value=lb(it);if(key==='from')state.from=it.code;else if(key==='to')state.to=it.code;if(!window.__s)window.__s={};window.__s[key]=it}
+function mt(it,q){var ql=String(q||'').trim().toLowerCase();if(!ql)return true;return[it.city,it.en,it.code,it.note||''].some(function(x){return String(x).toLowerCase().indexOf(ql)>-1})}
+function rend(q){fil=PL.filter(function(x){return mt(x,q)});if(!fil.length){list.innerHTML='<div class="cempty">未找到匹配的城市或机场代码</div>';ai=-1;return}if(ai<0||ai>=fil.length)ai=0;var h='';for(var i=0;i<fil.length;i++){var it=fil[i];h+='<div class="citem'+(i===ai?' act':'')+'" data-i="'+i+'"><span class="cc">'+hl(it.code,q)+'</span><span class="cb"><span class="cn">'+hl(it.city,q)+' <em>'+hl(it.en,q)+'</em></span><span class="cnote">'+esc(it.note||'')+'</span></span></div>'}list.innerHTML=h}
+function upA(){var ns=list.querySelectorAll('.citem');for(var i=0;i<ns.length;i++)ns[i].classList.toggle('act',i===ai);var a=list.querySelector('.citem.act');if(a&&a.scrollIntoView)a.scrollIntoView({block:'nearest'})}
+function mv(d){if(!fil.length)return;ai=(ai+d+fil.length)%fil.length;upA()}
+input.addEventListener('focus',function(){var cur=input.value.trim(),q=(selP&&cur===lb(selP))?'':cur;rend(q);openL();input.select()});
+input.addEventListener('input',function(){rend(input.value.trim());openL()});
+input.addEventListener('keydown',function(e){
+  if(e.key==='ArrowDown'){e.preventDefault();if(!isOpen){rend(input.value.trim());openL()}else mv(1)}
+  else if(e.key==='ArrowUp'){e.preventDefault();mv(-1)}
+  else if(e.key==='Enter'){if(isOpen&&fil[ai]){e.preventDefault();setS(fil[ai]);closeL();input.blur()}else{closeL()}}
+  else if(e.key==='Escape')closeL();
+});
+input.addEventListener('blur',function(){setTimeout(closeL,150)});
+list.addEventListener('mousedown',function(e){e.preventDefault()});
+list.addEventListener('mouseover',function(e){var it=e.target.closest?e.target.closest('.citem'):null;if(!it)return;ai=+it.getAttribute('data-i');upA()});
+list.addEventListener('click',function(e){var it=e.target.closest?e.target.closest('.citem'):null;if(!it)return;var i=+it.getAttribute('data-i');if(fil[i]){setS(fil[i]);closeL()}});
+document.addEventListener('click',function(e){if(!root.contains(e.target)&&e.target!==input)closeL()});
+}
+
+function dirSearch(fc,tc){var fa=isIsoAp(fc)?[fc]:(C2A[city(fc)]||[fc]);var ta=isIsoAp(tc)?[tc]:(C2A[city(tc)]||[tc]);return FL.filter(function(f){return fa.indexOf(f.from)>-1&&ta.indexOf(f.to)>-1})}
+function tGroups(fc,tc){
+if(fc===tc)return[];
+var fC=city(fc),tC=city(tc);
+var fa=isIsoAp(fc)?[fc]:(C2A[fC]||[fc]),ta=isIsoAp(tc)?[tc]:(C2A[tC]||[tc]);
+var l1=FL.filter(function(f){return fa.indexOf(f.from)>-1}),gs=[];
+l1.forEach(function(g){
+  var hc=g.to,hC=city(hc),iso=isIsoAp(hc);
+  if(hc===fc||hc===tc)return;
+  if(!iso&&(hC===fC||hC===tC))return;
+  var L=LH_HUB.indexOf(hc)>-1?{min:90,max:2880}:{min:150,max:1440};
+  var l2=FL.filter(function(x){if(x.from!==hc)return false;if(ta.indexOf(x.to)<0)return false;var lm=loMin(g,x);if(lm<L.min||lm>L.max)return false;return true});
+  if(l2.length){l2.sort(function(a,b){return depU(a)-depU(b)});gs.push({leg1:g,leg2s:l2})}
+});
+return gs}
+function clsD(f){return isMain(f.no)?1:3}
+function clsT(g){var a=isMain(g.leg1.no),b=g.leg2s.some(function(l){return isMain(l.no)});return(a&&b)?2:4}
+function buildItems(df,gs,fc,tc){var items=[];df.forEach(function(f){var e=(f.from===fc&&f.to===tc);items.push({type:'d',pri:clsD(f),exact:e,price:minF(f),dur:dur(f),data:f})});gs.forEach(function(g){var c=tMin(g),md=Infinity;g.leg2s.forEach(function(l){var d=dur(g.leg1)+loMin(g.leg1,l)+dur(l);if(d<md)md=d});var e=(g.leg1.from===fc)&&g.leg2s.some(function(l){return l.to===tc});items.push({type:'t',pri:clsT(g),exact:e,price:c?c.t:Infinity,dur:md,data:g})});return items}
+
+var BT={1:'众航直飞',2:'众航中转',3:'合作航司直飞',4:'合作航司 / 混合中转'};
+function fRow(f,c,at){var full=f.fa?f.fa[c.c]:null,p=dFare(f,c.c);if(p==null)return'';var sh=full!=null&&full!==p;
+return '<div class="frow" data-no="'+f.no+'" data-cabin="'+c.c+'" '+(at||'')+'><div class="fcb"><span class="nm">'+c.n+'</span><span class="cd">'+c.c+'</span></div><div class="fpr">'+(sh?'<span class="old">MZB '+fp(full)+'</span>':'')+'<em>MZB</em><b>'+fp(p)+'</b><small>起</small></div><button type="button" class="fsel">选择</button></div>'}
+function fRows(f,at){var h='';cabinsForFlight(f,CB).forEach(function(c){h+=fRow(f,c,at)});return h}
+function fCard(f,sk,dd){var ml=mlT(f.ml),al=alOf(f.no),px=String(f.no).slice(0,2).toUpperCase(),pt=!isMain(f.no),
+vt=f.via?'<span class="ft via">经停 '+f.via.map(city).join('、')+'</span>':'',
+nt=f.nd?'<span class="ft nd">次日到达</span>':'',ptt=pt?'<span class="ft pt">合作航司</span>':'',rt=f.remark?'<span class="ft ex">'+f.remark+'</span>':'',
+jm=f.via?'<div class="fvl">经停 '+f.via.map(city).join('、')+'</div>':'<div class="fdl">直飞</div>',
+dS=sD(dd),aD=f.nd?addD(dd,1):dd,aS=sD(aD);
+return '<article class="fc" data-no="'+f.no+'" data-seg="'+sk+'"><div class="fh"><div class="fa"><span class="flg" data-code="'+px+'"><img src="'+al.l+'" alt="'+al.n+'" onerror="this.style.display=\'none\';this.parentNode.classList.add(\'fb\')"></span><span class="fat"><strong>'+f.no+'</strong><small>'+al.n+' · '+f.ac+'</small></span></div><div class="ftg">'+rt+ptt+vt+nt+'</div></div>'+
+'<div class="fr"><div class="fp"><div class="fd">'+dS+'</div><div class="ftm">'+pT(f.dep)+'</div><div class="fst"><span class="fcod">'+f.from+'</span><span class="fct">'+cAp(f.from)+'</span></div></div>'+
+'<div class="fj"><div class="fdu">'+durT(f)+'</div><div class="ftrk"><span class="fnd"></span><span class="fln"></span><span class="fnd'+(f.via?' stop':'')+'"></span>'+(f.via?'<span class="fln gap"></span><span class="fnd"></span>':'')+'</div>'+jm+'</div>'+
+'<div class="fp ar"><div class="fd">'+aS+'</div><div class="ftm">'+pT(f.arr)+(f.nd?'<small style="font-size:12px;font-weight:600;color:#8A6A0E;margin-left:3px">+1</small>':'')+'</div><div class="fst"><span class="fcod">'+f.to+'</span><span class="fct">'+cAp(f.to)+'</span></div></div></div>'+
+'<div class="fm"><span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8l4 4.5-2.1 2.1-2.2-.4a.5.5 0 0 0-.5.8l2.3 2.3 2.3 2.3a.5.5 0 0 0 .8-.5l-.4-2.2 2.1-2.1 4.5 4a.5.5 0 0 0 .8-.5Z"/></svg>'+f.ac+'</span>'+
+(ml?'<span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v8a2 2 0 0 0 4 0V3"/><path d="M9 11v10"/><path d="M17 3c-1.5 2-1.5 5 0 7v11"/></svg>'+ml+'</span>':'')+
+(f.via?'<span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>经停 '+f.via.map(apOf).join('、')+'</span>':'')+'</div>'+
+'<div class="ff">'+fRows(f,'data-role="d"')+'</div></article>'}
+
+function tCard(g,sk,gi,dd){
+var l1=g.leg1,al=alOf(l1.no),px=String(l1.no).slice(0,2).toUpperCase();
+var lm=minF(l1),cmb=tMin(g);
+var vt=l1.via?'<span class="ft via">经停 '+l1.via.map(city).join('、')+'</span>':'';
+var ptt=!isMain(l1.no)?'<span class="ft pt">合作航司</span>':'';
+var rt=l1.remark?'<span class="ft ex">'+l1.remark+'</span>':'';
+var hc=city(l1.to);
+var jm=l1.via?'<div class="fvl">经停 '+l1.via.map(city).join('、')+'</div>':'<div class="fdl">'+(l1.remark||'直飞')+'</div>';
+var bn='';
+if(cmb&&cmb.act){bn='<div class="tbnr"><div class="tbp"><span class="lb">联程起步价</span><em>MZB</em><b>'+fp(cmb.t)+'</b><small>起</small></div><div class="tba"><span class="ackd">'+cmb.act.code+'</span><span class="adsc">'+cmb.act.label+' · 联程再享 '+(cmb.act.rate*10).toFixed(1)+' 折</span></div></div>'}
+var l1d=dd,l1a=l1.nd?addD(dd,1):dd;
+var l2b='';
+g.leg2s.forEach(function(l2,li){
+  var a2=alOf(l2.no);
+  var nt=l2.nd?'<span class="ft nd">次日到达</span>':'';
+  var p2t=!isMain(l2.no)?'<span class="ft pt">合作航司</span>':'';
+  var doff=dayOff(l1,l2),dt=doff>0?'<span class="l2d">+'+doff+' 天</span>':'';
+  var d2=addD(dd,doff),a2d=l2.nd?addD(d2,1):d2;
+  l2b+='<div class="l2f" data-l2="'+l2.no+'"><div class="l2fh"><span class="no">'+l2.no+'</span><span class="al">'+a2.n+'</span><span class="ac">'+l2.ac+'</span>'+dt+p2t+nt+'<span class="l2r"><b>'+pT(l2.dep)+'</b> <span class="dt">'+sD(d2)+'</span> '+cAp(l2.from)+' <span class="ar">→</span> <b>'+pT(l2.arr)+'</b> <span class="dt">'+sD(a2d)+'</span> '+cAp(l2.to)+'</span></div><div class="ff">'+fRows(l2,'data-role="l2"')+'</div></div>';
+});
+return '<article class="fc is-t" data-seg="'+sk+'" data-cid="'+sk+'-'+gi+'"><div class="fh"><div class="fa"><span class="flg" data-code="'+px+'"><img src="'+al.l+'" alt="'+al.n+'" onerror="this.style.display=\'none\';this.parentNode.classList.add(\'fb\')"></span><span class="fat"><strong>中转 · '+hc+'</strong><small>'+cAp(l1.from)+' → '+cAp(l1.to)+' → 目的地</small></span></div><div class="ftg"><span class="ft tf">中转方案</span>'+rt+ptt+vt+'</div></div>'+bn+
+'<div class="ts l1"><div class="tsh"><span class="bg">1</span><span class="fno">'+l1.no+'</span><span>第一程 · '+cAp(l1.from)+' → '+cAp(l1.to)+'</span><span class="pr">本段起步 <b>MZB '+fp(lm)+'</b></span></div>'+
+'<div class="fr"><div class="fp"><div class="fd">'+sD(l1d)+'</div><div class="ftm">'+pT(l1.dep)+'</div><div class="fst"><span class="fcod">'+l1.from+'</span><span class="fct">'+cAp(l1.from)+'</span></div></div>'+
+'<div class="fj"><div class="fdu">'+durT(l1)+'</div><div class="ftrk"><span class="fnd"></span><span class="fln"></span><span class="fnd"></span></div>'+jm+'</div>'+
+'<div class="fp ar"><div class="fd">'+sD(l1a)+'</div><div class="ftm">'+pT(l1.arr)+(l1.nd?'<small style="font-size:12px;font-weight:600;color:#8A6A0E;margin-left:3px">+1</small>':'')+'</div><div class="fst"><span class="fcod">'+l1.to+'</span><span class="fct">'+cAp(l1.to)+'</span></div></div></div>'+
+'<div class="fm"><span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5a2.1 2.1 0 0 0-3-3L13 8 4.8 6.2a.5.5 0 0 0-.5.8l4 4.5-2.1 2.1-2.2-.4a.5.5 0 0 0-.5.8l2.3 2.3 2.3 2.3a.5.5 0 0 0 .8-.5l-.4-2.2 2.1-2.1 4.5 4a.5.5 0 0 0 .8-.5Z"/></svg>'+l1.ac+'</span>'+(mlT(l1.ml)?'<span class="mi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v8a2 2 0 0 0 4 0V3"/><path d="M9 11v10"/><path d="M17 3c-1.5 2-1.5 5 0 7v11"/></svg>'+mlT(l1.ml)+'</span>':'')+'</div>'+
+'<div class="ff">'+fRows(l1,'data-role="l1"')+'</div></div>'+
+'<div class="ts leg2 lock"><div class="tsh"><span class="bg">2</span><span>第二程 · '+hc+' → 目的地</span></div><div class="l2h">请先选择第一程的舱位，再选择第二程航班与舱位。</div><div class="l2b"><div class="lb2"><span class="ic">中转</span><span>在 <b>'+hc+'</b> 中转，请选择后续航班</span></div>'+l2b+'</div></div></article>';
+}
+
+function rSub(items,label,alt,sk,dd){if(!items.length)return'';
+var bk={1:[],2:[],3:[],4:[]};items.forEach(function(x){bk[x.pri].push(x)});
+var md=state.sort;
+[1,2,3,4].forEach(function(p){bk[p].sort(function(a,b){if(md==='dur'){if(a.dur!==b.dur)return a.dur-b.dur;return(a.price||0)-(b.price||0)}if(a.price!==b.price)return(a.price||0)-(b.price||0);return a.dur-b.dur})});
+var h='';
+if(label)h+='<div class="ast'+(alt?' alt':'')+'">'+label+'<span class="bdg">共 '+items.length+' 个</span></div>';
+[1,2,3,4].forEach(function(p){if(!bk[p].length)return;h+='<div class="sub">'+BT[p]+'<span class="n">共 '+bk[p].length+' 个</span></div>';
+bk[p].forEach(function(it,i){h+=it.type==='d'?fCard(it.data,sk,dd):tCard(it.data,sk,p+'-'+i,dd)})});return h}
+function segH(dir,title,dt,dF,tG,sk,fc,tc){var items=buildItems(dF,tG,fc,tc);
+if(!items.length)return '<div class="seg" id="seg-'+sk+'"><div class="sgh"><span class="dir">'+dir+'</span><h3>'+title+'</h3>'+(dt?'<span class="dt">'+pD(dt)+'</span>':'')+'</div><div class="es"><h4>该航段暂无航班</h4><p>暂无可售航班，请调整出发地、目的地或日期后重新搜索。</p></div></div>';
+var ex=items.filter(function(x){return x.exact}),ot=items.filter(function(x){return !x.exact});
+var h='<div class="seg" id="seg-'+sk+'"><div class="sgh"><span class="dir">'+dir+'</span><h3>'+title+'</h3>'+(dt?'<span class="dt">'+pD(dt)+'</span>':'')+'</div>';
+var isPas=fc==='PAS'||tc==='PAS';
+if(isPas)h+=rSub(ex,null,false,sk,dt);
+else if(ex.length&&ot.length){h+=rSub(ex,cAp(fc)+' → '+cAp(tc),false,sk,dt);h+=rSub(ot,'同城其他机场',true,sk,dt)}
+else if(ot.length)h+=rSub(ot,'同城其他机场',true,sk,dt);
+else h+=rSub(ex,null,false,sk,dt);
+return h+'</div>'}
+
+function clearSegment(sk){
+  Array.prototype.forEach.call(document.querySelectorAll('.fc[data-seg="'+sk+'"]'),function(c){
+    Array.prototype.forEach.call(c.querySelectorAll('.frow.sel'),function(r){r.classList.remove('sel');var b=r.querySelector('.fsel');if(b)b.textContent='选择'});
+    c.classList.remove('sel');
+    var l1s=c.querySelector('.ts.l1');if(l1s)l1s.classList.remove('l1ok');
+    var l2s=c.querySelector('.ts.leg2');if(l2s){l2s.classList.add('lock');l2s.classList.remove('l2ok')}
+    Array.prototype.forEach.call(c.querySelectorAll('.l2f'),function(el){el.classList.remove('picked')});
+  });
+}
+
+function render(){
+  var box=$('results');
+  if(!state.from||!state.to){
+    $('rr').textContent='';$('rc').textContent='';
+    box.innerHTML='<div class="es"><h4>请选择出发地与目的地</h4><p>在上方输入出发城市与到达城市，然后点击「搜索航班」查看可选航班。</p></div>';
+    $('ckb').classList.remove('on');document.body.classList.remove('ck');$('snav').classList.remove('on');
+    return;
+  }
+  if(state.from===state.to){$('rr').textContent='';$('rc').textContent='';box.innerHTML='<div class="es"><h4>出发地与目的地相同</h4><p>请选择不同的出发地与目的地。</p></div>';return}
+  var oD,oG,iD,iG,tot;
+  try{
+    oD=dirSearch(state.from,state.to);oG=tGroups(state.from,state.to);iD=[];iG=[];
+    if(state.type==='round'){iD=dirSearch(state.to,state.from);iG=tGroups(state.to,state.from)}
+    tot=oD.length+oG.length+iD.length+iG.length;
+  }catch(err){console.error('[search error]',err);$('rr').textContent='';$('rc').textContent='';box.innerHTML='<div class="es"><h4>搜索出错</h4><p>'+esc(err.message)+'</p></div>';return}
+  var html='';
+  try{
+    html=segH('去程',city(state.from)+' → '+city(state.to),state.dep,oD,oG,'out',state.from,state.to);
+    if(state.type==='round')html+=segH('回程',city(state.to)+' → '+city(state.from),state.ret,iD,iG,'in',state.to,state.from);
+  }catch(err){console.error('[render error]',err);$('rr').textContent='';$('rc').textContent='';box.innerHTML='<div class="es"><h4>渲染出错</h4><p>'+esc(err.message)+'</p></div>';return}
+  box.innerHTML=html;
+  $('rr').textContent=city(state.from)+' → '+city(state.to);
+  $('rc').textContent=tot?('共 '+tot+' 个航班'):'暂无航班';
+  try{bindFare();restoreSel();upNav()}catch(err){console.error('[post-render]',err)}
+}
+
+function restoreSel(){['out','in'].forEach(function(sk){var s=sel[sk];if(!s)return;
+if(s.type==='d'){var rs=document.querySelectorAll('.fc[data-seg="'+sk+'"]:not(.is-t) .frow');Array.prototype.forEach.call(rs,function(r){if(r.getAttribute('data-no')===s.fNo&&r.getAttribute('data-cabin')===s.cab){r.classList.add('sel');var b=r.querySelector('.fsel');if(b)b.textContent='已选';var c=r.closest('.fc');if(c)c.classList.add('sel')}})}
+else if(s.type==='t'){var rs=document.querySelectorAll('.fc.is-t[data-seg="'+sk+'"] .frow[data-role="l1"]'),tg=null;
+Array.prototype.forEach.call(rs,function(r){if(r.getAttribute('data-no')===s.l1No&&r.getAttribute('data-cabin')===s.l1Cab){r.classList.add('sel');var b=r.querySelector('.fsel');if(b)b.textContent='已选';tg=r.closest('.fc')}});
+if(!tg)return;tg.classList.add('sel');tg.querySelector('.ts.l1').classList.add('l1ok');tg.querySelector('.ts.leg2').classList.remove('lock');
+if(s.l2No&&s.l2Cab){var rs2=tg.querySelectorAll('.frow[data-role="l2"]');
+Array.prototype.forEach.call(rs2,function(r){if(r.getAttribute('data-no')===s.l2No&&r.getAttribute('data-cabin')===s.l2Cab){r.classList.add('sel');var b=r.querySelector('.fsel');if(b)b.textContent='已选';tg.querySelector('.ts.leg2').classList.add('l2ok');var lf=r.closest('.l2f');if(lf)lf.classList.add('picked')}})}}})}
+
+function upNav(){var n=$('snav');if(!n)return;var show=(state.type==='round'&&isSegDone(sel.out));n.classList.toggle('on',show);var ob=n.querySelector('[data-t="seg-out"]'),ib=n.querySelector('[data-t="seg-in"]');if(ob)ob.classList.toggle('done',isSegDone(sel.out));if(ib)ib.classList.toggle('done',isSegDone(sel.in));upNavAct()}
+function upNavAct(){var n=$('snav');if(!n)return;var os=document.getElementById('seg-out'),is=document.getElementById('seg-in'),ob=n.querySelector('[data-t="seg-out"]'),ib=n.querySelector('[data-t="seg-in"]');if(ob)ob.classList.remove('act');if(ib)ib.classList.remove('act');if(!os){if(ib)ib.classList.add('act');return}if(!is){if(ob)ob.classList.add('act');return}var mid=scrollY+innerHeight*.35;if(is.offsetTop<=mid){if(ib)ib.classList.add('act')}else{if(ob)ob.classList.add('act')}}
+function bindNav(){var n=$('snav');if(!n)return;Array.prototype.forEach.call(n.querySelectorAll('.snb'),function(b){b.addEventListener('click',function(){var t=document.getElementById(b.getAttribute('data-t'));if(!t)return;window.scrollTo({top:t.getBoundingClientRect().top+scrollY-96,behavior:'smooth'})})});addEventListener('scroll',upNavAct,{passive:true});addEventListener('resize',upNavAct,{passive:true})}
+
+function bindFare(){Array.prototype.forEach.call(document.querySelectorAll('.frow'),function(row){row.addEventListener('click',function(e){e.stopPropagation();var card=row.closest('.fc');if(!card)return;var sk=card.getAttribute('data-seg'),role=row.getAttribute('data-role'),no=row.getAttribute('data-no'),cab=row.getAttribute('data-cabin');
+if(role==='d'){clearSegment(sk);row.classList.add('sel');var b=row.querySelector('.fsel');if(b)b.textContent='已选';card.classList.add('sel');sel[sk]={type:'d',fNo:no,cab:cab};upCk();upNav();return}
+if(role==='l1'){clearSegment(sk);row.classList.add('sel');var b1=row.querySelector('.fsel');if(b1)b1.textContent='已选';card.classList.add('sel');card.querySelector('.ts.l1').classList.add('l1ok');card.querySelector('.ts.leg2').classList.remove('lock','l2ok');sel[sk]={type:'t',l1No:no,l1Cab:cab,l2No:null,l2Cab:null};upCk();upNav();return}
+if(role==='l2'){Array.prototype.forEach.call(card.querySelectorAll('.frow[data-role="l2"]'),function(r){r.classList.remove('sel');var bb=r.querySelector('.fsel');if(bb)bb.textContent='选择'});Array.prototype.forEach.call(card.querySelectorAll('.l2f'),function(el){el.classList.remove('picked')});row.classList.add('sel');var b2=row.querySelector('.fsel');if(b2)b2.textContent='已选';card.querySelector('.ts.leg2').classList.add('l2ok');var lf=row.closest('.l2f');if(lf)lf.classList.add('picked');if(sel[sk]&&sel[sk].type==='t'){sel[sk].l2No=no;sel[sk].l2Cab=cab}upCk();upNav();return}
+})})}
+
+function isSegDone(s){if(!s)return false;if(s.type==='d')return!!(s.fNo&&s.cab);if(s.type==='t')return!!(s.l1No&&s.l1Cab&&s.l2No&&s.l2Cab);return false}
+function isAllDone(){if(!isSegDone(sel.out))return false;if(state.type==='round'&&!isSegDone(sel.in))return false;return true}
+function cPrice(s){if(!s)return 0;if(s.type==='d'){var f=findF(s.fNo);return f?(dFare(f,s.cab)||0):0}if(s.type==='t'){var a=findF(s.l1No),b=findF(s.l2No);if(!a||!b)return 0;var t=(dFare(a,s.l1Cab)||0)+(dFare(b,s.l2Cab)||0);var act=getAct(a,b);if(act)t=Math.round(t*act.rate);return t}return 0}
+function cBase(){return cPrice(sel.out)+cPrice(sel.in)}
+function cTotal(){var t=cBase();if(state.type==='round')t=Math.round(t*RND);return t}
+function segTxt(s){if(!s)return'';if(s.type==='d'){var f=findF(s.fNo);if(!f)return'';return'<b>'+f.no+'</b> '+cAp(f.from)+' → '+cAp(f.to)+' · '+cab(s.cab).n}if(s.type==='t'){var a=findF(s.l1No),b=findF(s.l2No);if(!a||!b)return'';return'<b>'+a.no+'</b> + <b>'+b.no+'</b> '+cAp(a.from)+' → '+cAp(b.to)+' · '+cab(s.l1Cab).n+' / '+cab(s.l2Cab).n}return''}
+function upCk(){var b=$('ckb');if(!isAllDone()){b.classList.remove('on');document.body.classList.remove('ck');return}
+var h='<div class="cln"><span class="clb">去程</span><span class="clt">'+segTxt(sel.out)+'</span></div>';
+if(state.type==='round'&&sel.in)h+='<div class="cln"><span class="clb">回程</span><span class="clt">'+segTxt(sel.in)+'</span></div>';
+$('cks').innerHTML=h;
+var extra='';if(state.type==='round'){var base=cBase(),save=base-cTotal();extra='<span class="rnd">往返已省 MZB '+fp(save)+'</span>'}
+$('cktWrap').innerHTML='<span class="lb">总计</span><em>MZB</em><b id="ckt">'+fp(cTotal())+'</b><small>起</small>'+extra;
+b.classList.add('on');document.body.classList.add('ck')}
+function resetSel(){sel.out=null;sel.in=null;upCk();upNav()}
+
+/* ★ payload：附带子仓位基础价与活动折扣率，供 checkout 使用 */
+function flightPayload(f,date,cabin){
+  var full=f.fa[cabin]||0;
+  var disc=dFare(f,cabin)||0;
+  var aD=f.nd?addD(date,1):date;
+  var a=AP[f.from],b=AP[f.to];
+  return {
+    no:f.no, ac:f.ac, dep:f.dep, arr:f.arr, arrNextDay:f.nd,
+    depDate:date, arrDate:aD,
+    fromCode:f.from, fromCity:a.city, fromAirport:a.ap, fromUt:a.ut,
+    toCode:f.to, toCity:b.city, toAirport:b.ap, toUt:b.ut,
+    cabin:cabin, cabinName:cab(cabin).n,
+    full:full,
+    dt:f.dt,
+    discRate:dRate(f),
+    discLabel:f.dt==='express'?'快线 7.3 折':f.dt==='longhaul'?'远程 7.8 折':'短程 6.2 折',
+    disc:disc,
+    airlineName:alOf(f.no).n, airlineLogo:alOf(f.no).l,
+    meals:f.ml, via:f.via
+  };
+}
+function buildSegPayload(key,dir,fc,tc,date,s){
+  if(s.type==='d'){
+    var f=findF(s.fNo);if(!f)return null;
+    var full=f.fa[s.cab]||0,disc=dFare(f,s.cab)||0;
+    return {
+      key:key, dir:dir, type:'d', date:date,
+      fromCode:fc, toCode:tc,
+      fromCity:AP[fc].city, toCity:AP[tc].city,
+      fromAirport:AP[fc].ap, toAirport:AP[tc].ap,
+      flights:[flightPayload(f,date,s.cab)],
+      baseFull:full,
+      baseRawDisc:disc,
+      actRate:1,
+      activity:null,
+      subTier:'b'
+    };
+  }
+  if(s.type==='t'){
+    var a=findF(s.l1No),b=findF(s.l2No);if(!a||!b)return null;
+    var full1=a.fa[s.l1Cab]||0,disc1=dFare(a,s.l1Cab)||0;
+    var full2=b.fa[s.l2Cab]||0,disc2=dFare(b,s.l2Cab)||0;
+    var rawFull=full1+full2,rawDisc=disc1+disc2;
+    var act=getAct(a,b),actRate=act?act.rate:1;
+    var off=dayOff(a,b),d2=addD(date,off);
+    return {
+      key:key, dir:dir, type:'t', date:date,
+      fromCode:fc, toCode:tc,
+      fromCity:AP[fc].city, toCity:AP[tc].city,
+      fromAirport:AP[fc].ap, toAirport:AP[tc].ap,
+      hubCode:a.to, hubCity:AP[a.to].city, hubAirport:AP[a.to].ap,
+      flights:[
+        flightPayload(a,date,s.l1Cab),
+        flightPayload(b,d2,s.l2Cab)
+      ],
+      baseFull:rawFull,
+      baseRawDisc:rawDisc,
+      actRate:actRate,
+      activity:act?{code:act.code,label:act.label,rate:act.rate}:null,
+      subTier:'b'
+    };
+  }
+  return null;
+}
+function buildPayload(){
+  var segs=[];
+  if(sel.out){var s1=buildSegPayload('out','去程',state.from,state.to,state.dep,sel.out);if(s1)segs.push(s1)}
+  if(state.type==='round'&&sel.in){var s2=buildSegPayload('in','回程',state.to,state.from,state.ret,sel.in);if(s2)segs.push(s2)}
+  return {
+    state:{type:state.type,from:state.from,to:state.to,dep:state.dep,ret:state.ret},
+    segments:segs,
+    roundTripRate:state.type==='round'?RND:1
+  };
+}
+
+$('ckBtn').addEventListener('click',function(){
+  try{var payload=buildPayload();sessionStorage.setItem('peace_booking',JSON.stringify(payload))}catch(e){console.error(e)}
+  location.href='checkout.html';
+});
+
+Array.prototype.forEach.call($('sortBox').querySelectorAll('button'),function(b){b.addEventListener('click',function(){var m=b.getAttribute('data-s');if(m===state.sort)return;state.sort=m;Array.prototype.forEach.call($('sortBox').querySelectorAll('button'),function(x){x.classList.remove('on')});b.classList.add('on');render()})});
+
+function apTT(){var rf=$('retF'),ri=$('ret');if(state.type==='oneway'){rf.style.opacity='.45';ri.disabled=true}else{rf.style.opacity='1';ri.disabled=false}}
+
+function init(){
+  var td=today();state.dep=td;state.ret=addD(td,7);
+  document.querySelectorAll('.sf.combo').forEach(initCombo);
+  var d=$('dep'),r=$('ret');d.value=state.dep;r.value=state.ret;d.min=td;r.min=td;
+  var tabs=document.querySelectorAll('#tabs button');
+  Array.prototype.forEach.call(tabs,function(b){b.classList.remove('on');if(b.getAttribute('data-t')===state.type)b.classList.add('on')});
+  apTT();
+  Array.prototype.forEach.call(tabs,function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-t');if(!t)return;state.type=t;Array.prototype.forEach.call(tabs,function(x){x.classList.remove('on')});b.classList.add('on');apTT();resetSel();render()})});
+  d.addEventListener('change',function(){state.dep=this.value;r.min=this.value||td;if(state.type==='round'&&state.ret&&state.ret<state.dep){state.ret=state.dep;r.value=state.ret}});
+  r.addEventListener('change',function(){state.ret=this.value});
+  $('searchBtn').addEventListener('click',function(){
+    ['from','to'].forEach(function(k){
+      var inp=document.getElementById(k),v=inp.value.trim();
+      if(!v){state[k]='';return}
+      for(var i=0;i<PL.length;i++){var it=PL[i];
+        if((it.city+' ('+it.code+')')===v||it.city===v||it.en.toLowerCase()===v.toLowerCase()||it.code.toLowerCase()===v.toLowerCase()||it.note===v){state[k]=it.code;break}
+      }
+    });
+    resetSel();render();
+    var b=document.querySelector('.rb');if(b&&b.scrollIntoView)b.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  bindNav();render();
+}
+init();
+})();
+</script>
+</body>
+</html>
