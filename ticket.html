@@ -265,7 +265,6 @@ function isShortIntl(c){return !isDom(c)&&!isLH(c)}
 function isIsoAp(c){return c==='JCU'||c==='PAS'}
 var LH_HUB=['JCU','LON','TAG'];
 
-/* 机型→可用舱位 */
 var CABIN_BY_AC={
 '319':['C','Y'],'32B':['Y'],'32N':['W','Y'],'32P':['C','Y'],'32L':['W','Y'],'32X':['C','Y'],'32V':['W','Y'],'32Q':['C','Y'],
 '33A':['F','C','W','Y'],'33S':['W','Y'],'33N':['C','Y'],'33E':['W','Y'],
@@ -313,12 +312,7 @@ function alOf(no){var p=String(no||'').slice(0,2).toUpperCase();return AL[p]||AL
 function isMain(no){var p=String(no||'').slice(0,2).toUpperCase();return p==='DJ'||p==='JC'}
 var C2A={};Object.keys(AP).forEach(function(c){var x=AP[c].city;if(!C2A[x])C2A[x]=[];C2A[x].push(c)});
 function acCode(ac){var p=String(ac||'').split('·');return p.length>=2?p[p.length-1].trim():''}
-function cabinsForFlight(f,cbArr){
-  var code=acCode(f.ac),list=CABIN_BY_AC[code];
-  if(!list)list=['Y','W','C','F','A'];
-  var out=[];cbArr.forEach(function(c){if(list.indexOf(c.c)>-1)out.push(c)});
-  return out;
-}
+function cabinsForFlight(f,cbArr){var code=acCode(f.ac),list=CABIN_BY_AC[code];if(!list)list=['Y','W','C','F','A'];var out=[];cbArr.forEach(function(c){if(list.indexOf(c.c)>-1)out.push(c)});return out}
 
 var FL=[
 {no:'DJ225',from:'JCU',to:'LHR',dep:'0900',arr:'1335',nd:false,ac:'A350-900 · 359',ml:['正','早'],via:null},
@@ -326,10 +320,7 @@ var FL=[
 {no:'DJ226',from:'LHR',to:'JCU',dep:'1630',arr:'1105',nd:true,ac:'A350-900 · 359',ml:['正','早'],via:null},
 {no:'DJ8888',from:'LGW',to:'JCU',dep:'1630',arr:'1105',nd:true,ac:'A350-1000 · 35K',ml:['正','早'],via:null},
 {no:'DJ9999',from:'KTG',to:'LHR',dep:'0530',arr:'1335',nd:false,ac:'A350-900 · 359',ml:['点','正','早'],via:['JCU']}];
-FL.forEach(function(f){
-  if(!f.fa)f.fa=fares(f.from,f.to);
-  if(!f.dt){f.dt=f.remark==='众航快线'?'express':((isLH(f.to)||isLH(f.from))?'longhaul':'shorthaul')}
-});
+FL.forEach(function(f){if(!f.fa)f.fa=fares(f.from,f.to);if(!f.dt)f.dt=f.remark==='众航快线'?'express':((isLH(f.to)||isLH(f.from))?'longhaul':'shorthaul')});
 (function(){
 function A(t,m){var h=+t.slice(0,2),x=+t.slice(2),tt=h*60+x+m,nh=(tt/60|0)%24,nm=tt%60;return(nh<10?'0':'')+nh+(nm<10?'0':'')+nm}
 function M(t){var m=+t.slice(0,2)*60+ +t.slice(2);if(m>=360&&m<=570)return['早'];if(m>=660&&m<=810)return['正'];if(m>=1020&&m<=1170)return['正'];return['点']}
@@ -453,12 +444,28 @@ function dFare(f,c){if(!f||!f.fa)return null;var x=f.fa[c];return x==null?null:M
 function minF(f){var m=null;cabinsForFlight(f,CB).forEach(function(c){var p=dFare(f,c.c);if(p!=null&&(m===null||p<m))m=p});return m}
 function dur(f){var fo=AP[f.from]?AP[f.from].ut:0,to=AP[f.to]?AP[f.to].ut:0,dh=+f.dep.slice(0,2),dm=+f.dep.slice(2),ah=+f.arr.slice(0,2),am=+f.arr.slice(2),du=dh*60+dm-fo*60,au=ah*60+am-to*60;if(f.nd)au+=1440;var df=au-du;while(df<0)df+=1440;return df}
 function durT(f){return fDur(dur(f))}
-function arrU(f){var to=AP[f.to]?AP[f.to].ut:0,h=+f.arr.slice(0,2),m=+f.arr.slice(2),t=h*60+m-to*60;if(f.nd)t+=1440;return t}
-function depU(f){var fo=AP[f.from]?AP[f.from].ut:0,h=+f.dep.slice(0,2),m=+f.dep.slice(2);return h*60+m-fo*60}
-function loMin(a,b){var ar=arrU(a),dp=depU(b);while(dp<ar)dp+=1440;return dp-ar}
-function dayOff(a,b){return (dur(a)+loMin(a,b))/1440|0}
 
-/* ★ 活动折扣：包含短途国际↔洲际 */
+/* 到达时刻的 UTC 分钟（相对当天 00:00 UTC，跨天则 +1440） */
+function arrU(f){var to=AP[f.to]?AP[f.to].ut:0,h=+f.arr.slice(0,2),m=+f.arr.slice(2),t=h*60+m-to*60;if(f.nd)t+=1440;return t}
+/* 出发时刻的 UTC 分钟（相对当天 00:00 UTC） */
+function depU(f){var fo=AP[f.from]?AP[f.from].ut:0,h=+f.dep.slice(0,2),m=+f.dep.slice(2);return h*60+m-fo*60}
+/* 中转时长（分钟）：第二程起飞 UTC 时刻 - 第一程到达 UTC 时刻 */
+function loMin(a,b){var ar=arrU(a),dp=depU(b);while(dp<ar)dp+=1440;return dp-ar}
+
+/* ★★★ 修复：dayOff 用"当地日期差"而非 UTC 天数差 ★★★ */
+function dayOff(a,b){
+  var total = dur(a) + loMin(a,b);
+  var fUtA = AP[a.from] ? AP[a.from].ut : 0;
+  var fUtB = AP[b.from] ? AP[b.from].ut : 0;
+  /* 第一程出发/第二程起飞，相对第一程出发当天 00:00 UTC 的当地分钟数 */
+  var depLocalA = depU(a) + fUtA*60;
+  var depLocalB = depU(a) + total + fUtB*60;
+  /* 相对当地午夜的天数 */
+  var dayA = Math.floor(depLocalA / 1440);
+  var dayB = Math.floor(depLocalB / 1440);
+  return dayB - dayA;
+}
+
 function getAct(l1,l2){
   if(!isMain(l1.no)||!isMain(l2.no))return null;
   var a=l1.from,b=l2.to;
@@ -505,6 +512,8 @@ list.addEventListener('mousedown',function(e){e.preventDefault()});
 list.addEventListener('mouseover',function(e){var it=e.target.closest?e.target.closest('.citem'):null;if(!it)return;ai=+it.getAttribute('data-i');upA()});
 list.addEventListener('click',function(e){var it=e.target.closest?e.target.closest('.citem'):null;if(!it)return;var i=+it.getAttribute('data-i');if(fil[i]){setS(fil[i]);closeL()}});
 document.addEventListener('click',function(e){if(!root.contains(e.target)&&e.target!==input)closeL()});
+/* 对外暴露 setByCode */
+root.__setCode=function(code){for(var i=0;i<PL.length;i++){if(PL[i].code===code){setS(PL[i]);return true}}return false};
 }
 
 function dirSearch(fc,tc){var fa=isIsoAp(fc)?[fc]:(C2A[city(fc)]||[fc]);var ta=isIsoAp(tc)?[tc]:(C2A[city(tc)]||[tc]);return FL.filter(function(f){return fa.indexOf(f.from)>-1&&ta.indexOf(f.to)>-1})}
@@ -560,6 +569,7 @@ g.leg2s.forEach(function(l2,li){
   var a2=alOf(l2.no);
   var nt=l2.nd?'<span class="ft nd">次日到达</span>':'';
   var p2t=!isMain(l2.no)?'<span class="ft pt">合作航司</span>':'';
+  /* ★ 修复后的 dayOff */
   var doff=dayOff(l1,l2),dt=doff>0?'<span class="l2d">+'+doff+' 天</span>':'';
   var d2=addD(dd,doff),a2d=l2.nd?addD(d2,1):d2;
   l2b+='<div class="l2f" data-l2="'+l2.no+'"><div class="l2fh"><span class="no">'+l2.no+'</span><span class="al">'+a2.n+'</span><span class="ac">'+l2.ac+'</span>'+dt+p2t+nt+'<span class="l2r"><b>'+pT(l2.dep)+'</b> <span class="dt">'+sD(d2)+'</span> '+cAp(l2.from)+' <span class="ar">→</span> <b>'+pT(l2.arr)+'</b> <span class="dt">'+sD(a2d)+'</span> '+cAp(l2.to)+'</span></div><div class="ff">'+fRows(l2,'data-role="l2"')+'</div></div>';
@@ -662,7 +672,6 @@ $('cktWrap').innerHTML='<span class="lb">总计</span><em>MZB</em><b id="ckt">'+
 b.classList.add('on');document.body.classList.add('ck')}
 function resetSel(){sel.out=null;sel.in=null;upCk();upNav()}
 
-/* ★ payload：附带子仓位基础价与活动折扣率，供 checkout 使用 */
 function flightPayload(f,date,cabin){
   var full=f.fa[cabin]||0;
   var disc=dFare(f,cabin)||0;
@@ -674,8 +683,7 @@ function flightPayload(f,date,cabin){
     fromCode:f.from, fromCity:a.city, fromAirport:a.ap, fromUt:a.ut,
     toCode:f.to, toCity:b.city, toAirport:b.ap, toUt:b.ut,
     cabin:cabin, cabinName:cab(cabin).n,
-    full:full,
-    dt:f.dt,
+    full:full, dt:f.dt,
     discRate:dRate(f),
     discLabel:f.dt==='express'?'快线 7.3 折':f.dt==='longhaul'?'远程 7.8 折':'短程 6.2 折',
     disc:disc,
@@ -693,11 +701,8 @@ function buildSegPayload(key,dir,fc,tc,date,s){
       fromCity:AP[fc].city, toCity:AP[tc].city,
       fromAirport:AP[fc].ap, toAirport:AP[tc].ap,
       flights:[flightPayload(f,date,s.cab)],
-      baseFull:full,
-      baseRawDisc:disc,
-      actRate:1,
-      activity:null,
-      subTier:'b'
+      baseFull:full, baseRawDisc:disc, actRate:1,
+      activity:null, subTier:'b'
     };
   }
   if(s.type==='t'){
@@ -717,9 +722,7 @@ function buildSegPayload(key,dir,fc,tc,date,s){
         flightPayload(a,date,s.l1Cab),
         flightPayload(b,d2,s.l2Cab)
       ],
-      baseFull:rawFull,
-      baseRawDisc:rawDisc,
-      actRate:actRate,
+      baseFull:rawFull, baseRawDisc:rawDisc, actRate:actRate,
       activity:act?{code:act.code,label:act.label,rate:act.rate}:null,
       subTier:'b'
     };
@@ -746,13 +749,43 @@ Array.prototype.forEach.call($('sortBox').querySelectorAll('button'),function(b)
 
 function apTT(){var rf=$('retF'),ri=$('ret');if(state.type==='oneway'){rf.style.opacity='.45';ri.disabled=true}else{rf.style.opacity='1';ri.disabled=false}}
 
+function qp(n){return new URLSearchParams(location.search).get(n)}
+
 function init(){
-  var td=today();state.dep=td;state.ret=addD(td,7);
-  document.querySelectorAll('.sf.combo').forEach(initCombo);
-  var d=$('dep'),r=$('ret');d.value=state.dep;r.value=state.ret;d.min=td;r.min=td;
+  /* ============ 1) 先读 URL 参数，覆盖默认值 ============ */
+  var qf=qp('from'),qt=qp('to'),qd=qp('dep'),qr=qp('ret'),qy=qp('type');
+  if(qf)state.from=qf;
+  if(qt)state.to=qt;
+  if(qy)state.type=qy==='oneway'?'oneway':'round';
+
+  var td=today();
+  state.dep=qd||td;
+  state.ret=qr||addD(state.dep,7);
+
+  /* ============ 2) 初始化组合框 ============ */
+  var comboRoots=document.querySelectorAll('.sf.combo');
+  Array.prototype.forEach.call(comboRoots,function(root){initCombo(root)});
+
+  /* 将 state 中的 from/to 回填到输入框 */
+  var fromInput=document.getElementById('from');
+  var toInput=document.getElementById('to');
+  var foundFrom=null,foundTo=null;
+  for(var i=0;i<PL.length;i++){
+    if(PL[i].code===state.from)foundFrom=PL[i];
+    if(PL[i].code===state.to)foundTo=PL[i];
+  }
+  if(foundFrom){fromInput.value=foundFrom.city+' ('+foundFrom.code+')';window.__s=window.__s||{};window.__s.from=foundFrom;}
+  if(foundTo){toInput.value=foundTo.city+' ('+foundTo.code+')';window.__s=window.__s||{};window.__s.to=foundTo;}
+
+  /* ============ 3) 日期与标签 ============ */
+  var d=$('dep'),r=$('ret');
+  d.value=state.dep;r.value=state.ret;
+  d.min=td;r.min=state.dep;
   var tabs=document.querySelectorAll('#tabs button');
   Array.prototype.forEach.call(tabs,function(b){b.classList.remove('on');if(b.getAttribute('data-t')===state.type)b.classList.add('on')});
   apTT();
+
+  /* ============ 4) 事件绑定 ============ */
   Array.prototype.forEach.call(tabs,function(b){b.addEventListener('click',function(){var t=b.getAttribute('data-t');if(!t)return;state.type=t;Array.prototype.forEach.call(tabs,function(x){x.classList.remove('on')});b.classList.add('on');apTT();resetSel();render()})});
   d.addEventListener('change',function(){state.dep=this.value;r.min=this.value||td;if(state.type==='round'&&state.ret&&state.ret<state.dep){state.ret=state.dep;r.value=state.ret}});
   r.addEventListener('change',function(){state.ret=this.value});
@@ -767,7 +800,8 @@ function init(){
     resetSel();render();
     var b=document.querySelector('.rb');if(b&&b.scrollIntoView)b.scrollIntoView({behavior:'smooth',block:'start'});
   });
-  bindNav();render();
+  bindNav();
+  render();
 }
 init();
 })();
