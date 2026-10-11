@@ -361,13 +361,13 @@ function paxRowHtml(p,idx){
   +    (canRemove?'<button type="button" class="px-del" data-del="'+p.id+'" title="删除"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>':'<button type="button" class="px-del" disabled title="至少保留 1 位"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>')
   +  '</div>'
   +  '<div class="px-grid">'
-  +    '<div class="px-f"><label>中文姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameCn" value="'+esc(p.nameCn||'')+'" placeholder="张三"><span class="tip">与证件一致</span></div>'
-  +    '<div class="px-f"><label>英文姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameEn" value="'+esc(p.nameEn||'')+'" placeholder="ZHANG SAN" style="text-transform:uppercase"><span class="tip warn">汉英双语 · 与护照一致，全大写</span></div>'
+  +    '<div class="px-f"><label>汉语姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameCn" value="'+esc(p.nameCn||'')+'" placeholder="张三"><span class="tip">与证件一致</span></div>'
+  +    '<div class="px-f"><label>英语姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameEn" value="'+esc(p.nameEn||'')+'" placeholder="ZHANG SAN" style="text-transform:uppercase"><span class="tip warn">汉英双语 · 与护照一致，全大写</span></div>'
   +    '<div class="px-f"><label>证件类型 <span style="color:#B23B3B">*</span></label><select data-f="idType">'+idOptions+'</select><span class="tip">'+(isIntlOrder?'国际航班不可使用身份证':'国内航班')+'</span></div>'
   +    '<div class="px-f"><label>证件号码 <span style="color:#B23B3B">*</span></label><input type="text" data-f="idNo" value="'+esc(p.idNo||'')+'" placeholder="请输入证件号码"></div>'
   +    '<div class="px-f"><label>出生日期 <span style="color:#B23B3B">*</span></label><input type="date" data-f="birth" value="'+esc(p.birth||'')+'"><span class="tip">决定乘客类型，填写后自动识别</span></div>'
-  +    '<div class="px-f px-country'+(showCountry?'':' hide')+'" data-fc="nationality"><label>国籍三字码 <span style="color:#B23B3B">*</span></label><input type="text" list="countryList" data-f="nationality" value="'+esc(p.nationality||'')+'" placeholder="CHN" maxlength="3" style="text-transform:uppercase"><span class="tip">如中国：CHN</span></div>'
-  +    '<div class="px-f px-country'+(showCountry?'':' hide')+'" data-fc="issuer"><label>签发国三字码 <span style="color:#B23B3B">*</span></label><input type="text" list="countryList" data-f="issuer" value="'+esc(p.issuer||'')+'" placeholder="CHN" maxlength="3" style="text-transform:uppercase"><span class="tip">证件签发国，如中国：CHN</span></div>'
+  +    '<div class="px-f px-country'+(showCountry?'':' hide')+'" data-fc="nationality"><label>国籍三字码 <span style="color:#B23B3B">*</span></label><input type="text" list="countryList" data-f="nationality" value="'+esc(p.nationality||'')+'" placeholder="CHN" maxlength="3" style="text-transform:uppercase"><span class="tip">如善国：DRC</span></div>'
+  +    '<div class="px-f px-country'+(showCountry?'':' hide')+'" data-fc="issuer"><label>签发国三字码 <span style="color:#B23B3B">*</span></label><input type="text" list="countryList" data-f="issuer" value="'+esc(p.issuer||'')+'" placeholder="CHN" maxlength="3" style="text-transform:uppercase"><span class="tip">证件签发国，如善国：DRC</span></div>'
   +  '</div>'
   +  '</div>';
 }
