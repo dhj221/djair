@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>支付结果 | 众和航空 Peace Airlines</title>
+<link rel="icon" type="image/png" href="Logo-light.png" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="Logo-dark.png" media="(prefers-color-scheme: dark)">
+<style>
+:root{
+  --n9:#050F1F;--n8:#0B2038;--n7:#102A4C;--n6:#16365F;
+  --gold:#C9A227;--gold-l:#E3C567;
+  --ink:#12233B;--muted:#5B6B80;--line:#E3E8EF;
+  --ok:#1B7A4B;--ok-l:#4FC48A;--warn:#8A5A0E;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",-apple-system,sans-serif;
+  color:var(--ink);background:#06152A;line-height:1.6;
+  min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-orbs::before,.bg-orbs::after{content:"";position:absolute;border-radius:50%;filter:blur(80px);opacity:.32}
+.bg-orbs::before{width:520px;height:520px;top:-180px;left:-120px;background:radial-gradient(circle,#1E4B85,transparent 70%);animation:float1 18s ease-in-out infinite}
+.bg-orbs::after{width:600px;height:600px;bottom:-220px;right:-160px;background:radial-gradient(circle,#8A6A0E,transparent 70%);animation:float2 22s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+@keyframes float2{0%,100%{transform:translate(0,0)}50%{transform:translate(-70px,-50px)}}
+
+.stage{
+  position:fixed;inset:0;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  padding:32px 20px;opacity:0;visibility:hidden;
+  transition:opacity .5s ease,visibility .5s;overflow-y:auto;
+}
+.stage.on{opacity:1;visibility:visible}
+.stage-inner{width:100%;max-width:560px;text-align:center;color:#fff}
+
+.spinner{width:76px;height:76px;margin:0 auto 28px;position:relative}
+.spinner::before,.spinner::after{content:"";position:absolute;border-radius:50%}
+.spinner::before{inset:0;border:3px solid rgba(255,255,255,.12);border-top-color:var(--gold);animation:spin 1s linear infinite}
+.spinner::after{inset:14px;border:2px solid rgba(227,197,103,.22);border-bottom-color:var(--gold-l);animation:spin 1.6s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stage-processing h2{font-size:24px;font-weight:600;letter-spacing:1px;margin-bottom:12px}
+.stage-processing p{font-size:14.5px;color:#98AAC2;margin-bottom:32px}
+.prog{width:100%;max-width:420px;height:4px;margin:0 auto 12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+.prog-bar{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:999px;transition:width .3s ease;box-shadow:0 0 16px rgba(227,197,103,.5)}
+.prog-label{display:flex;justify-content:space-between;max-width:420px;margin:0 auto;font-size:12.5px;color:#7E90A8;font-variant-numeric:tabular-nums}
+
+.stage-success .check-wrap{width:132px;height:132px;margin:0 auto 28px;position:relative}
+.check-svg{width:100%;height:100%;overflow:visible}
+.check-circle{fill:none;stroke:var(--ok-l);stroke-width:2.5;stroke-dasharray:208;stroke-dashoffset:208;animation:circleDraw .7s ease-out forwards;filter:drop-shadow(0 0 12px rgba(79,196,138,.5))}
+.check-path{fill:none;stroke:var(--ok-l);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48;animation:checkDraw .5s .55s ease-out forwards;filter:drop-shadow(0 0 8px rgba(79,196,138,.6))}
+@keyframes circleDraw{to{stroke-dashoffset:0}}
+@keyframes checkDraw{to{stroke-dashoffset:0}}
+.stage-success h2{font-size:26px;font-weight:600;letter-spacing:1.5px;margin-bottom:12px;color:#fff}
+.stage-success p{font-size:14.5px;color:#98AAC2}
+.pulse-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(79,196,138,.45);animation:pulseRing 1.8s ease-out infinite}
+.pulse-ring:nth-child(2){animation-delay:.4s}
+@keyframes pulseRing{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+
+.stage-ticket{align-items:flex-start;justify-content:center;padding:44px 20px 60px}
+.ticket-wrap{width:100%;max-width:720px;animation:ticketIn .55s cubic-bezier(.16,1,.3,1)}
+@keyframes ticketIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.ticket{background:#fff;color:var(--ink);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06)}
+.tk-head{background:linear-gradient(135deg,#0B2038,#16365F 60%,#102A4C);color:#fff;padding:26px 30px;position:relative;overflow:hidden}
+.tk-head::before{content:"";position:absolute;top:-40%;right:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.22),transparent 65%)}
+.tk-head-top{display:flex;align-items:center;gap:14px;position:relative;z-index:2}
+.tk-logo{height:40px;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+.tk-brand{display:flex;flex-direction:column;line-height:1.2}
+.tk-brand strong{font-size:15.5px;letter-spacing:2.5px;font-weight:700}
+.tk-brand small{font-size:9px;letter-spacing:3px;color:#8FA1B8;margin-top:3px}
+.tk-status{margin-left:auto;display:flex;align-items:center;gap:7px;background:rgba(79,196,138,.16);border:1px solid rgba(79,196,138,.4);color:var(--ok-l);border-radius:999px;padding:5px 14px 5px 10px;font-size:12.5px;font-weight:600;letter-spacing:.5px}
+.tk-status .dot{width:7px;height:7px;border-radius:50%;background:var(--ok-l);box-shadow:0 0 0 3px rgba(79,196,138,.25);animation:dotPulse 1.8s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{box-shadow:0 0 0 3px rgba(79,196,138,.25)}50%{box-shadow:0 0 0 6px rgba(79,196,138,.08)}}
+.tk-head h1{font-size:21px;font-weight:600;letter-spacing:2px;margin-top:20px;position:relative;z-index:2}
+.tk-head .meta{display:flex;flex-wrap:wrap;gap:24px;margin-top:14px;position:relative;z-index:2;font-size:12.5px;color:#A5B5C9}
+.tk-head .meta b{color:#fff;font-weight:600;font-family:"SF Mono",Menlo,Consolas,monospace;letter-spacing:.5px}
+.tk-sec{padding:22px 30px;border-bottom:1px solid var(--line)}
+.tk-sec:last-child{border-bottom:0}
+.tk-sec-title{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.tk-sec-title::before{content:"";width:3px;height:13px;border-radius:2px;background:var(--gold)}
+
+.pax-card{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;background:#F8FAFC;border-radius:8px;border:1px solid #EDF1F6;margin-bottom:10px}
+.pax-card:last-child{margin-bottom:0}
+.pax-idx{flex:0 0 30px;height:30px;border-radius:50%;background:var(--n7);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.pax-body{flex:1;min-width:0}
+.pax-name{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pax-name strong{font-size:15px;font-weight:700;color:var(--n8)}
+.pax-name em{font-style:normal;font-size:12.5px;color:var(--muted);letter-spacing:.4px}
+.pax-tag{font-size:11px;font-weight:700;letter-spacing:.5px;border-radius:3px;padding:2px 8px;background:#EEF3FA;color:var(--n7)}
+.pax-tag.in{background:#FBF3DD;color:#8A5A0E}
+.pax-ticket{display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+.pax-ticket .label{font-size:11.5px;color:var(--muted);letter-spacing:.5px}
+.pax-ticket .no{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:15px;font-weight:700;letter-spacing:1px;color:var(--n8);background:linear-gradient(180deg,#FBF6E6,#F6EED2);border:1px solid #E8DBA8;border-radius:4px;padding:3px 10px}
+.pax-id{margin-top:6px;font-size:12px;color:var(--muted);font-family:"SF Mono",Menlo,Consolas,monospace;word-break:break-all}
+
+.seg-block{border:1px solid #EDF1F6;border-radius:10px;overflow:hidden;margin-bottom:14px;background:#fff}
+.seg-block:last-child{margin-bottom:0}
+.seg-head{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#F8FAFC;border-bottom:1px solid #EDF1F6;flex-wrap:wrap}
+.seg-dir{font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#fff;background:var(--n7);border-radius:3px;padding:3px 10px}
+.seg-route{font-size:14.5px;font-weight:600;color:var(--n8)}
+.seg-date{margin-left:auto;font-size:12.5px;color:var(--muted);font-family:"SF Mono",Menlo,Consolas,monospace}
+.seg-sub{padding:8px 16px;font-size:12px;color:var(--n7);background:#FBFDFF;border-bottom:1px solid #F1F4F9}
+.seg-sub b{color:var(--n8)}
+.fl-line{display:grid;grid-template-columns:100px minmax(0,1fr) minmax(0,1.2fr);gap:14px;align-items:center;padding:14px 16px}
+.fl-line+.fl-line{border-top:1px dashed #EDF1F6}
+.fl-no{font-size:14px;font-weight:700;color:var(--n8);letter-spacing:.5px}
+.fl-no small{display:block;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:0;margin-top:2px}
+.fl-city{min-width:0}
+.fl-city .t{font-size:17px;font-weight:700;color:var(--n8);font-variant-numeric:tabular-nums;line-height:1.2}
+.fl-city .d{font-size:11.5px;color:var(--muted);margin-top:2px}
+.fl-city .c{font-size:12.5px;color:var(--n7);font-weight:600;margin-top:4px}
+.fl-city .ap{font-size:11px;color:var(--muted);margin-top:1px}
+.fl-city.ar{text-align:right}
+
+.tk-price{padding:22px 30px;background:linear-gradient(180deg,#FCFDFE,#F6F9FC)}
+.price-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;color:var(--muted);padding:5px 0}
+.price-row b{color:var(--n8);font-weight:600}
+.price-row.discount{color:var(--ok)}
+.price-row.discount b{color:var(--ok)}
+.price-final{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;margin-top:10px;border-top:2px solid var(--line)}
+.price-final .lbl{font-size:14px;font-weight:600;color:var(--n8);letter-spacing:.5px}
+.price-final .amt{display:flex;align-items:baseline;gap:6px}
+.price-final .amt em{font-style:normal;font-size:13px;font-weight:700;color:var(--n7)}
+.price-final .amt b{font-size:32px;font-weight:700;color:var(--n8);line-height:1;font-variant-numeric:tabular-nums}
+.price-final .amt small{font-size:12.5px;color:var(--muted)}
+
+/* ============ 存储状态条 ============ */
+.storage-box{margin:0 30px 0;padding:14px 16px;border-radius:8px;font-size:12.5px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;line-height:1.6}
+.storage-box.ok{background:#E7F5EE;border:1px solid #B6E2CC;color:#0F5C39}
+.storage-box.fail{background:#FBF3DD;border:1px solid #E8DBA8;color:#7A5A0E}
+.storage-box .icon{flex:0 0 22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.storage-box.ok .icon{background:#1B7A4B;color:#fff}
+.storage-box.fail .icon{background:#C9A227;color:#fff}
+.storage-box .info{flex:1;min-width:180px;word-break:break-all}
+.storage-box .info b{font-family:"SF Mono",Menlo,Consolas,monospace;font-weight:700}
+.storage-box .info a{color:#0F5C39;border-bottom:1px solid currentColor;margin-left:6px;font-weight:600}
+.storage-box.fail .info a{color:#7A5A0E}
+
+.tk-actions{display:flex;gap:12px;padding:20px 30px 26px;flex-wrap:wrap;background:#fff;border-top:1px solid var(--line)}
+.btn{flex:1;min-width:150px;border-radius:6px;padding:13px 20px;font-size:14.5px;font-weight:600;letter-spacing:.5px;border:1px solid var(--line);background:#fff;color:var(--n8);transition:.2s;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover{background:#F5F8FC;border-color:#CBD7E6}
+.btn.primary{background:var(--n8);color:#fff;border-color:var(--n8);box-shadow:0 8px 22px rgba(11,32,56,.22)}
+.btn.primary:hover{background:var(--n6);border-color:var(--n6)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--n9);border-color:transparent;font-weight:700}
+.btn.gold:hover{filter:brightness(1.05)}
+.btn svg{width:15px;height:15px;flex-shrink:0}
+
+.tk-note{margin-top:18px;text-align:center;font-size:12px;color:#7E90A8;line-height:1.9}
+.tk-note a{color:var(--gold-l);border-bottom:1px solid rgba(227,197,103,.4)}
+
+.empty-ticket{width:100%;max-width:520px;background:#fff;border-radius:14px;padding:56px 36px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.empty-ticket h2{font-size:20px;font-weight:600;color:var(--n8);margin-bottom:12px}
+.empty-ticket p{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:24px}
+.empty-ticket a{display:inline-block;background:var(--n8);color:#fff;border-radius:5px;padding:13px 34px;font-size:14.5px;font-weight:600}
+
+@media(max-width:640px){
+  .stage{padding:20px 14px}
+  .tk-head{padding:20px}
+  .tk-head h1{font-size:17px;letter-spacing:1px}
+  .tk-head .meta{gap:12px;font-size:12px}
+  .tk-sec{padding:18px 20px}
+  .storage-box{margin:0 20px}
+  .fl-line{grid-template-columns:1fr;gap:8px}
+  .fl-city.ar{text-align:left}
+  .tk-price{padding:18px 20px}
+  .price-final .amt b{font-size:26px}
+  .tk-actions{padding:16px 20px 22px}
+  .btn{flex:1 1 100%;min-width:0}
+  .pax-card{flex-direction:column;gap:8px}
+  .pax-idx{width:26px;height:26px;font-size:12px}
+}
+
+/* 打印只留客票 */
+@media print{
+  body{background:#fff}
+  .bg-orbs{display:none}
+  .stage{position:static;opacity:1;visibility:visible;padding:0}
+  .stage-processing,.stage-success{display:none !important}
+  .stage-ticket{padding:0}
+  .tk-actions{display:none}
+  .ticket{box-shadow:none;border:1px solid #ccc}
+  .tk-note{color:#333}
+  .tk-note a{color:#333}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-orbs"></div>
+
+<section class="stage stage-processing on" id="stageProcessing">
+  <div class="stage-inner">
+    <div class="spinner"></div>
+    <h2>免密支付处理中</h2>
+    <p>正在与银行通信，请勿关闭页面…</p>
+    <div class="prog"><div class="prog-bar" id="progBar"></div></div>
+    <div class="prog-label">
+      <span id="progStage">正在验证支付凭证</span>
+      <span id="progPct">0%</span>
+    </div>
+  </div>
+</section>
+
+<section class="stage stage-success" id="stageSuccess">
+  <div class="stage-inner">
+    <div class="check-wrap">
+      <div class="pulse-ring"></div>
+      <div class="pulse-ring"></div>
+      <svg class="check-svg" viewBox="0 0 72 72">
+        <circle class="check-circle" cx="36" cy="36" r="33"/>
+        <path class="check-path" d="M22 37 l10 10 l20 -22"/>
+      </svg>
+    </div>
+    <h2>支付成功</h2>
+    <p>已为您出票，正在生成电子客票…</p>
+  </div>
+</section>
+
+<section class="stage stage-ticket" id="stageTicket">
+  <div id="ticketRoot"></div>
+</section>
+
+<script>
+(function(){
+function readBooking(){
+  try{
+    var s=sessionStorage.getItem('peace_booking_final');
+    if(s)return JSON.parse(s);
+  }catch(e){}
+  try{
+    var t=localStorage.getItem('peace_ticket_latest_json');
+    if(t)return JSON.parse(t);
+  }catch(e){}
+  return null;
+}
+var payload=readBooking();
+
+function fp(n){return String(Math.round(n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function hm(t){return t?String(t).slice(0,2)+':'+String(t).slice(2):''}
+function fmtDT(iso){
+  if(!iso)return'';
+  var d=new Date(iso);
+  if(isNaN(d.getTime()))return'';
+  var p=function(n){return String(n).padStart(2,'0')};
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())
+       +' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+}
+function paxTagCls(t){return t==='IN'?'pax-tag in':'pax-tag'}
+
+function renderStorage(){
+  var s=payload && payload.storage;
+  if(!s)return '';
+  if(s.provider==='github' && s.ok){
+    return '<div class="storage-box ok">'
+      + '<div class="icon">✓</div>'
+      + '<div class="info">客票文件已存档至 GitHub 仓库：'
+      +   '<b>'+esc(s.path||s.filename||'')+'</b>'
+      +   '<a href="'+esc(s.repoUrl)+'" target="_blank" rel="noopener">在仓库查看</a>'
+      +   '<a href="'+esc(s.rawUrl)+'" target="_blank" rel="noopener">下载原始文件</a>'
+      + '</div></div>';
+  }
+  if(s.provider==='github' && !s.ok){
+    return '<div class="storage-box fail">'
+      + '<div class="icon">!</div>'
+      + '<div class="info">客票文件<b>未能上传到 GitHub</b>（'+esc(s.error||'未知原因')+'）。'
+      +   '已保存在本机浏览器，可点击下方按钮下载，或检查 checkout 顶部的 GH 配置。</div>'
+      + '</div>';
+  }
+  return '<div class="storage-box fail">'
+    + '<div class="icon">!</div>'
+    + '<div class="info">未配置 GitHub 存储，客票文件只保存在本机浏览器。可点击下方按钮下载。</div>'
+    + '</div>';
+}
+
+function renderTicket(p){
+  if(!p){
+    return '<div class="empty-ticket"><h2>没有找到订单信息</h2>'
+         + '<p>可能是页面被直接打开，或浏览器会话已过期。<br>请返回首页重新预订。</p>'
+         + '<a href="index.html">返回首页</a></div>';
+  }
+  var H=[];
+  H.push('<div class="ticket-wrap"><div class="ticket">');
+
+  H.push('<div class="tk-head">');
+  H.push('<div class="tk-head-top">');
+  H.push('<img class="tk-logo" src="Logo.png" alt="众和航空" onerror="this.style.display=\'none\'">');
+  H.push('<div class="tk-brand"><strong>众和航空</strong><small>PEACE AIRLINES</small></div>');
+  H.push('<div class="tk-status"><span class="dot"></span>已出票</div>');
+  H.push('</div>');
+  H.push('<h1>电子客票行程单</h1>');
+  H.push('<div class="meta">');
+  H.push('<span>订单号 <b>'+esc(p.orderNo||'—')+'</b></span>');
+  H.push('<span>出票时间 <b>'+esc(fmtDT(p.issuedAt)||'—')+'</b></span>');
+  H.push('<span>支付方式 <b>免密支付</b></span>');
+  H.push('</div></div>');
+
+  var pax=p.passengers||[];
+  H.push('<div class="tk-sec"><div class="tk-sec-title">乘机人 · 共 '+pax.length+' 人</div>');
+  pax.forEach(function(x,i){
+    H.push('<div class="pax-card">');
+    H.push('<div class="pax-idx">'+(i+1)+'</div>');
+    H.push('<div class="pax-body">');
+    H.push('<div class="pax-name"><strong>'+esc(x.nameCn||'—')+'</strong><em>'+esc(x.nameEn||'')+'</em>');
+    H.push('<span class="'+paxTagCls(x.type)+'">'+esc(x.typeName||'成人')+'</span></div>');
+    H.push('<div class="pax-ticket"><span class="label">客票号</span><span class="no">'+esc(x.ticketNo||'—')+'</span></div>');
+    H.push('<div class="pax-id">'+esc(x.idType||'')+' · '+esc(x.idNo||'')+'</div>');
+    H.push('</div></div>');
+  });
+  H.push('</div>');
+
+  var segs=p.segments||[];
+  H.push('<div class="tk-sec"><div class="tk-sec-title">行程 · 共 '+segs.length+' 段</div>');
+  segs.forEach(function(s){
+    H.push('<div class="seg-block">');
+    H.push('<div class="seg-head">');
+    H.push('<span class="seg-dir">'+esc(s.dir||'航段')+'</span>');
+    H.push('<span class="seg-route">'+esc(s.fromCity||'')+' → '+esc(s.toCity||'')+'</span>');
+    H.push('<span class="seg-date">'+esc(s.date||'')+'</span>');
+    H.push('</div>');
+    if(s.subName||s.subCode){
+      H.push('<div class="seg-sub">子仓位 <b>'+esc(s.subName||'')+'</b> · '+esc(s.subCode||'')+'</div>');
+    }
+    (s.flights||[]).forEach(function(f){
+      H.push('<div class="fl-line">');
+      H.push('<div class="fl-no">'+esc(f.no)+'<small>'+esc(f.airlineName||'')+'</small></div>');
+      H.push('<div class="fl-city">'
+           +   '<div class="t">'+esc(hm(f.dep))+'</div>'
+           +   '<div class="d">'+esc(f.depDate||'')+'</div>'
+           +   '<div class="c">'+esc(f.fromCode||'')+' · '+esc(f.fromCity||'')+'</div>'
+           +   '<div class="ap">'+esc(f.fromAirport||'')+'</div>'
+           + '</div>');
+      H.push('<div class="fl-city ar">'
+           +   '<div class="t">'+esc(hm(f.arr))+(f.arrNextDay?' <small style="font-size:11px;color:#8A6A0E">+1</small>':'')+'</div>'
+           +   '<div class="d">'+esc(f.arrDate||'')+'</div>'
+           +   '<div class="c">'+esc(f.toCode||'')+' · '+esc(f.toCity||'')+'</div>'
+           +   '<div class="ap">'+esc(f.toAirport||'')+'</div>'
+           + '</div>');
+      H.push('</div>');
+    });
+    H.push('</div>');
+  });
+  H.push('</div>');
+
+  H.push(renderStorage());
+
+  H.push('<div class="tk-price" style="margin-top:20px">');
+  H.push('<div class="price-row"><span>各航段折后小计</span><b>MZB '+fp(p.subtotal)+'</b></div>');
+  if(p.roundTripRate<1 && p.roundTripSave>0){
+    H.push('<div class="price-row discount"><span>往返折扣 '+Math.round(p.roundTripRate*100)+'%</span><b>− MZB '+fp(p.roundTripSave)+'</b></div>');
+  }
+  H.push('<div class="price-final"><span class="lbl">应付总额</span>'
+       + '<span class="amt"><em>MZB</em><b>'+fp(p.total)+'</b><small>已支付</small></span></div>');
+  H.push('</div>');
+
+  H.push('<div class="tk-actions">');
+  H.push('<button class="btn gold" id="btnDownload">'
+       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>'
+       + '下载客票 txt</button>');
+  H.push('<button class="btn" id="btnPrint">'
+       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>'
+       + '打印 / 保存 PDF</button>');
+  H.push('<a class="btn primary" href="index.html">返回首页</a>');
+  H.push('</div>');
+
+  H.push('</div></div>');
+
+  H.push('<div class="tk-note">'
+       + '本客票由众和航空出具，请妥善保管。乘机时请携带有效证件。<br>'
+       + '客服热线 <a href="tel:95058">95058</a> · 官网 peaceairlines.com'
+       + '</div>');
+  return H.join('');
+}
+
+function downloadTxt(filename,content){
+  try{
+    var blob=new Blob(['\ufeff'+content],{type:'text/plain;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download=filename;a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function(){
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },800);
+  }catch(e){console.error(e)}
+}
+
+function show(id){
+  Array.prototype.forEach.call(document.querySelectorAll('.stage'),function(s){
+    s.classList.toggle('on',s.id===id);
+  });
+}
+
+var STEPS=[
+  {p:  8,t:'正在验证支付凭证'},
+  {p: 26,t:'正在与发卡行通信'},
+  {p: 48,t:'正在核验免密支付协议'},
+  {p: 68,t:'正在扣款'},
+  {p: 86,t:'正在出票'},
+  {p:100,t:'支付完成'}
+];
+var stepIdx=0;
+function tickProgress(){
+  if(stepIdx>=STEPS.length)return;
+  var s=STEPS[stepIdx++];
+  var bar=document.getElementById('progBar');
+  var pct=document.getElementById('progPct');
+  var lbl=document.getElementById('progStage');
+  if(bar)bar.style.width=s.p+'%';
+  if(pct)pct.textContent=s.p+'%';
+  if(lbl)lbl.textContent=s.t;
+}
+
+function bindTicketActions(){
+  var dl=document.getElementById('btnDownload');
+  if(dl){
+    dl.addEventListener('click',function(){
+      var txt=localStorage.getItem('peace_ticket_latest_txt')||'';
+      var fn=localStorage.getItem('peace_ticket_latest_name')
+          || ((payload && payload.orderNo ? payload.orderNo : 'PeaceAirlines') + '.txt');
+      if(!txt){alert('未找到客票文本，可能未完成出票流程。');return}
+      downloadTxt(fn,txt);
+    });
+  }
+  var pr=document.getElementById('btnPrint');
+  if(pr){pr.addEventListener('click',function(){window.print()})}
+}
+
+function run(){
+  var t1=setInterval(tickProgress,320);
+  setTimeout(function(){
+    clearInterval(t1);
+    var bar=document.getElementById('progBar');
+    var pct=document.getElementById('progPct');
+    if(bar)bar.style.width='100%';
+    if(pct)pct.textContent='100%';
+    setTimeout(function(){
+      show('stageSuccess');
+      setTimeout(function(){
+        var root=document.getElementById('ticketRoot');
+        if(root)root.innerHTML=renderTicket(payload);
+        show('stageTicket');
+        bindTicketActions();
+      },2200);
+    },220);
+  },320*STEPS.length);
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',run);
+}else{
+  run();
+}
+})();
+</script>
+</body>
+</html>
