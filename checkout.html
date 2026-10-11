@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>确认订单 | 众和航空</title>
+<link rel="icon" type="image/png" href="Logo-light.png" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="Logo-dark.png" media="(prefers-color-scheme: dark)">
 <style>
-:root{--n8:#0B2038;--n7:#102A4C;--n6:#16365F;--gold:#C9A227;--ink:#12233B;--muted:#5B6B80;--line:#E3E8EF;--bg:#F5F7FA;--ok:#1B7A4B}
+:root{--n8:#0B2038;--n7:#102A4C;--n6:#16365F;--gold:#C9A227;--ink:#12233B;--muted:#5B6B80;--line:#E3E8EF;--bg:#F5F7FA;--ok:#1B7A4B;--warn:#8A5A0E}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
 a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{font-family:inherit;cursor:pointer}
@@ -18,8 +20,6 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .tm a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--gold);transition:right .28s}
 .tm a:hover{color:var(--n8)}.tm a:hover::after{right:0}
 .tnr{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:13.5px}
-.hi{display:flex;align-items:center;gap:6px;color:var(--muted)}
-.hi svg{width:16px;height:16px;stroke:var(--n7)}
 .bo{border:1px solid var(--line);color:var(--n8);background:#fff;border-radius:3px;padding:7px 16px;font-size:13px}
 .bo:hover{background:var(--n8);color:#fff}
 .bs{background:var(--gold);color:var(--n8);font-weight:600;border:0;border-radius:3px;padding:8px 18px;font-size:13px}
@@ -56,7 +56,7 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .fld{font-size:11px;color:var(--muted)}
 .flc2{font-size:12px;color:var(--n7);font-weight:500}
 .fla2{color:#9DAABD;font-size:15px;padding:0 2px}
-.ah{padding:10px 24px;background:#FFF9E9;border-bottom:1px solid #F0E1B5;font-size:12.5px;color:#7A5A0E;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ah{padding:10px 24px;background:#FFF9E9;border-bottom:1px solid #F0E1B5;font-size:12.5px;color:var(--warn);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .ah .cd2{font-size:11.5px;font-weight:700;color:#fff;background:var(--gold);border-radius:3px;padding:2px 8px}
 .ss2{padding:20px 24px 24px}
 .st2{display:flex;align-items:baseline;gap:10px;font-size:14px;font-weight:600;color:var(--n8);margin-bottom:14px}
@@ -76,7 +76,7 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .spr em{font-style:normal;font-size:11px;font-weight:700;color:var(--n7)}
 .spr b{font-size:19px;font-weight:700;color:var(--n8);line-height:1}
 .spr small{font-size:11.5px;color:var(--muted);margin-left:2px}
-.spr .up{font-size:11px;font-weight:700;color:#8A5A0E;background:#FBF3DD;border-radius:2px;padding:2px 6px;margin-left:auto}
+.spr .up{font-size:11px;font-weight:700;color:var(--warn);background:#FBF3DD;border-radius:2px;padding:2px 6px;margin-left:auto}
 .sbn{list-style:none;display:flex;flex-direction:column;gap:7px}
 .sbn li{display:flex;align-items:flex-start;gap:8px;font-size:12.5px;color:#4C5A70;line-height:1.5}
 .sbn svg{width:14px;height:14px;flex-shrink:0;margin-top:3px;stroke:var(--ok)}
@@ -91,6 +91,8 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .dt .row.plus b{color:var(--n8)}
 .dt .row.sub{border-top:1px dashed #DDE4EE;margin-top:6px;padding-top:6px;color:var(--n8);font-weight:600}
 .dt .row.sub b{color:var(--n8);font-size:13.5px}
+.dt .row.pax-info{font-size:12px;color:var(--n7)}
+.dt .row.pax-info span{padding-left:12px}
 .ssg{padding-bottom:14px;margin-bottom:14px;border-bottom:1px dashed #EDF1F6}
 .ssg:last-of-type{border-bottom:0;padding-bottom:0;margin-bottom:8px}
 .ssgh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
@@ -120,10 +122,33 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .emp p{font-size:14px;color:var(--muted);max-width:420px;margin:0 auto 22px;line-height:1.8}
 .emp .bg2{display:inline-block;background:var(--n8);color:#fff;border-radius:4px;padding:12px 32px;font-size:14.5px;font-weight:600}
 .emp .bg2:hover{background:var(--n6)}
+
+/* ============ 乘客信息 ============ */
+.px{padding:20px 24px 24px}
+.px-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.px-head h3{font-size:14px;font-weight:600;color:var(--n8)}
+.px-head .sub{font-size:12px;color:var(--muted)}
+.px-head .add{margin-left:auto;font-size:13px;font-weight:600;color:var(--n8);background:#EEF3FA;border:1px solid var(--line);border-radius:4px;padding:6px 14px;transition:.2s}
+.px-head .add:hover{background:var(--n8);color:#fff;border-color:var(--n8)}
+
+.px-list{display:flex;flex-direction:column;gap:12px}
+.px-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,0.8fr) minmax(0,1.4fr) minmax(0,1fr) auto;gap:10px;align-items:end;padding:14px;background:#F8FAFC;border:1px solid var(--line);border-radius:6px}
+.px-f{display:flex;flex-direction:column;gap:3px}
+.px-f label{font-size:11px;color:var(--muted);letter-spacing:.3px}
+.px-f input,.px-f select{width:100%;border:1px solid var(--line);background:#fff;border-radius:3px;padding:8px 10px;font-size:13.5px;color:var(--n8);font-family:inherit;outline:none;transition:.15s}
+.px-f input:focus,.px-f select:focus{border-color:var(--n7);box-shadow:0 0 0 2px rgba(16,42,76,.08)}
+.px-f .tip{font-size:11px;color:var(--muted)}
+.px-tag{display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;font-size:11px;font-weight:700;border-radius:2px;letter-spacing:.4px}
+.px-tag.ad{background:#EEF3FA;color:var(--n7)}
+.px-tag.ch{background:#FBF3DD;color:var(--warn)}
+.px-tag.in{background:#E7F0EA;color:var(--ok)}
+.px-del{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:3px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;transition:.2s;align-self:end}
+.px-del:hover{background:#FBE9E9;border-color:#E7C4C4;color:#B23B3B}
+.px-del svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+
 @media(max-width:1080px){.tm{display:none}}
-@media(max-width:960px){.cl2{grid-template-columns:1fr}.cs{position:static}}
-@media(max-width:820px){.hi{display:none}.sg2{grid-template-columns:1fr;gap:10px}.flr{margin-left:0;width:100%;justify-content:flex-start}}
-@media(max-width:640px){.ct{padding:0 16px}.tn{height:64px;gap:16px}.brand img{height:32px}.band h1{font-size:21px}.band{padding:26px 0}.cb{padding:22px 0 50px}.sh{padding:14px 18px}.fs{padding:16px 18px}.ss2{padding:16px 18px 20px}.smry{padding:18px}.sk2{padding:14px}.spr b{font-size:17px}}
+@media(max-width:960px){.cl2{grid-template-columns:1fr}.cs{position:static}.px-row{grid-template-columns:1fr 1fr;gap:10px}.px-del{grid-column:2;justify-self:end}}
+@media(max-width:640px){.ct{padding:0 16px}.tn{height:64px;gap:16px}.brand img{height:32px}.band h1{font-size:21px}.band{padding:26px 0}.cb{padding:22px 0 50px}.sh{padding:14px 18px}.fs{padding:16px 18px}.ss2{padding:16px 18px 20px}.smry{padding:18px}.sk2{padding:14px}.spr b{font-size:17px}.px-row{grid-template-columns:1fr;gap:8px}.px-del{justify-self:stretch;width:100%}}
 </style>
 </head>
 <body>
@@ -131,15 +156,15 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 <header class="topnav"><div class="ct tn">
 <a href="index.html" class="brand"><img src="Logo.png" alt="众和航空" onerror="this.style.visibility='hidden'"></a>
 <nav class="tm"><a href="#">航班</a><a href="#">旅游</a><a href="#">购物</a><a href="#">餐饮</a><a href="#">支付</a><a href="#">会籍</a></nav>
-<div class="tnr"><span class="hi"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.2-3.6 4-5.4 7.5-5.4S18.3 16.4 19.5 20"/></svg>你好，中国</span><a href="ticket.html" class="bo">返回选票</a><a href="#" class="bs">立即注册</a></div>
+<div class="tnr"><a href="ticket.html" class="bo">返回选票</a><a href="#" class="bs">立即注册</a></div>
 </div></header>
 
 <section class="band"><div class="ct">
 <h1>确认订单</h1>
-<p>请核对您的行程，并选择合适的子仓位</p>
+<p>请核对您的行程，并填写乘机人信息</p>
 <div class="steps">
 <span class="sp dn"><span class="n">1</span>选择航班</span><span class="sl"></span>
-<span class="sp act"><span class="n">2</span>子仓位与权益</span><span class="sl"></span>
+<span class="sp act"><span class="n">2</span>乘机人与子仓位</span><span class="sl"></span>
 <span class="sp"><span class="n">3</span>支付</span>
 </div>
 </div></section>
@@ -148,23 +173,9 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 
 <script>
 (function(){
-/* ============ 子仓位：名称、单字码、折扣倍率（相对于全价的比率） ============ */
-var SUB={
-  b:{key:'b',n:'基础',d:'经济之选'},
-  s:{key:'s',n:'标准',d:'灵活出行'},
-  f:{key:'f',n:'灵活',d:'无忧出行'}
-};
-
-/* 每个舱位的三档子仓位单字码 */
-var SUB_CODE={
-  Y:{b:'Q',s:'S',f:'Y'},
-  W:{b:'O',s:'V',f:'W'},
-  C:{b:'J',s:'D',f:'C'},
-  F:{b:'P',s:'L',f:'F'},
-  A:{b:'Z',s:'U',f:'A'}
-};
-
-/* 权益 */
+/* ============ 子仓位配置 ============ */
+var SUB={b:{key:'b',n:'基础',d:'经济之选'},s:{key:'s',n:'标准',d:'灵活出行'},f:{key:'f',n:'灵活',d:'无忧出行'}};
+var SUB_CODE={Y:{b:'Q',s:'S',f:'Y'},W:{b:'O',s:'V',f:'W'},C:{b:'J',s:'D',f:'C'},F:{b:'P',s:'L',f:'F'},A:{b:'Z',s:'U',f:'A'}};
 var BNF={
 Y:{b:[{i:'hd',t:'手提行李 1 × 7kg'},{i:'bg',t:'托运行李 23kg'},{i:'ed',t:'付费改签',m:true},{i:'rf',t:'不可退票',m:true},{i:'ml',t:'里程累积 100%'}],
 s:[{i:'hd',t:'手提行李 2 × 7kg'},{i:'bg',t:'托运行李 30kg'},{i:'ed',t:'免费改签 1 次'},{i:'rf',t:'付费退票'},{i:'ml',t:'里程累积 130%'}],
@@ -189,9 +200,21 @@ pr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9
 lg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6Z"/><path d="M6 12V8a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v4"/><path d="M9 4V2M15 4V2"/></svg>'
 };
 
+/* ============ 乘客类型 ============ */
+var PAX_TYPE={
+  AD:{key:'AD',n:'成人',short:'成人',rate:1.00,age:'≥ 12 岁'},
+  CH:{key:'CH',n:'儿童',short:'儿童',rate:0.75,age:'2–11 岁'},
+  IN:{key:'IN',n:'婴儿',short:'婴儿',rate:0.10,age:'< 2 岁'}
+};
+
+/* ============ 状态 ============ */
+var segsData=[];
+var roundTripRate=1;
+var paxList=[]; /* {id, name, idType, idNo, birth} */
+
 /* ============ 工具 ============ */
 function $(i){return document.getElementById(i)}
-function fp(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+function fp(n){return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function sD(s){if(!s)return'';var p=s.split('-');return +p[1]+'月'+ +p[2]+'日'}
 var WK=['周日','周一','周二','周三','周四','周五','周六'];
@@ -199,19 +222,9 @@ function pD(s){if(!s)return'';var p=s.split('-'),x=new Date(+p[0],+p[1]-1,+p[2])
 function pT(t){return t.slice(0,2)+':'+t.slice(2)}
 function readBooking(){try{var r=sessionStorage.getItem('peace_booking');if(!r)return null;return JSON.parse(r)}catch(e){return null}}
 
-/* ★ 折扣率显示格式：0.62 → "6.2 折"，1 → "全价" */
-function fmtRate(r){
-  if(r>=0.999)return'全价';
-  var n=Math.round(r*1000)/10;
-  return n.toFixed(1).replace(/\.0$/,'')+' 折';
-}
-
-/* ★ 段基础档价（未含子仓位调整、未含活动折扣） */
-function segRawDisc(seg){
-  return seg.baseRawDisc != null ? seg.baseRawDisc : seg.baseDisc;
-}
-
-/* ★ 子仓位折扣率：b=基础折扣率，s=中值，f=全价 */
+/* ============ 折扣/价格 ============ */
+function fmtRate(r){if(r>=0.999)return'全价';var n=Math.round(r*1000)/10;return n.toFixed(1).replace(/\.0$/,'')+' 折'}
+function segRawDisc(seg){return seg.baseRawDisc!=null?seg.baseRawDisc:seg.baseDisc}
 function subRate(seg,tier){
   var raw=segRawDisc(seg),full=seg.baseFull;
   var baseRate=full>0?raw/full:1;
@@ -220,51 +233,86 @@ function subRate(seg,tier){
   if(tier==='f')return 1;
   return baseRate;
 }
-
-/* ★ 子仓位段价（未含活动折扣） */
-function subPrice(seg,tier){
-  return Math.round(seg.baseFull * subRate(seg,tier));
-}
-
-/* ★ 段最终价 = subPrice × 活动折扣率 */
-function segPrice(seg){
+function subPrice(seg,tier){return Math.round(seg.baseFull*subRate(seg,tier))}
+function segPricePerAdult(seg){
   var p=subPrice(seg,seg.subTier||'b');
   var r=seg.actRate!=null?seg.actRate:1;
   return Math.round(p*r);
 }
-
-/* 舱位名 */
-function cabName(c){return {Y:'经济舱',W:'众选经济舱',C:'商务舱',F:'头等舱',A:'套房'}[c]||c}
-
-/* ★ 子仓位单字码 */
-function subCode(cabin,tier){
-  var m=SUB_CODE[cabin];
-  return m?(m[tier]||cabin):cabin;
+/* ★ 段总价 = 各乘客按类型系数加总 */
+function segPriceTotal(seg){
+  var unit=segPricePerAdult(seg);
+  var sum=0;
+  paxList.forEach(function(p){sum+=unit*PAX_TYPE[p.type].rate});
+  return Math.round(sum);
+}
+function segPriceDetail(seg){
+  var unit=segPricePerAdult(seg);
+  var rows=[];
+  ['AD','CH','IN'].forEach(function(t){
+    var n=paxList.filter(function(p){return p.type===t}).length;
+    if(n>0)rows.push({type:t,n:n,unit:unit*PAX_TYPE[t].rate,sub:unit*PAX_TYPE[t].rate*n});
+  });
+  return {unit:unit,rows:rows,total:rows.reduce(function(a,r){return a+r.sub},0)};
 }
 
-/* ============ 子仓位卡片 ============ */
+function cabName(c){return {Y:'经济舱',W:'众选经济舱',C:'商务舱',F:'头等舱',A:'套房'}[c]||c}
+function subCode(cabin,tier){var m=SUB_CODE[cabin];return m?(m[tier]||cabin):cabin}
+
+/* ============ 乘客类型判定 ============ */
+function ageAt(dateStr){
+  if(!dateStr)return 30;
+  var p=dateStr.split('-'),b=new Date(+p[0],+p[1]-1,+p[2]),now=new Date();
+  var a=now.getFullYear()-b.getFullYear();
+  var m=now.getMonth()-b.getMonth();
+  if(m<0||(m===0&&now.getDate()<b.getDate()))a--;
+  return a;
+}
+function paxTypeFromBirth(birth){
+  var a=ageAt(birth);
+  if(a<2)return 'IN';
+  if(a<12)return 'CH';
+  return 'AD';
+}
+
+/* ============ 乘客渲染 ============ */
+function paxRowHtml(p,i){
+  var canRemove=paxList.length>1;
+  var typeTag='<span class="px-tag '+({AD:'ad',CH:'ch',IN:'in'}[p.type])+'">'+PAX_TYPE[p.type].n+'</span>';
+  return '<div class="px-row" data-id="'+p.id+'">'
+  +  '<div class="px-f"><label>姓名</label><input type="text" data-f="name" value="'+esc(p.name||'')+'" placeholder="与证件一致"></div>'
+  +  '<div class="px-f"><label>证件类型</label><select data-f="idType"><option value="身份证"'+(p.idType==='身份证'?' selected':'')+'>身份证</option><option value="护照"'+(p.idType==='护照'?' selected':'')+'>护照</option><option value="回乡证"'+(p.idType==='回乡证'?' selected':'')+'>回乡证</option><option value="台胞证"'+(p.idType==='台胞证'?' selected':'')+'>台胞证</option></select></div>'
+  +  '<div class="px-f"><label>证件号码</label><input type="text" data-f="idNo" value="'+esc(p.idNo||'')+'" placeholder="请输入证件号码"></div>'
+  +  '<div class="px-f"><label>出生日期 ' + typeTag + '</label><input type="date" data-f="birth" value="'+esc(p.birth||'')+'"><span class="tip">' + PAX_TYPE[p.type].age + ' · 票价 × ' + PAX_TYPE[p.type].rate.toFixed(2) + '</span></div>'
+  +  (canRemove?'<button type="button" class="px-del" data-del="'+p.id+'" title="删除"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>':'')
+  + '</div>';
+}
+function renderPax(){
+  var h='<div class="px">';
+  h+='<div class="px-head"><h3>乘机人</h3><span class="sub">共 '+paxList.length+' 人 · 儿童 75%，婴儿 10%</span><button type="button" class="add" id="pxAdd">+ 添加乘机人</button></div>';
+  h+='<div class="px-list" id="pxList">';
+  paxList.forEach(function(p,i){h+=paxRowHtml(p,i)});
+  h+='</div></div>';
+  return h;
+}
+
+/* ============ 航段卡片 ============ */
 function stCard(seg,tier){
   var cur=(seg.subTier||'b')===tier;
   var cab=seg.flights[0].cabin;
   var code=subCode(cab,tier);
-  var price=segPrice(Object.assign({},seg,{subTier:tier}));
-  var basePrice=Math.round(seg.baseFull*subRate(seg,tier));
+  var price=segPricePerAdult(Object.assign({},seg,{subTier:tier}));
   var rate=subRate(seg,tier);
   var bnf=(BNF[cab]&&BNF[cab][tier])||BNF.Y[tier];
   var bh='';bnf.forEach(function(b){var ic=IC[b.i]||IC.ml;bh+='<li'+(b.m?' class="mt"':'')+'>'+ic+'<span>'+esc(b.t)+'</span></li>'});
   var id='st-'+seg.key+'-'+tier;
   var bd=cur?'<span class="sbdg">当前</span>':'';
-  /* 相对基础子仓位的差价，用于"+"提示 */
-  var baseTierPrice=segPrice(Object.assign({},seg,{subTier:'b'}));
+  var baseTierPrice=segPricePerAdult(Object.assign({},seg,{subTier:'b'}));
   var dh='';
-  if(!cur){
-    if(price>baseTierPrice)dh='<span class="up">+ MZB '+fp(price-baseTierPrice)+'</span>';
-  }
-  var rateTag=fmtRate(rate);
-  return '<label class="so" for="'+id+'"><input type="radio" id="'+id+'" name="sub-'+seg.key+'" value="'+tier+'" data-seg="'+seg.key+'"'+(cur?' checked':'')+'><div class="sk2"><div class="sk3"><span class="snm">'+SUB[tier].n+'</span><span class="scd2">'+code+'</span>'+bd+'</div><div class="sds">'+code+' 舱 · '+rateTag+'</div><div class="spr"><em>MZB</em><b>'+fp(price)+'</b><small>起</small>'+dh+'</div><ul class="sbn">'+bh+'</ul></div></label>';
+  if(!cur&&price>baseTierPrice)dh='<span class="up">+ MZB '+fp(price-baseTierPrice)+'</span>';
+  return '<label class="so" for="'+id+'"><input type="radio" id="'+id+'" name="sub-'+seg.key+'" value="'+tier+'" data-seg="'+seg.key+'"'+(cur?' checked':'')+'><div class="sk2"><div class="sk3"><span class="snm">'+SUB[tier].n+'</span><span class="scd2">'+code+'</span>'+bd+'</div><div class="sds">'+code+' 舱 · '+fmtRate(rate)+'</div><div class="spr"><em>MZB</em><b>'+fp(price)+'</b><small>起 / 成人</small>'+dh+'</div><ul class="sbn">'+bh+'</ul></div></label>';
 }
 
-/* ============ 航段卡片 ============ */
 function segCard(seg){
   var fl='';
   seg.flights.forEach(function(f,i){
@@ -276,7 +324,7 @@ function segCard(seg){
   return '<div class="sc" data-seg="'+seg.key+'"><div class="sh"><span class="sd">'+seg.dir+'</span><h3>'+seg.fromCity+' → '+seg.toCity+'</h3><span class="sd2">'+pD(seg.date)+'</span></div>'+ah+'<div class="fs">'+fl+'</div>'+ss+'</div>';
 }
 
-/* ============ 优惠明细 ============ */
+/* ============ 明细 ============ */
 function detRow(label,val,cls){return '<div class="row'+(cls?' '+cls:'')+'"><span>'+label+'</span><b>'+(cls==='minus'?'−':'+')+'MZB '+fp(val)+'</b></div>'}
 function detRowPlain(label,val){return '<div class="row"><span>'+label+'</span><b>MZB '+fp(val)+'</b></div>'}
 
@@ -285,29 +333,38 @@ function segDetail(seg){
   var cab=seg.flights[0].cabin;
   var code=subCode(cab,tier);
   var rate=subRate(seg,tier);
-  var subP=subPrice(seg,tier);
+  var subP=subPrice(seg,tier); /* 单人单段·子仓位价格 */
   var actR=seg.actRate!=null?seg.actRate:1;
-  var finalP=Math.round(subP*actR);
-  var subDisc=seg.baseFull-subP;
-  var actDisc=subP-finalP;
+  var unitAdult=Math.round(subP*actR);
+  var det=segPriceDetail(seg);
 
   var h='<div class="dt">';
-  h+=detRowPlain('基础价（含税全价）',seg.baseFull);
+  h+=detRowPlain('基础价（含税全价 / 成人）',seg.baseFull);
+  var subDisc=seg.baseFull-subP;
   if(subDisc>0)h+=detRow(code+' 舱 · '+fmtRate(rate),subDisc,'minus');
-  if(seg.activity&&actDisc>0)h+=detRow(seg.activity.code+' · '+seg.activity.label+' '+(seg.activity.rate*10).toFixed(1)+' 折',actDisc,'minus');
-  h+='<div class="row sub"><span>段小计</span><b>MZB '+fp(finalP)+'</b></div>';
+  if(seg.activity)h+=detRow(seg.activity.code+' · '+seg.activity.label+' '+(seg.activity.rate*10).toFixed(1)+' 折',subP-unitAdult,'minus');
+  /* ★ 按乘客类型分列 */
+  if(det.rows.length>1||det.rows[0].type!=='AD'){
+    h+='<div class="row pax-info"><span>乘客构成</span><span>'
+      + det.rows.map(function(r){return PAX_TYPE[r.type].short+' × '+r.n}).join(' · ')
+      + '</span></div>';
+    det.rows.forEach(function(r){
+      if(r.type==='AD')h+=detRowPlain('成人 × '+r.n,r.sub);
+      else h+=detRow(PAX_TYPE[r.type].n+' × '+r.n+'（'+PAX_TYPE[r.type].rate*10+' 折）',r.sub,'plus');
+    });
+  }
+  h+='<div class="row sub"><span>段小计</span><b>MZB '+fp(det.total)+'</b></div>';
   h+='</div>';
   return h;
 }
 
-/* ============ 摘要 ============ */
-function sumH(segs,roundTripRate){
+function sumH(segs,rtRate){
   var h='',tot=0;
   segs.forEach(function(s){
     var tier=s.subTier||'b';
     var cab=s.flights[0].cabin;
     var code=subCode(cab,tier);
-    var p=segPrice(s);
+    var p=segPriceTotal(s);
     tot+=p;
     var dt2='';
     if(s.type==='d'){
@@ -319,19 +376,18 @@ function sumH(segs,roundTripRate){
     }
     h+='<div class="ssg"><div class="ssgh"><span class="ssgd">'+s.dir+'</span><span class="ssgr">'+s.fromCity+' → '+s.toCity+'</span></div><div class="ssgd2">'+dt2+'</div>'+segDetail(s)+'<div class="ssgp"><em>MZB</em><b>'+fp(p)+'</b></div></div>';
   });
-  var isRound=roundTripRate<1;
+  var isRound=rtRate<1;
   var finalTot=tot,roundSave=0;
-  if(isRound){finalTot=Math.round(tot*roundTripRate);roundSave=tot-finalTot}
+  if(isRound){finalTot=Math.round(tot*rtRate);roundSave=tot-finalTot}
   var tb='<div class="tb">';
   tb+='<div class="tr"><span>各航段折后小计</span><b>MZB '+fp(tot)+'</b></div>';
-  if(isRound)tb+='<div class="tr minus"><span>往返折扣 '+Math.round(roundTripRate*100)+'%</span><b>−MZB '+fp(roundSave)+'</b></div>';
+  if(isRound)tb+='<div class="tr minus"><span>往返折扣 '+Math.round(rtRate*100)+'%</span><b>−MZB '+fp(roundSave)+'</b></div>';
   tb+='<div class="tr final"><span>应付总额</span><span class="amt"><em>MZB</em><b>'+fp(finalTot)+'</b><small>起</small></span></div>';
   tb+='</div>';
   return '<div class="smry"><h3>价格明细</h3>'+h+tb+'<button class="bp" id="payBtn">确认并支付</button><a class="bb" href="ticket.html">返回修改航班</a><p class="note">以上价格含税。最终金额以支付页面为准。</p></div>';
 }
 
-var segsData=[],roundTripRate=1;
-
+/* ============ 主渲染 ============ */
 function render(){
   var bk=readBooking();
   if(!bk||!bk.segments||!bk.segments.length){
@@ -340,58 +396,143 @@ function render(){
   }
   segsData=bk.segments;
   roundTripRate=bk.roundTripRate||1;
-  var mh='';segsData.forEach(function(s){mh+=segCard(s)});
+  if(!paxList.length)paxList=[newPax()];
+
+  var mh='';
+  segsData.forEach(function(s){mh+=segCard(s)});
+  mh+='<div class="sc" id="paxCard"></div>';
+
   $('root').innerHTML='<div class="cl2"><div class="cm">'+mh+'</div><aside class="cs" id="cSide"></aside></div>';
-  renderSide();bindSub();
+
+  renderPaxCard();
+  renderSide();
+  bindSub();
+  bindPax();
 }
 
-function renderSide(){$('cSide').innerHTML=sumH(segsData,roundTripRate);bindPay()}
-function upSum(){$('cSide').innerHTML=sumH(segsData,roundTripRate);bindPay()}
+function renderPaxCard(){
+  var el=$('paxCard');
+  if(el)el.innerHTML=renderPax();
+}
+
+function renderSide(){
+  var el=$('cSide');
+  if(el){el.innerHTML=sumH(segsData,roundTripRate);bindPay()}
+}
 
 function bindSub(){
   Array.prototype.forEach.call(document.querySelectorAll('.so input'),function(inp){
     inp.addEventListener('change',function(){
       var k=inp.getAttribute('data-seg'),v=inp.value;
       for(var i=0;i<segsData.length;i++)if(segsData[i].key===k){segsData[i].subTier=v;break}
-      /* 重绘卡片区（因为子仓位卡片里的"当前"标记和价格要更新） */
-      var mh='';segsData.forEach(function(s){mh+=segCard(s)});
+      /* 重绘航段卡片子仓位（因为价格要变），但保留乘客区 */
+      var mh='';
+      segsData.forEach(function(s){mh+=segCard(s)});
+      mh+='<div class="sc" id="paxCard"></div>';
       document.querySelector('.cm').innerHTML=mh;
+      renderPaxCard();
       bindSub();
-      upSum();
+      bindPax();
+      renderSide();
     });
   });
 }
 
-function bindPay(){var btn=$('payBtn');if(!btn)return;btn.addEventListener('click',function(){
-  try{
-    var subtotal=segsData.reduce(function(a,s){return a+segPrice(s)},0);
-    var isRound=roundTripRate<1;
-    var finalTot=isRound?Math.round(subtotal*roundTripRate):subtotal;
-    var payload={
-      segments:segsData.map(function(s){
-        var tier=s.subTier||'b';
-        var cab=s.flights[0].cabin;
-        return {
-          key:s.key, dir:s.dir, subTier:tier,
-          subName:SUB[tier].n,
-          subCode:subCode(cab,tier),
-          baseFull:s.baseFull,
-          subRate:subRate(s,tier),
-          subPrice:subPrice(s,tier),
-          actRate:s.actRate||1,
-          actCode:s.activity?s.activity.code:null,
-          finalPrice:segPrice(s)
-        };
-      }),
-      subtotal:subtotal,
-      roundTripRate:roundTripRate,
-      roundTripSave:isRound?(subtotal-finalTot):0,
-      total:finalTot
-    };
-    sessionStorage.setItem('peace_booking_final',JSON.stringify(payload));
-  }catch(e){}
-  location.href='payment.html';
-})}
+function newPax(){
+  return {id:'p'+Date.now()+Math.floor(Math.random()*1000),name:'',idType:'身份证',idNo:'',birth:'',type:'AD'};
+}
+
+function bindPax(){
+  /* 添加 */
+  var add=$('pxAdd');
+  if(add)add.addEventListener('click',function(){
+    paxList.push(newPax());
+    renderPaxCard();bindPax();renderSide();
+  });
+  /* 删除 */
+  Array.prototype.forEach.call(document.querySelectorAll('.px-del'),function(btn){
+    btn.addEventListener('click',function(){
+      var id=btn.getAttribute('data-del');
+      paxList=paxList.filter(function(p){return p.id!==id});
+      renderPaxCard();bindPax();renderSide();
+    });
+  });
+  /* 输入与选择 */
+  Array.prototype.forEach.call(document.querySelectorAll('.px-row'),function(row){
+    var id=row.getAttribute('data-id');
+    var p=paxList.filter(function(x){return x.id===id})[0];
+    if(!p)return;
+    /* 姓名 */
+    var iName=row.querySelector('input[data-f="name"]');
+    if(iName)iName.addEventListener('input',function(){p.name=this.value});
+    /* 证件类型 */
+    var sType=row.querySelector('select[data-f="idType"]');
+    if(sType)sType.addEventListener('change',function(){p.idType=this.value});
+    /* 证件号 */
+    var iNo=row.querySelector('input[data-f="idNo"]');
+    if(iNo)iNo.addEventListener('input',function(){p.idNo=this.value});
+    /* 出生日期 → 自动判断类型并重绘 */
+    var iBirth=row.querySelector('input[data-f="birth"]');
+    if(iBirth)iBirth.addEventListener('change',function(){
+      p.birth=this.value;
+      var t=paxTypeFromBirth(this.value);
+      if(t!==p.type){
+        p.type=t;
+        renderPaxCard();bindPax();renderSide();
+      }
+    });
+  });
+}
+
+/* ============ 支付跳转 ============ */
+function bindPay(){
+  var btn=$('payBtn');if(!btn)return;
+  btn.addEventListener('click',function(){
+    /* 简单校验 */
+    for(var i=0;i<paxList.length;i++){
+      var p=paxList[i];
+      if(!p.name.trim()){alert('请填写第 '+(i+1)+' 位乘机人姓名');return}
+      if(!p.idNo.trim()){alert('请填写第 '+(i+1)+' 位乘机人证件号码');return}
+      if(!p.birth){alert('请填写第 '+(i+1)+' 位乘机人出生日期');return}
+    }
+    try{
+      var subtotal=segsData.reduce(function(a,s){return a+segPriceTotal(s)},0);
+      var isRound=roundTripRate<1;
+      var finalTot=isRound?Math.round(subtotal*roundTripRate):subtotal;
+      var payload={
+        passengers:paxList.map(function(p){
+          return {
+            id:p.id, name:p.name, idType:p.idType, idNo:p.idNo, birth:p.birth,
+            type:p.type, typeName:PAX_TYPE[p.type].n, rate:PAX_TYPE[p.type].rate
+          };
+        }),
+        segments:segsData.map(function(s){
+          var tier=s.subTier||'b';
+          var cab=s.flights[0].cabin;
+          var det=segPriceDetail(s);
+          return {
+            key:s.key, dir:s.dir, subTier:tier,
+            subName:SUB[tier].n, subCode:subCode(cab,tier),
+            baseFull:s.baseFull,
+            subRate:subRate(s,tier),
+            subPrice:subPrice(s,tier),
+            actRate:s.actRate||1,
+            actCode:s.activity?s.activity.code:null,
+            unitAdult:segPricePerAdult(s),
+            priceByType:det.rows,
+            finalPrice:det.total
+          };
+        }),
+        subtotal:subtotal,
+        roundTripRate:roundTripRate,
+        roundTripSave:isRound?(subtotal-finalTot):0,
+        total:finalTot
+      };
+      sessionStorage.setItem('peace_booking_final',JSON.stringify(payload));
+    }catch(e){}
+    location.href='payment.html';
+  });
+}
 
 render();
 })();
