@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="Logo-light.png" media="(prefers-color-scheme: light)">
 <link rel="icon" type="image/png" href="Logo-dark.png" media="(prefers-color-scheme: dark)">
 <style>
-:root{--n8:#0B2038;--n7:#102A4C;--n6:#16365F;--gold:#C9A227;--ink:#12233B;--muted:#5B6B80;--line:#E3E8EF;--bg:#F5F7FA;--ok:#1B7A4B;--warn:#8A5A0E}
+:root{--n8:#0B2038;--n7:#102A4C;--n6:#16365F;--gold:#C9A227;--ink:#12233B;--muted:#5B6B80;--line:#E3E8EF;--bg:#F5F7FA;--ok:#1B7A4B;--warn:#8A5A0E;--red:#B23B3B}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
 a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{font-family:inherit;cursor:pointer}
@@ -92,7 +92,6 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .dt .row.sub{border-top:1px dashed #DDE4EE;margin-top:6px;padding-top:6px;color:var(--n8);font-weight:600}
 .dt .row.sub b{color:var(--n8);font-size:13.5px}
 .dt .row.pax-info{font-size:12px;color:var(--n7)}
-.dt .row.pax-info span{padding-left:12px}
 .ssg{padding-bottom:14px;margin-bottom:14px;border-bottom:1px dashed #EDF1F6}
 .ssg:last-of-type{border-bottom:0;padding-bottom:0;margin-bottom:8px}
 .ssgh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
@@ -128,27 +127,47 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .px-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .px-head h3{font-size:14px;font-weight:600;color:var(--n8)}
 .px-head .sub{font-size:12px;color:var(--muted)}
+.px-head .sub .intl-tip{color:var(--warn);font-weight:600}
 .px-head .add{margin-left:auto;font-size:13px;font-weight:600;color:var(--n8);background:#EEF3FA;border:1px solid var(--line);border-radius:4px;padding:6px 14px;transition:.2s}
 .px-head .add:hover{background:var(--n8);color:#fff;border-color:var(--n8)}
 
 .px-list{display:flex;flex-direction:column;gap:12px}
-.px-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,0.8fr) minmax(0,1.4fr) minmax(0,1fr) auto;gap:10px;align-items:end;padding:14px;background:#F8FAFC;border:1px solid var(--line);border-radius:6px}
-.px-f{display:flex;flex-direction:column;gap:3px}
-.px-f label{font-size:11px;color:var(--muted);letter-spacing:.3px}
-.px-f input,.px-f select{width:100%;border:1px solid var(--line);background:#fff;border-radius:3px;padding:8px 10px;font-size:13.5px;color:var(--n8);font-family:inherit;outline:none;transition:.15s}
-.px-f input:focus,.px-f select:focus{border-color:var(--n7);box-shadow:0 0 0 2px rgba(16,42,76,.08)}
-.px-f .tip{font-size:11px;color:var(--muted)}
-.px-tag{display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;font-size:11px;font-weight:700;border-radius:2px;letter-spacing:.4px}
+.px-row{background:#F8FAFC;border:1px solid var(--line);border-radius:6px;padding:14px}
+.px-row-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.px-idx{font-size:13px;font-weight:700;color:var(--n8)}
+.px-tag{display:inline-flex;align-items:center;padding:3px 8px;font-size:11px;font-weight:700;border-radius:2px;letter-spacing:.4px}
 .px-tag.ad{background:#EEF3FA;color:var(--n7)}
 .px-tag.ch{background:#FBF3DD;color:var(--warn)}
 .px-tag.in{background:#E7F0EA;color:var(--ok)}
-.px-del{background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:3px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;transition:.2s;align-self:end}
-.px-del:hover{background:#FBE9E9;border-color:#E7C4C4;color:#B23B3B}
-.px-del svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.px-note{font-size:11.5px;color:var(--muted);margin-left:2px}
+.px-del{margin-left:auto;background:transparent;border:1px solid var(--line);color:var(--muted);border-radius:3px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:.2s}
+.px-del:hover{background:#FBE9E9;border-color:#E7C4C4;color:var(--red)}
+.px-del svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.px-del[disabled]{opacity:.35;pointer-events:none}
+
+.px-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.px-f{display:flex;flex-direction:column;gap:3px;min-width:0}
+.px-f.hide{display:none}
+.px-f label{font-size:11px;color:var(--muted);letter-spacing:.3px}
+.px-f input,.px-f select{width:100%;border:1px solid var(--line);background:#fff;border-radius:3px;padding:8px 10px;font-size:13.5px;color:var(--n8);font-family:inherit;outline:none;transition:.15s}
+.px-f input:focus,.px-f select:focus{border-color:var(--n7);box-shadow:0 0 0 2px rgba(16,42,76,.08)}
+.px-f input:disabled,.px-f select:disabled{background:#F1F4F9;color:#9DAABD;cursor:not-allowed}
+.px-f .tip{font-size:11px;color:var(--muted)}
+.px-f .tip b{color:var(--n8)}
+.px-f .tip.warn{color:var(--warn)}
 
 @media(max-width:1080px){.tm{display:none}}
-@media(max-width:960px){.cl2{grid-template-columns:1fr}.cs{position:static}.px-row{grid-template-columns:1fr 1fr;gap:10px}.px-del{grid-column:2;justify-self:end}}
-@media(max-width:640px){.ct{padding:0 16px}.tn{height:64px;gap:16px}.brand img{height:32px}.band h1{font-size:21px}.band{padding:26px 0}.cb{padding:22px 0 50px}.sh{padding:14px 18px}.fs{padding:16px 18px}.ss2{padding:16px 18px 20px}.smry{padding:18px}.sk2{padding:14px}.spr b{font-size:17px}.px-row{grid-template-columns:1fr;gap:8px}.px-del{justify-self:stretch;width:100%}}
+@media(max-width:960px){
+  .cl2{grid-template-columns:1fr}.cs{position:static}
+  .px-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .ct{padding:0 16px}.tn{height:64px;gap:16px}.brand img{height:32px}
+  .band h1{font-size:21px}.band{padding:26px 0}.cb{padding:22px 0 50px}
+  .sh{padding:14px 18px}.fs{padding:16px 18px}.ss2{padding:16px 18px 20px}
+  .smry{padding:18px}.sk2{padding:14px}.spr b{font-size:17px}
+  .px-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -170,6 +189,23 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 </div></section>
 
 <section class="cb"><div class="ct"><div id="root"></div></div></section>
+
+<datalist id="countryList">
+  <option value="DRC">善国</option>
+  <option value="DSK">善国淡竹</option>
+  <option value="XXX">任意</option>
+  <option value="GBR">英国</option>
+  <option value="JPN">日本</option>
+  <option value="CSI">清溪</option>
+  <option value="SHL">狮驼</option>
+  <option value="FRA">法国</option>
+  <option value="DEU">德国</option>
+  <option value="NLD">荷兰</option>
+  <option value="ESP">西班牙</option>
+  <option value="PRT">葡萄牙</option>
+  <option value="UTS">天盛</option>
+  <option value="CBT">善国察音巴托</option>
+</datalist>
 
 <script>
 (function(){
@@ -200,6 +236,13 @@ pr:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9
 lg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6Z"/><path d="M6 12V8a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v4"/><path d="M9 4V2M15 4V2"/></svg>'
 };
 
+/* ============ 国内机场 / 证件类型 ============ */
+var DOM=['JCU','PAS','RFG','CPL','LON','CES','TAG','HOK','DZA'];
+var ID_DOMESTIC=['身份证','护照','出入境通行证','其它证件'];
+var ID_INTERNATIONAL=['护照','出入境通行证','其它证件']; /* 国际航班不能用身份证 */
+function needCountry(idType){return idType==='护照'||idType==='其它证件'}
+function needBilingual(){return true} /* 本航司所有航班均要求汉英双语 */
+
 /* ============ 乘客类型 ============ */
 var PAX_TYPE={
   AD:{key:'AD',n:'成人',short:'成人',rate:1.00,age:'≥ 12 岁'},
@@ -210,7 +253,8 @@ var PAX_TYPE={
 /* ============ 状态 ============ */
 var segsData=[];
 var roundTripRate=1;
-var paxList=[]; /* {id, name, idType, idNo, birth} */
+var paxList=[];
+var isIntlOrder=false;
 
 /* ============ 工具 ============ */
 function $(i){return document.getElementById(i)}
@@ -222,7 +266,18 @@ function pD(s){if(!s)return'';var p=s.split('-'),x=new Date(+p[0],+p[1]-1,+p[2])
 function pT(t){return t.slice(0,2)+':'+t.slice(2)}
 function readBooking(){try{var r=sessionStorage.getItem('peace_booking');if(!r)return null;return JSON.parse(r)}catch(e){return null}}
 
-/* ============ 折扣/价格 ============ */
+/* 判断订单是否为国际（含短途国际/洲际） */
+function isInternationalOrder(segs){
+  for(var i=0;i<segs.length;i++){
+    var s=segs[i];
+    if(s.fromCode && DOM.indexOf(s.fromCode)===-1)return true;
+    if(s.toCode && DOM.indexOf(s.toCode)===-1)return true;
+    if(s.hubCode && DOM.indexOf(s.hubCode)===-1)return true;
+  }
+  return false;
+}
+
+/* ============ 价格计算 ============ */
 function fmtRate(r){if(r>=0.999)return'全价';var n=Math.round(r*1000)/10;return n.toFixed(1).replace(/\.0$/,'')+' 折'}
 function segRawDisc(seg){return seg.baseRawDisc!=null?seg.baseRawDisc:seg.baseDisc}
 function subRate(seg,tier){
@@ -239,7 +294,6 @@ function segPricePerAdult(seg){
   var r=seg.actRate!=null?seg.actRate:1;
   return Math.round(p*r);
 }
-/* ★ 段总价 = 各乘客按类型系数加总 */
 function segPriceTotal(seg){
   var unit=segPricePerAdult(seg);
   var sum=0;
@@ -255,11 +309,10 @@ function segPriceDetail(seg){
   });
   return {unit:unit,rows:rows,total:rows.reduce(function(a,r){return a+r.sub},0)};
 }
-
 function cabName(c){return {Y:'经济舱',W:'众选经济舱',C:'商务舱',F:'头等舱',A:'套房'}[c]||c}
 function subCode(cabin,tier){var m=SUB_CODE[cabin];return m?(m[tier]||cabin):cabin}
 
-/* ============ 乘客类型判定 ============ */
+/* ============ 年龄与乘客类型 ============ */
 function ageAt(dateStr){
   if(!dateStr)return 30;
   var p=dateStr.split('-'),b=new Date(+p[0],+p[1]-1,+p[2]),now=new Date();
@@ -275,21 +328,57 @@ function paxTypeFromBirth(birth){
   return 'AD';
 }
 
-/* ============ 乘客渲染 ============ */
-function paxRowHtml(p,i){
-  var canRemove=paxList.length>1;
-  var typeTag='<span class="px-tag '+({AD:'ad',CH:'ch',IN:'in'}[p.type])+'">'+PAX_TYPE[p.type].n+'</span>';
-  return '<div class="px-row" data-id="'+p.id+'">'
-  +  '<div class="px-f"><label>姓名</label><input type="text" data-f="name" value="'+esc(p.name||'')+'" placeholder="与证件一致"></div>'
-  +  '<div class="px-f"><label>证件类型</label><select data-f="idType"><option value="身份证"'+(p.idType==='身份证'?' selected':'')+'>身份证</option><option value="护照"'+(p.idType==='护照'?' selected':'')+'>护照</option><option value="回乡证"'+(p.idType==='回乡证'?' selected':'')+'>回乡证</option><option value="台胞证"'+(p.idType==='台胞证'?' selected':'')+'>台胞证</option></select></div>'
-  +  '<div class="px-f"><label>证件号码</label><input type="text" data-f="idNo" value="'+esc(p.idNo||'')+'" placeholder="请输入证件号码"></div>'
-  +  '<div class="px-f"><label>出生日期 ' + typeTag + '</label><input type="date" data-f="birth" value="'+esc(p.birth||'')+'"><span class="tip">' + PAX_TYPE[p.type].age + ' · 票价 × ' + PAX_TYPE[p.type].rate.toFixed(2) + '</span></div>'
-  +  (canRemove?'<button type="button" class="px-del" data-del="'+p.id+'" title="删除"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>':'')
-  + '</div>';
+/* ============ 新建乘客 ============ */
+function newPax(isIntl){
+  return {
+    id:'p'+Date.now()+Math.floor(Math.random()*1000),
+    nameCn:'',
+    nameEn:'',
+    idType:isIntl?'护照':'身份证',
+    idNo:'',
+    birth:'',
+    nationality:'',
+    issuer:'',
+    type:'AD'
+  };
 }
+
+/* ============ 乘客行渲染 ============ */
+function paxRowHtml(p,idx){
+  var canRemove=paxList.length>1;
+  var showCountry=needCountry(p.idType);
+  var idOptions=(isIntlOrder?ID_INTERNATIONAL:ID_DOMESTIC).map(function(o){
+    return '<option value="'+o+'"'+(p.idType===o?' selected':'')+'>'+o+'</option>';
+  }).join('');
+  var typeName=PAX_TYPE[p.type].n;
+  var typeCls={AD:'ad',CH:'ch',IN:'in'}[p.type];
+  var isChOrIn=(p.type!=='AD');
+  return '<div class="px-row" data-id="'+p.id+'">'
+  +  '<div class="px-row-head">'
+  +    '<span class="px-idx">乘机人 '+(idx+1)+'</span>'
+  +    '<span class="px-tag '+typeCls+'">'+typeName+'</span>'
+  +    '<span class="px-note">'+PAX_TYPE[p.type].age+' · 票价 × '+PAX_TYPE[p.type].rate.toFixed(2)+'</span>'
+  +    (canRemove?'<button type="button" class="px-del" data-del="'+p.id+'" title="删除"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>':'<button type="button" class="px-del" disabled title="至少保留 1 位"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>')
+  +  '</div>'
+  +  '<div class="px-grid">'
+  +    '<div class="px-f"><label>中文姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameCn" value="'+esc(p.nameCn||'')+'" placeholder="张三"><span class="tip">与证件一致</span></div>'
+  +    '<div class="px-f"><label>英文姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameEn" value="'+esc(p.nameEn||'')+'" placeholder="ZHANG SAN" style="text-transform:uppercase"><span class="tip warn">汉英双语 · 与护照一致，全大写</span></div>'
+  +    '<div class="px-f"><label>证件类型 <span style="color:#B23B3B">*</span></label><select data-f="idType">'+idOptions+'</select><span class="tip">'+(isIntlOrder?'国际航班不可使用身份证':'国内航班')+'</span></div>'
+  +    '<div class="px-f"><label>证件号码 <span style="color:#B23B3B">*</span></label><input type="text" data-f="idNo" value="'+esc(p.idNo||'')+'" placeholder="请输入证件号码"></div>'
+  +    '<div class="px-f"><label>出生日期 <span style="color:#B23B3B">*</span></label><input type="date" data-f="birth" value="'+esc(p.birth||'')+'"><span class="tip">决定乘客类型，填写后自动识别</span></div>'
+  +    '<div class="px-f px-country'+(showCountry?'':' hide')+'" data-fc="nationality"><label>国籍三字码 <span style="color:#B23B3B">*</span></label><input type="text" list="countryList" data-f="nationality" value="'+esc(p.nationality||'')+'" placeholder="CHN" maxlength="3" style="text-transform:uppercase"><span class="tip">如中国：CHN</span></div>'
+  +    '<div class="px-f px-country'+(showCountry?'':' hide')+'" data-fc="issuer"><label>签发国三字码 <span style="color:#B23B3B">*</span></label><input type="text" list="countryList" data-f="issuer" value="'+esc(p.issuer||'')+'" placeholder="CHN" maxlength="3" style="text-transform:uppercase"><span class="tip">证件签发国，如中国：CHN</span></div>'
+  +  '</div>'
+  +  '</div>';
+}
+
 function renderPax(){
   var h='<div class="px">';
-  h+='<div class="px-head"><h3>乘机人</h3><span class="sub">共 '+paxList.length+' 人 · 儿童 75%，婴儿 10%</span><button type="button" class="add" id="pxAdd">+ 添加乘机人</button></div>';
+  h+='<div class="px-head"><h3>乘机人</h3>'
+    +'<span class="sub">共 '+paxList.length+' 人 · 儿童 75%，婴儿 10%'
+    +(isIntlOrder?' · <span class="intl-tip">国际航班不可使用身份证</span>':'')
+    +'</span>'
+    +'<button type="button" class="add" id="pxAdd">+ 添加乘机人</button></div>';
   h+='<div class="px-list" id="pxList">';
   paxList.forEach(function(p,i){h+=paxRowHtml(p,i)});
   h+='</div></div>';
@@ -333,7 +422,7 @@ function segDetail(seg){
   var cab=seg.flights[0].cabin;
   var code=subCode(cab,tier);
   var rate=subRate(seg,tier);
-  var subP=subPrice(seg,tier); /* 单人单段·子仓位价格 */
+  var subP=subPrice(seg,tier);
   var actR=seg.actRate!=null?seg.actRate:1;
   var unitAdult=Math.round(subP*actR);
   var det=segPriceDetail(seg);
@@ -343,7 +432,6 @@ function segDetail(seg){
   var subDisc=seg.baseFull-subP;
   if(subDisc>0)h+=detRow(code+' 舱 · '+fmtRate(rate),subDisc,'minus');
   if(seg.activity)h+=detRow(seg.activity.code+' · '+seg.activity.label+' '+(seg.activity.rate*10).toFixed(1)+' 折',subP-unitAdult,'minus');
-  /* ★ 按乘客类型分列 */
   if(det.rows.length>1||det.rows[0].type!=='AD'){
     h+='<div class="row pax-info"><span>乘客构成</span><span>'
       + det.rows.map(function(r){return PAX_TYPE[r.type].short+' × '+r.n}).join(' · ')
@@ -396,7 +484,8 @@ function render(){
   }
   segsData=bk.segments;
   roundTripRate=bk.roundTripRate||1;
-  if(!paxList.length)paxList=[newPax()];
+  isIntlOrder=isInternationalOrder(segsData);
+  if(!paxList.length)paxList=[newPax(isIntlOrder)];
 
   var mh='';
   segsData.forEach(function(s){mh+=segCard(s)});
@@ -414,7 +503,6 @@ function renderPaxCard(){
   var el=$('paxCard');
   if(el)el.innerHTML=renderPax();
 }
-
 function renderSide(){
   var el=$('cSide');
   if(el){el.innerHTML=sumH(segsData,roundTripRate);bindPay()}
@@ -425,53 +513,53 @@ function bindSub(){
     inp.addEventListener('change',function(){
       var k=inp.getAttribute('data-seg'),v=inp.value;
       for(var i=0;i<segsData.length;i++)if(segsData[i].key===k){segsData[i].subTier=v;break}
-      /* 重绘航段卡片子仓位（因为价格要变），但保留乘客区 */
       var mh='';
       segsData.forEach(function(s){mh+=segCard(s)});
       mh+='<div class="sc" id="paxCard"></div>';
       document.querySelector('.cm').innerHTML=mh;
-      renderPaxCard();
-      bindSub();
-      bindPax();
-      renderSide();
+      renderPaxCard();bindSub();bindPax();renderSide();
     });
   });
 }
 
-function newPax(){
-  return {id:'p'+Date.now()+Math.floor(Math.random()*1000),name:'',idType:'身份证',idNo:'',birth:'',type:'AD'};
-}
-
 function bindPax(){
-  /* 添加 */
+  /* 添加乘机人 */
   var add=$('pxAdd');
   if(add)add.addEventListener('click',function(){
-    paxList.push(newPax());
+    paxList.push(newPax(isIntlOrder));
     renderPaxCard();bindPax();renderSide();
   });
-  /* 删除 */
+  /* 删除乘机人 */
   Array.prototype.forEach.call(document.querySelectorAll('.px-del'),function(btn){
     btn.addEventListener('click',function(){
+      if(btn.hasAttribute('disabled'))return;
       var id=btn.getAttribute('data-del');
       paxList=paxList.filter(function(p){return p.id!==id});
       renderPaxCard();bindPax();renderSide();
     });
   });
-  /* 输入与选择 */
+  /* 字段绑定 */
   Array.prototype.forEach.call(document.querySelectorAll('.px-row'),function(row){
     var id=row.getAttribute('data-id');
     var p=paxList.filter(function(x){return x.id===id})[0];
     if(!p)return;
-    /* 姓名 */
-    var iName=row.querySelector('input[data-f="name"]');
-    if(iName)iName.addEventListener('input',function(){p.name=this.value});
-    /* 证件类型 */
-    var sType=row.querySelector('select[data-f="idType"]');
-    if(sType)sType.addEventListener('change',function(){p.idType=this.value});
-    /* 证件号 */
+
+    var iCn=row.querySelector('input[data-f="nameCn"]');
+    if(iCn)iCn.addEventListener('input',function(){p.nameCn=this.value});
+
+    var iEn=row.querySelector('input[data-f="nameEn"]');
+    if(iEn)iEn.addEventListener('input',function(){this.value=this.value.toUpperCase();p.nameEn=this.value});
+
     var iNo=row.querySelector('input[data-f="idNo"]');
     if(iNo)iNo.addEventListener('input',function(){p.idNo=this.value});
-    /* 出生日期 → 自动判断类型并重绘 */
+
+    var iNat=row.querySelector('input[data-f="nationality"]');
+    if(iNat)iNat.addEventListener('input',function(){this.value=this.value.toUpperCase();p.nationality=this.value});
+
+    var iIss=row.querySelector('input[data-f="issuer"]');
+    if(iIss)iIss.addEventListener('input',function(){this.value=this.value.toUpperCase();p.issuer=this.value});
+
+    /* 出生日期 → 乘客类型自动识别 */
     var iBirth=row.querySelector('input[data-f="birth"]');
     if(iBirth)iBirth.addEventListener('change',function(){
       p.birth=this.value;
@@ -481,29 +569,63 @@ function bindPax(){
         renderPaxCard();bindPax();renderSide();
       }
     });
+
+    /* 证件类型 → 切换国籍/签发国显示 */
+    var sType=row.querySelector('select[data-f="idType"]');
+    if(sType)sType.addEventListener('change',function(){
+      p.idType=this.value;
+      var show=needCountry(this.value);
+      Array.prototype.forEach.call(row.querySelectorAll('.px-country'),function(el){
+        el.classList.toggle('hide',!show);
+      });
+      if(!show){p.nationality='';p.issuer='';}
+    });
   });
 }
 
-/* ============ 支付跳转 ============ */
+/* ============ 校验与支付 ============ */
+function validatePax(){
+  for(var i=0;i<paxList.length;i++){
+    var p=paxList[i],idx=i+1;
+    if(!p.nameCn.trim()){alert('请填写第 '+idx+' 位乘机人的中文姓名');return false}
+    if(!p.nameEn.trim()){alert('请填写第 '+idx+' 位乘机人的英文姓名');return false}
+    if(!/^[A-Za-z\s\-\.\/]+$/.test(p.nameEn.trim())){alert('第 '+idx+' 位乘机人的英文姓名格式有误，请使用字母、空格、连字符或斜杠');return false}
+    if(!p.idNo.trim()){alert('请填写第 '+idx+' 位乘机人的证件号码');return false}
+    if(!p.birth){alert('请填写第 '+idx+' 位乘机人的出生日期');return false}
+    /* 国际航班不允许身份证 */
+    if(isIntlOrder && p.idType==='身份证'){alert('第 '+idx+' 位乘机人：国际航班不可使用身份证购买');return false}
+    /* 护照 / 其它证件需要国籍与签发国 */
+    if(needCountry(p.idType)){
+      if(!/^[A-Za-z]{3}$/.test(p.nationality)){alert('请填写第 '+idx+' 位乘机人的国籍三字码（3 位字母，如 CHN）');return false}
+      if(!/^[A-Za-z]{3}$/.test(p.issuer)){alert('请填写第 '+idx+' 位乘机人的签发国三字码（3 位字母，如 CHN）');return false}
+    }
+  }
+  return true;
+}
+
 function bindPay(){
   var btn=$('payBtn');if(!btn)return;
   btn.addEventListener('click',function(){
-    /* 简单校验 */
-    for(var i=0;i<paxList.length;i++){
-      var p=paxList[i];
-      if(!p.name.trim()){alert('请填写第 '+(i+1)+' 位乘机人姓名');return}
-      if(!p.idNo.trim()){alert('请填写第 '+(i+1)+' 位乘机人证件号码');return}
-      if(!p.birth){alert('请填写第 '+(i+1)+' 位乘机人出生日期');return}
-    }
+    if(!validatePax())return;
     try{
       var subtotal=segsData.reduce(function(a,s){return a+segPriceTotal(s)},0);
       var isRound=roundTripRate<1;
       var finalTot=isRound?Math.round(subtotal*roundTripRate):subtotal;
       var payload={
+        isIntlOrder:isIntlOrder,
         passengers:paxList.map(function(p){
           return {
-            id:p.id, name:p.name, idType:p.idType, idNo:p.idNo, birth:p.birth,
-            type:p.type, typeName:PAX_TYPE[p.type].n, rate:PAX_TYPE[p.type].rate
+            id:p.id,
+            nameCn:p.nameCn,
+            nameEn:p.nameEn,
+            idType:p.idType,
+            idNo:p.idNo,
+            birth:p.birth,
+            nationality:needCountry(p.idType)?p.nationality.toUpperCase():'',
+            issuer:needCountry(p.idType)?p.issuer.toUpperCase():'',
+            type:p.type,
+            typeName:PAX_TYPE[p.type].n,
+            rate:PAX_TYPE[p.type].rate
           };
         }),
         segments:segsData.map(function(s){
