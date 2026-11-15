@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>订单查询 | 众和航空</title>
+<link rel="icon" type="image/png" href="Logo-light.png" media="(prefers-color-scheme: light)">
+<link rel="icon" type="image/png" href="Logo-dark.png" media="(prefers-color-scheme: dark)">
+<style>
+:root{--n8:#0B2038;--n7:#102A4C;--n6:#16365F;--gold:#C9A227;--ink:#12233B;--muted:#5B6B80;--line:#E3E8EF;--bg:#F5F7FA;--ok:#1B7A4B;--warn:#8A5A0E;--red:#B23B3B}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{font-family:inherit;cursor:pointer}
+.ct{max-width:1000px;margin:0 auto;padding:0 24px}
+.topnav{background:#fff;position:sticky;top:0;z-index:200;border-bottom:1px solid var(--line);box-shadow:0 2px 12px rgba(10,30,60,.05)}
+.tn{display:flex;align-items:center;height:72px;gap:34px}
+.brand img{height:38px}
+.tm{display:flex;align-items:center;gap:28px;font-size:15px;font-weight:500}
+.tm a{color:var(--n7);position:relative;padding:6px 0;transition:.2s}
+.tm a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--gold);transition:right .28s}
+.tm a:hover{color:var(--n8)}.tm a:hover::after{right:0}
+.tnr{margin-left:auto;display:flex;align-items:center;gap:12px;font-size:13.5px}
+.bo{border:1px solid var(--line);color:var(--n8);background:#fff;border-radius:3px;padding:7px 16px;font-size:13px}
+.bo:hover{background:var(--n8);color:#fff}
+.band{background:linear-gradient(180deg,#0A1E3C,#113058);color:#fff;padding:34px 0 52px}
+.band h1{font-size:26px;font-weight:600}
+.band p{margin-top:8px;font-size:14px;color:#B9C8DC}
+.wrap{padding:0 0 70px;min-height:calc(100vh - 340px)}
+.panel{background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 14px 34px rgba(10,30,60,.08);margin-top:-28px;padding:24px;position:relative;z-index:5}
+.lookup{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.fld{display:flex;flex-direction:column;gap:4px;flex:1 1 180px;min-width:140px}
+.fld label{font-size:11px;letter-spacing:1px;color:var(--muted)}
+.fld input{width:100%;border:1px solid var(--line);border-radius:4px;padding:11px 12px;font-size:14.5px;font-family:inherit;color:var(--n8);outline:none;transition:.15s}
+.fld input:focus{border-color:var(--n7);box-shadow:0 0 0 2px rgba(16,42,76,.08)}
+.btn{background:var(--n8);color:#fff;border:0;border-radius:4px;padding:12px 28px;font-size:14.5px;font-weight:600;letter-spacing:.6px}
+.btn:hover{background:var(--n6)}
+.btn[disabled]{opacity:.6;cursor:default}
+.tip{margin-top:14px;font-size:12.5px;color:var(--muted);line-height:1.8}
+.tip b{color:var(--n8)}
+.hint{margin-top:12px;padding:10px 12px;border-radius:4px;font-size:12.5px;line-height:1.7}
+.hint.warn{background:#FBF3DD;border:1px solid #E8DBA8;color:var(--warn)}
+.hint.info{background:#EEF3FA;border:1px solid #D6E0EE;color:var(--n7)}
+.hint b{color:var(--n8)}
+.result{margin-top:20px;display:none}
+.result.on{display:block}
+.rhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.rhead h3{font-size:16px;font-weight:700;color:var(--n8)}
+.rhead .cnt{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-bottom:10px;transition:.2s}
+.card:hover{border-color:#CBD7E6;box-shadow:0 10px 24px rgba(10,30,60,.08)}
+.card.hit{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok)}
+.cmain{display:flex;align-items:center;gap:14px;padding:14px 16px;flex-wrap:wrap;cursor:pointer}
+.no{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:13.5px;font-weight:700;color:var(--n8);letter-spacing:.4px}
+.route{font-size:14.5px;font-weight:600;color:var(--n7)}
+.dt{font-size:12.5px;color:var(--muted)}
+.meta{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:12.5px;color:var(--muted)}
+.meta b{color:var(--n8);font-size:14px}
+.badge{font-size:11px;font-weight:700;border-radius:2px;padding:2px 8px;background:#EEF3FA;color:var(--n7)}
+.badge.rt{background:#FBF3DD;color:var(--warn)}
+.badge.ow{background:#E7F0EA;color:var(--ok)}
+.open{padding:0 16px 14px;display:none;border-top:1px solid #F1F4F9;margin-top:0}
+.card.exp .open{display:block}
+.kv{display:flex;flex-wrap:wrap;gap:8px 24px;padding:12px 0 4px;font-size:12.5px;color:var(--muted)}
+.kv span b{color:var(--n8);font-weight:600}
+.empty{padding:46px 20px;text-align:center;color:var(--muted);font-size:14px}
+.loading{padding:36px 20px;text-align:center;color:var(--muted);font-size:13.5px}
+.spinner{width:20px;height:20px;border:2px solid var(--line);border-top-color:var(--n7);border-radius:50%;margin:0 auto 10px;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.go{display:inline-block;background:var(--n8);color:#fff;border-radius:4px;padding:9px 18px;font-size:13px;font-weight:600}
+@media(max-width:1080px){.tm{display:none}}
+@media(max-width:640px){.ct{padding:0 16px}.tn{height:64px;gap:16px}.brand img{height:32px}.band h1{font-size:21px}.panel{padding:18px}.meta{width:100%;margin-left:0}.fld{flex:1 1 100%}.btn{width:100%}}
+</style>
+</head>
+<body>
+
+<header class="topnav"><div class="ct tn">
+<a href="index.html" class="brand"><img src="Logo.png" alt="众和航空" onerror="this.style.visibility='hidden'"></a>
+<nav class="tm"><a href="ticket.html">航班</a><a href="my-orders.html">订单查询</a><a href="#">购物</a><a href="#">会籍</a></nav>
+<div class="tnr"><a href="ticket.html" class="bo">继续选票</a></div>
+</div></header>
+
+<section class="band"><div class="ct">
+<h1>订单查询</h1>
+<p>输入订单号与取票口令，查看已出票的电子客票</p>
+</div></section>
+
+<section class="wrap"><div class="ct">
+<div class="panel">
+  <div class="lookup">
+    <div class="fld"><label>订单号</label><input id="orderNo" type="text" placeholder="PE + 17 位数字" autocomplete="off" spellcheck="false"></div>
+    <div class="fld"><label>取票口令</label><input id="code" type="password" placeholder="姓名首字母 + 证件末四位" autocomplete="off" spellcheck="false"></div>
+    <button class="btn" id="go">查询</button>
+  </div>
+  <p class="tip">口令规则：<b>姓名首字母 + 证件号码后四位</b>。例如 张三，证件尾号 1234 → <b>Z1234</b>；ZHANG SAN 同理 → <b>Z1234</b>。</p>
+  <div class="hint info" id="scope"></div>
+  <div class="result" id="result"></div>
+</div>
+</div></section>
+
+<script src="db-config.js" onerror="void 0"></script>
+<script src="ticket-db.js"></script>
+<script>
+(function(){
+var DB=(typeof DJAIR_DB!=='undefined'&&DJAIR_DB)?DJAIR_DB:null;
+var $=function(i){return document.getElementById(i)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function fp(n){return String(Math.round(n||0)).replace(/\B(?=(\d{3})+(?!\d))/g,',')}
+function normOrder(s){return String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+function normCode(s){return String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'')}
+
+var scopeEl=$('scope');
+var lastList=null;
+
+function setScope(){
+  if(!DB){scopeEl.className='hint warn';scopeEl.innerHTML='客票数据库未加载（缺少 <b>ticket-db.js</b>），暂无法查询。';return}
+  if(DB.canWrite()){
+    scopeEl.className='hint info';
+    scopeEl.innerHTML='当前为本机<b>'+DB.modeLabel()+'</b>：可查看列表与全部订单（口令校验后）。';
+  }else{
+    scopeEl.className='hint info';
+    scopeEl.innerHTML='当前为<b>只读模式</b>：只能凭「订单号 + 口令」查询已开放的客票。'
+      +'如需开通访客列表，请在 <b>db-config.js</b> 中配置 <b>proxyUrl</b>（见 README-db.md）。';
+  }
+}
+
+function card(o,expanded){
+  var rt=o.roundTrip?'<span class="badge rt">往返</span>':'<span class="badge ow">单程</span>';
+  return '<div class="card'+(expanded?' exp':'')+'" data-no="'+esc(o.orderNo)+'">'
+   +'<div class="cmain">'
+   +  '<span class="no">'+esc(o.orderNo)+'</span>'
+   +  '<span class="route">'+esc(o.from||'')+' → '+esc(o.to||'')+'</span>'
+   +  rt
+   +  '<span class="meta">'
+   +    '<span>'+esc(o.depDate||'—')+'</span>'
+   +    '<span>'+esc(o.airlines||'')+'</span>'
+   +    '<span>乘机人 '+o.pax+' 人</span>'
+   +    '<b>MZB '+fp(o.total)+'</b>'
+   +  '</span>'
+   +'</div>'
+   +'<div class="open">'
+   +  '<div class="kv">'
+   +    '<span>出票时间 <b>'+esc(String(o.issuedAt||'').replace('T',' ').replace(/\..+/,''))+'</b></span>'
+   +    '<span>状态 <b>'+esc(o.status||'PAID')+'</b></span>'
+   +    '<span>订票人 <b>'+esc(o.name||'—')+'</b></span>'
+   +  '</div>'
+   +  '<a class="go" href="payment.html?order='+encodeURIComponent(o.orderNo)+'">查看电子客票 →</a>'
+   +'</div></div>';
+}
+
+function renderList(res){
+  var box=$('result');
+  box.classList.add('on');
+  if(!res||!res.orders||!res.orders.length){
+    box.innerHTML='<div class="empty">数据库中暂无订单记录。<br>若 index.json 尚未生成，请等待 GitHub Actions 构建完成。</div>';
+    return;
+  }
+  var h='<div class="rhead"><h3>订单列表</h3><span class="cnt">共 '+res.orders.length+' 条 · 来源 '+(res.source==='index'?'index.json':'现场扫描')+'</span></div>';
+  res.orders.forEach(function(o,i){h+=card(o,i===0)});
+  box.innerHTML=h;
+  Array.prototype.forEach.call(box.querySelectorAll('.cmain'),function(el){
+    el.addEventListener('click',function(){el.parentNode.classList.toggle('exp')});
+  });
+}
+
+function renderHit(res,orderNo){
+  var box=$('result');
+  var d=res.data||{}, ps=d.passengers||[], sg=d.segments||[];
+  var route=(sg[0]&&sg[0].fromCity||'')+' → '+(sg[sg.length-1]&&sg[sg.length-1].toCity||'');
+  var paxTxt=ps.map(function(p){
+    var nm=(p.nameCn&&String(p.nameCn).trim())||(p.nameEn&&String(p.nameEn).trim())||'—';
+    return esc(nm)+(p.ticketNo?'<br><span style="font-family:monospace;font-size:11.5px;color:#5B6B80">'+esc(p.ticketNo)+'</span>':'');
+  }).join('</div><div style="padding:0 12px">');
+  box.classList.add('on');
+  box.innerHTML='<div class="rhead"><h3>查询成功</h3><span class="cnt">'+(res.level==='full'?'订单档（含掩码）':'公开档（已脱敏）')+'</span></div>'
+    +'<div class="card hit exp" data-no="'+esc(orderNo)+'">'
+    +  '<div class="cmain"><span class="no">'+esc(orderNo)+'</span>'
+    +  '<span class="route">'+esc(route)+'</span>'
+    +  '<span class="meta"><span>'+esc(String(d.issuedAt||'').replace('T',' ').replace(/\..+/,''))+'</span>'
+    +  '<span>乘机人 '+ps.length+' 人</span><b>MZB '+fp(d.total)+'</b></span></div>'
+    +  '<div class="open"><div class="kv">'+paxTxt+'</div>'
+    +  '<a class="go" href="payment.html?order='+encodeURIComponent(orderNo)+'">查看电子客票 →</a></div>'
+    +'</div>';
+}
+
+function fail(msg){
+  var box=$('result');
+  box.classList.add('on');
+  box.innerHTML='<div class="empty">'+msg+'</div>';
+}
+
+function loading(txt){
+  var box=$('result');
+  box.classList.add('on');
+  box.innerHTML='<div class="loading"><div class="spinner"></div>'+esc(txt||'正在读取数据库…')+'</div>';
+}
+
+/* 口令校验：先尝试读公开档，用存进去的哈希比对 */
+function checkCode(orderNo,code){
+  return DB.fetchOrder(orderNo).catch(function(){return null}).then(function(r){
+    if(!r||!r.data)return {state:'none'};
+    var h=r.data.customerCodeHash||'';
+    if(!h)return {state:'ok',data:r};
+    return DB.sha256(normCode(code)).then(function(x){
+      return x===h?{state:'ok',data:r}:{state:'deny'};
+    });
+  });
+}
+
+function doQuery(){
+  var orderNo=normOrder($('orderNo').value),code=normCode($('code').value);
+  if(!DB){fail('客票数据库未加载（缺少 ticket-db.js）。');return}
+  if(!orderNo){
+    /* 查列表：只读模式不开放 */
+    if(!DB.canWrite()){fail('请输入订单号与取票口令。');return}
+    loading();
+    DB.listOrders().then(function(res){lastList=res;renderList(res)}).catch(function(e){
+      fail('读取订单列表失败：'+esc(e.message||'网络错误'));
+    });
+    return;
+  }
+  if(!DB.isOrderNo(orderNo)){fail('订单号格式不正确，应为 <b>PE</b> + 17 位数字。');return}
+  if(!code){fail('请输入取票口令（姓名首字母 + 证件末四位）。');return}
+  loading('正在校验口令…');
+  checkCode(orderNo,code).then(function(r){
+    if(r.state==='none'){
+      fail('数据库中未找到订单 <b>'+esc(orderNo)+'</b>。请核对订单号，或联系客服 95058。');
+      return;
+    }
+    if(r.state==='deny'){fail('取票口令不正确，请重试。');return}
+    renderHit(r.data,orderNo);
+  }).catch(function(e){
+    fail('查询失败：'+esc(e.message||'网络错误'));
+  });
+}
+
+$('go').addEventListener('click',doQuery);
+['orderNo','code'].forEach(function(id){
+  $(id).addEventListener('keydown',function(e){if(e.key==='Enter')doQuery()});
+  $(id).addEventListener('input',function(e){
+    var el=e.target;
+    if(id==='orderNo')el.value=normOrder(el.value);
+    if(id==='code')el.value=normCode(el.value);
+  });
+});
+
+function init(){
+  setScope();
+  var qs=new URLSearchParams(location.search);
+  var on=qs.get('order')||qs.get('orderNo');
+  if(on){$('orderNo').value=normOrder(on);$('code').focus()}
+  if(DB&&DB.canWrite()){
+    loading();
+    DB.listOrders().then(function(res){lastList=res;renderList(res)}).catch(function(){lastList=null});
+  }
+}
+init();
+})();
+</script>
+</body>
+</html>

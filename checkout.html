@@ -149,6 +149,7 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 .px-f{display:flex;flex-direction:column;gap:3px;min-width:0}
 .px-f.hide{display:none}
 .px-f label{font-size:11px;color:var(--muted);letter-spacing:.3px}
+.px-f label .opt{display:inline-block;margin-left:5px;font-size:10px;font-weight:700;letter-spacing:0;color:var(--ok);background:#E7F0EA;border-radius:2px;padding:0 5px;line-height:1.6;vertical-align:1px}
 .px-f input,.px-f select{width:100%;border:1px solid var(--line);background:#fff;border-radius:3px;padding:8px 10px;font-size:13.5px;color:var(--n8);font-family:inherit;outline:none;transition:.15s}
 .px-f input:focus,.px-f select:focus{border-color:var(--n7);box-shadow:0 0 0 2px rgba(16,42,76,.08)}
 .px-f input:disabled,.px-f select:disabled{background:#F1F4F9;color:#9DAABD;cursor:not-allowed}
@@ -174,7 +175,7 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
 
 <header class="topnav"><div class="ct tn">
 <a href="index.html" class="brand"><img src="Logo.png" alt="众和航空" onerror="this.style.visibility='hidden'"></a>
-<nav class="tm"><a href="#">航班</a><a href="#">旅游</a><a href="#">购物</a><a href="#">餐饮</a><a href="#">支付</a><a href="#">会籍</a></nav>
+<nav class="tm"><a href="ticket.html">航班</a><a href="my-orders.html">订单查询</a><a href="#">旅游</a><a href="#">购物</a><a href="#">餐饮</a><a href="#">支付</a><a href="#">会籍</a></nav>
 <div class="tnr"><a href="ticket.html" class="bo">返回选票</a><a href="#" class="bs">立即注册</a></div>
 </div></header>
 
@@ -207,20 +208,11 @@ a{color:inherit;text-decoration:none}img{display:block;max-width:100%}button{fon
   <option value="CBT">善国察音巴托</option>
 </datalist>
 
+<script src="db-config.js" onerror="void 0"></script>
+<script src="ticket-db.js"></script>
 <script>
+/* 客票数据库：配置与读写统一在 ticket-db.js / db-config.js，本页不再保存 token */
 (function(){
-/* ============================================================
-
-   ============================================================ */
-var GH = {
-  owner : 'dhj221',       // 例如 peaceairlines
-  repo  : 'djair',             // 例如 peace-airlines
-  branch: 'main',                       // 你的默认分支
-  token : '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',    // Fine-grained PAT
-  dir   : 'tickets'                     // 存放目录
-};
-/* ============================================================ */
-
 /* ============ 子仓位配置 ============ */
 var SUB={b:{key:'b',n:'基础',d:'经济之选'},s:{key:'s',n:'标准',d:'灵活出行'},f:{key:'f',n:'灵活',d:'无忧出行'}};
 var SUB_CODE={Y:{b:'Q',s:'S',f:'Y'},W:{b:'O',s:'V',f:'W'},C:{b:'J',s:'D',f:'C'},F:{b:'P',s:'L',f:'F'},A:{b:'Z',s:'U',f:'A'}};
@@ -364,8 +356,8 @@ function paxRowHtml(p,idx){
   +    (canRemove?'<button type="button" class="px-del" data-del="'+p.id+'" title="删除"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>':'<button type="button" class="px-del" disabled title="至少保留 1 位"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>')
   +  '</div>'
   +  '<div class="px-grid">'
-  +    '<div class="px-f"><label>汉语姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameCn" value="'+esc(p.nameCn||'')+'" placeholder="张三"><span class="tip">与证件一致</span></div>'
-  +    '<div class="px-f"><label>英语姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameEn" value="'+esc(p.nameEn||'')+'" placeholder="ZHANG SAN" style="text-transform:uppercase"><span class="tip warn">汉英双语 · 与护照一致，全大写</span></div>'
+  +    '<div class="px-f"><label>中文姓名 <span class="opt">选填</span></label><input type="text" data-f="nameCn" value="'+esc(p.nameCn||'')+'" placeholder="张三（可留空）"><span class="tip">与证件一致，可不填</span></div>'
+  +    '<div class="px-f"><label>英文姓名 <span style="color:#B23B3B">*</span></label><input type="text" data-f="nameEn" value="'+esc(p.nameEn||'')+'" placeholder="ZHANG SAN" style="text-transform:uppercase"><span class="tip warn">与护照一致 · 全大写</span></div>'
   +    '<div class="px-f"><label>证件类型 <span style="color:#B23B3B">*</span></label><select data-f="idType">'+idOptions+'</select><span class="tip">'+(isIntlOrder?'国际航班不可使用身份证':'国内航班')+'</span></div>'
   +    '<div class="px-f"><label>证件号码 <span style="color:#B23B3B">*</span></label><input type="text" data-f="idNo" value="'+esc(p.idNo||'')+'" placeholder="请输入证件号码"></div>'
   +    '<div class="px-f"><label>出生日期 <span style="color:#B23B3B">*</span></label><input type="date" data-f="birth" value="'+esc(p.birth||'')+'"><span class="tip">决定乘客类型，填写后自动识别</span></div>'
@@ -526,7 +518,10 @@ function buildTicketTxt(payload){
   L.push('');
   L.push(thin); L.push('  乘机人信息'); L.push(thin);
   payload.passengers.forEach(function(p,i){
-    L.push('  ['+(i+1)+'] '+p.nameCn+' / '+p.nameEn);
+    var pn=[];
+    if(p.nameCn&&String(p.nameCn).trim())pn.push(String(p.nameCn).trim());
+    if(p.nameEn&&String(p.nameEn).trim())pn.push(String(p.nameEn).trim());
+    L.push('  ['+(i+1)+'] '+(pn.join(' / ')||'—'));
     L.push('      客票号  : '+(p.ticketNo||''));
     L.push('      乘客类型: '+p.typeName+'（票价系数 '+p.rate.toFixed(2)+'）');
     L.push('      证件    : '+p.idType+' '+p.idNo);
@@ -563,52 +558,25 @@ function buildTicketTxt(payload){
 }
 
 /* ============================================================
-   GitHub 上传（Contents API）
+   客票数据库（GitHub 存储）—— 统一由 ticket-db.js 处理
+   写出：
+     tickets/orders/<YYYY>/<MM>/<订单号>.json   订单档（如果走服务端代理则已脱敏）
+     tickets/<订单号>.txt                       人读客票（逐字打印，不落库）
+   注意：订单档里永远不保存证件号原文，只保存加盐哈希与掩码。
    ============================================================ */
-function isGhConfigured(){
-  return GH.owner && GH.owner.indexOf('YOUR_')!==0
-      && GH.repo  && GH.repo.indexOf('YOUR_')!==0
-      && GH.token && GH.token.indexOf('github_pat_')===0
-      && GH.token.length>30;
-}
-function utf8ToBase64(str){
-  var bytes=new TextEncoder().encode(str);
-  var bin='';
-  for(var i=0;i<bytes.length;i++) bin+=String.fromCharCode(bytes[i]);
-  return btoa(bin);
-}
-function ghUpload(filename,content){
-  var url='https://api.github.com/repos/'+GH.owner+'/'+GH.repo
-        + '/contents/'+GH.dir+'/'+encodeURIComponent(filename);
-  var body={
-    message:'ticket: '+filename,
-    content:utf8ToBase64(content),
-    branch:GH.branch
-  };
-  return fetch(url,{
-    method:'PUT',
-    headers:{
-      'Authorization':'Bearer '+GH.token,
-      'Accept':'application/vnd.github+json',
-      'Content-Type':'application/json',
-      'X-GitHub-Api-Version':'2022-11-28'
-    },
-    body:JSON.stringify(body)
-  }).then(function(r){
-    return r.text().then(function(txt){
-      var json;try{json=JSON.parse(txt)}catch(e){json={}}
-      if(!r.ok){
-        var msg=json.message||('HTTP '+r.status);
-        var err=new Error(msg);
-        err.status=r.status;
-        throw err;
-      }
-      return json;
-    });
-  });
+var DB=(typeof DJAIR_DB!=='undefined'&&DJAIR_DB)?DJAIR_DB:null;
+
+/* 姓氏 + 证件末四位，作为「取票 / 查询」的自助口令 */
+function customerCode(cn,en,idNo){
+  var surname='';
+  cn=String(cn||'').trim();en=String(en||'').trim();idNo=String(idNo||'').trim();
+  if(cn){surname=cn.charAt(0)}
+  else if(en){surname=en.charAt(0)}
+  var tail=idNo.replace(/\s/g,'').slice(-4);
+  return (surname+tail).toUpperCase();
 }
 
-/* ============ 主渲染 ============ */
+/* 主渲染 ============ */
 function render(){
   var bk=readBooking();
   if(!bk||!bk.segments||!bk.segments.length){
@@ -715,7 +683,6 @@ function bindPax(){
 function validatePax(){
   for(var i=0;i<paxList.length;i++){
     var p=paxList[i],idx=i+1;
-    if(!p.nameCn.trim()){alert('请填写第 '+idx+' 位乘机人的中文姓名');return false}
     if(!p.nameEn.trim()){alert('请填写第 '+idx+' 位乘机人的英文姓名');return false}
     if(!/^[A-Za-z\s\-\.\/]+$/.test(p.nameEn.trim())){alert('第 '+idx+' 位乘机人的英文姓名格式有误，请使用字母、空格、连字符或斜杠');return false}
     if(!p.idNo.trim()){alert('请填写第 '+idx+' 位乘机人的证件号码');return false}
@@ -749,7 +716,7 @@ function bindPay(){
         isIntlOrder:isIntlOrder,
         passengers:paxList.map(function(p){
           return {
-            id:p.id,nameCn:p.nameCn,nameEn:p.nameEn,
+            id:p.id,nameCn:(p.nameCn||'').trim(),nameEn:(p.nameEn||'').trim(),
             idType:p.idType,idNo:p.idNo,birth:p.birth,
             nationality:needCountry(p.idType)?p.nationality.toUpperCase():'',
             issuer:needCountry(p.idType)?p.issuer.toUpperCase():'',
@@ -788,7 +755,12 @@ function bindPay(){
       payload.issuedAt=new Date().toISOString();
       payload.passengers.forEach(function(p){p.ticketNo=nextTicketNo()});
 
-      /* 3) txt */
+      /* 2.5) 订单档的乘机人：不保存证件号原文，只保存哈希与掩码 */
+      payload.customerCode=customerCode(payload.passengers[0].nameCn,payload.passengers[0].nameEn,payload.passengers[0].idNo);
+      var rawPax=payload.passengers;
+      var summary=DB?(DB.archiveText(payload)):'';
+
+      /* 3) 本机完整客票文本（含证件号，只存在这台浏览器） */
       var txt=buildTicketTxt(payload);
       var filename=payload.orderNo+'.txt';
 
@@ -800,42 +772,73 @@ function bindPay(){
         localStorage.setItem('peace_ticket_latest_name',filename);
       }catch(e){}
 
-      /* 5) 上传 GitHub（异步，失败也不阻断跳转） */
-      if(isGhConfigured()){
-        btn.textContent='正在上传客票…';
-        ghUpload(filename,txt).then(function(res){
-          payload.storage={
-            provider:'github',ok:true,filename:filename,
-            path:GH.dir+'/'+filename,
-            repoUrl:'https://github.com/'+GH.owner+'/'+GH.repo+'/blob/'+GH.branch+'/'+GH.dir+'/'+filename,
-            rawUrl:'https://raw.githubusercontent.com/'+GH.owner+'/'+GH.repo+'/'+GH.branch+'/'+GH.dir+'/'+filename
-          };
-          try{
-            sessionStorage.setItem('peace_booking_final',JSON.stringify(payload));
-            localStorage.setItem('peace_ticket_latest_json',JSON.stringify(payload));
-          }catch(e){}
-          location.href='payment.html';
-        }).catch(function(err){
-          payload.storage={
-            provider:'github',ok:false,filename:filename,
-            error:(err&&err.message)||'上传失败'
-          };
-          try{
-            sessionStorage.setItem('peace_booking_final',JSON.stringify(payload));
-            localStorage.setItem('peace_ticket_latest_json',JSON.stringify(payload));
-          }catch(e){}
-          location.href='payment.html';
-        });
-        return;
+      /* 5) 必须真正写进数据库，否则不能算「已出票」 */
+      if(!DB){
+        alert('客票数据库未加载（缺少 ticket-db.js），本次出票不会保存。');
+        btn.disabled=false;btn.textContent=oldText;return;
+      }
+      if(!DB.canWrite()){
+        alert('当前站点没有写库权限，无法出票存档。\n\n'+(DB.hasProxy()
+          ? '写库代理无响应，请稍后重试。'
+          : '公开仓库不能内置写权限 token。请按 README-db.md 配置 db-config.js 的 proxyUrl，或用站长录票模式。'));
+        btn.disabled=false;btn.textContent=oldText;return;
       }
 
-      /* 未配置 GitHub：本地保存 + 直接跳转 */
-      payload.storage={provider:'local',ok:false,filename:filename,error:'未配置 GitHub 上传'};
-      try{
-        sessionStorage.setItem('peace_booking_final',JSON.stringify(payload));
-        localStorage.setItem('peace_ticket_latest_json',JSON.stringify(payload));
-      }catch(e){}
-      location.href='payment.html';
+      btn.textContent='正在保存客票…';
+      var code=payload.customerCode;
+      DB.sha256(code).then(function(h){
+        var stored=JSON.parse(JSON.stringify(payload));
+        stored.orderNo=payload.orderNo;
+        stored.customerCode=undefined;
+        stored.customerCodeHash=h;
+        stored.passengers=rawPax.map(function(p){
+          return {
+            nameCn:p.nameCn,nameEn:p.nameEn,
+            idType:p.idType,
+            idNoMask:DB.maskIdNo(p.idType,p.idNo),
+            type:p.type,typeName:p.typeName,rate:p.rate,ticketNo:p.ticketNo
+          };
+        });
+        return DB.saveOrder(stored,summary);
+      }).then(function(res){
+        payload.storage=res.storage;
+        btn.textContent='正在校验存档…';
+        return DB.verifyReadable(payload.orderNo).then(function(v){
+          payload.storage.readable=!!v.ok;
+          payload.storage.readError=v.ok?'':(v.reason||'');
+          if(!v.ok){
+            payload.storage.ok=false;
+            payload.storage.error='已提交，但数据库暂未检索到该订单（'+String(v.reason||'')+'）';
+          }
+          return payload;
+        });
+      }).then(function(p){
+        try{
+          sessionStorage.setItem('peace_booking_final',JSON.stringify(p));
+          localStorage.setItem('peace_ticket_latest_json',JSON.stringify(p));
+          var codes=[];
+          try{codes=JSON.parse(localStorage.getItem('peace_ticket_codes')||'[]')||[]}catch(e){}
+          codes=codes.filter(function(x){return x&&x.orderNo!==p.orderNo});
+          codes.unshift({orderNo:p.orderNo,code:p.customerCode,issuedAt:p.issuedAt});
+          localStorage.setItem('peace_ticket_codes',JSON.stringify(codes.slice(0,30)));
+        }catch(e){}
+        location.href='payment.html';
+      }).catch(function(err){
+        console.error(err);
+        payload.storage={
+          provider:'github',ok:false,mode:DB.mode(),filename:filename,
+          error:(err&&err.message)||'写入失败'
+        };
+        try{
+          sessionStorage.setItem('peace_booking_final',JSON.stringify(payload));
+          localStorage.setItem('peace_ticket_latest_json',JSON.stringify(payload));
+          localStorage.setItem('peace_ticket_latest_txt',txt);
+        }catch(e){}
+        btn.disabled=false;
+        btn.textContent=oldText;
+        alert('客票保存失败：'+((err&&err.message)||'未知错误')+'\n\n请稍后重试，或联系客服 95058。');
+      });
+      return;
 
     }catch(e){
       console.error(e);
