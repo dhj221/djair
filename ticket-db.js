@@ -19,7 +19,7 @@
     branch: 'main',
     dir: 'tickets',
     /* 写库代理（Cloudflare Worker 等）。留空表示没有后端。 */
-    proxyUrl: 'https://djair.jackyzhu905.workers.dev',
+    proxyUrl: '',
     /* 录票模式：浏览器的 localStorage 中该键为 '1' 时，允许用本机 token 直接写库。
        打开方式：任意页面控制台执行
          localStorage.setItem('djair_db_station','1')    开启
