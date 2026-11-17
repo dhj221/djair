@@ -19,5 +19,5 @@ window.DJAIR_DB_CONFIG = {
   dir: 'tickets',
 
   /* 写库代理地址；没有就留空（此时浏览器无法写库，只读 + 站长录票模式可用） */
-  proxyUrl: ''
+  proxyUrl: 'https://djair.jackyzhu905.workers.dev/api/ticket'
 };
